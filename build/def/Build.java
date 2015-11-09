@@ -12,7 +12,7 @@ public final class Build extends JkJavaBuild {
     @Override
     public JkDependencies dependencies() {
         return JkDependencies.builder()
-        	.on(JERKAR_CORE, "0.1.+")
+        	.on(JERKAR_CORE, "0.1.+").scope(PROVIDED)
         	.build();
     }
     
