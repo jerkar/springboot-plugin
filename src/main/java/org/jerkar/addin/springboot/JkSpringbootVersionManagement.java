@@ -11,7 +11,7 @@ import static org.jerkar.addin.springboot.JkSpringModules.*;
  * @author djeang
  * @formatter:off
  */
-public class JkSpringbootVersionManagement_1_2_7 {
+public class JkSpringbootVersionManagement {
 
     public String comAtomikosVersion = "3.9.3";
 
@@ -78,6 +78,14 @@ public class JkSpringbootVersionManagement_1_2_7 {
     public String orgSpringframeworkWsVersion = "2.2.2.RELEASE";
 
     public String orgThymeleafVersion = "2.1.4.RELEASE";
+    
+    private JkSpringbootVersionManagement(){
+	
+    }
+    
+    public static JkSpringbootVersionManagement v1_2_7() {
+	return new JkSpringbootVersionManagement();
+    }
 
    
     public JkVersionProvider versionProvider() {
@@ -305,6 +313,7 @@ public class JkSpringbootVersionManagement_1_2_7 {
                 .and(Boot.STARTER_MAIL, orgSpringframeworkBootVersion)
                 .and(Boot.STARTER_MOBILE, orgSpringframeworkBootVersion)
                 .and(Boot.STARTER_MUSTACHE, orgSpringframeworkBootVersion)
+                .and(Boot.STARTER_PARENT, orgSpringframeworkBootVersion)
                 .and(Boot.STARTER_REDIS, orgSpringframeworkBootVersion)
                 .and(Boot.STARTER_REMOTE_SHELL, orgSpringframeworkBootVersion)
                 .and(Boot.STARTER_SECURITY, orgSpringframeworkBootVersion)

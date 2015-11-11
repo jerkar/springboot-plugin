@@ -12,8 +12,17 @@ public final class Build extends JkJavaBuild {
     @Override
     public JkDependencies dependencies() {
         return JkDependencies.builder()
-        	.on(JERKAR_CORE, "0.1.+").scope(PROVIDED)
+        	.on(JERKAR_CORE, "+").scope(PROVIDED)
         	.build();
+    }
+    
+    @Override
+    protected JkRepos downloadRepositories() {
+        return super.downloadRepositories().and(JkRepo.mavenOssrhSnapshotDownload());
+    }
+    
+    public static void main(String[] args) {
+	new Build().doPack();
     }
     
     

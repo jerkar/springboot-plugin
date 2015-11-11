@@ -126,6 +126,8 @@ public final class JkSpringModules {
 	public static final JkModuleId STARTER_MOBILE = module("spring-boot-starter-mobile");
 
 	public static final JkModuleId STARTER_MUSTACHE = module("spring-boot-starter-mustache");
+	
+	public static final JkModuleId STARTER_PARENT = module("spring-boot-starter-parent");
 
 	public static final JkModuleId STARTER_REDIS = module("spring-boot-starter-redis");
 
