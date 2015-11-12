@@ -8,51 +8,55 @@ import org.jerkar.api.depmanagement.JkModuleId;
  * @author Jerome Angibaud
  */
 public final class JkSpringModules {
-    
-    public static final String GROUP = "org.springframework";
-    
-    public static final JkModuleId AOP = module("spring-aop");
 
-    public static final JkModuleId ASPECTS = module("spring-aspects");
+    public static class Fwk {
 
-    public static final JkModuleId BEANS = module("spring-beans");
+	public static final String GROUP = "org.springframework";
 
-    public static final JkModuleId CONTEXT = module("spring-context");
+	public static final JkModuleId AOP = module("spring-aop");
 
-    public static final JkModuleId CONTEXT_SUPPORT = module("spring-context-support");
+	public static final JkModuleId ASPECTS = module("spring-aspects");
 
-    public static final JkModuleId CORE = module("spring-core");
+	public static final JkModuleId BEANS = module("spring-beans");
 
-    public static final JkModuleId EXPRESSION = module("spring-expression");
+	public static final JkModuleId CONTEXT = module("spring-context");
 
-    public static final JkModuleId INSTRUMENT = module("spring-instrument");
+	public static final JkModuleId CONTEXT_SUPPORT = module("spring-context-support");
 
-    public static final JkModuleId INSTRUMENT_TOMCAT = module("spring-instrument-tomcat");
+	public static final JkModuleId CORE = module("spring-core");
 
-    public static final JkModuleId JDBC = module("spring-jdbc");
+	public static final JkModuleId EXPRESSION = module("spring-expression");
 
-    public static final JkModuleId JMS = module("spring-jms");
+	public static final JkModuleId INSTRUMENT = module("spring-instrument");
 
-    public static final JkModuleId MESSAGING = module("spring-messaging");
+	public static final JkModuleId INSTRUMENT_TOMCAT = module("spring-instrument-tomcat");
 
-    public static final JkModuleId ORM = module("spring-orm");
+	public static final JkModuleId JDBC = module("spring-jdbc");
 
-    public static final JkModuleId OXM = module("spring-oxm");
+	public static final JkModuleId JMS = module("spring-jms");
 
-    public static final JkModuleId TEST = module("spring-test");
+	public static final JkModuleId MESSAGING = module("spring-messaging");
 
-    public static final JkModuleId TX = module("spring-tx");
+	public static final JkModuleId ORM = module("spring-orm");
 
-    public static final JkModuleId WEB = module("spring-web");
+	public static final JkModuleId OXM = module("spring-oxm");
 
-    public static final JkModuleId WEBMVC = module("spring-webmvc");
+	public static final JkModuleId TEST = module("spring-test");
 
-    public static final JkModuleId WEBMVC_PORTLET = module("spring-webmvc-portlet");
+	public static final JkModuleId TX = module("spring-tx");
 
-    public static final JkModuleId WEBSOCKET = module("spring-websocket");
-    
-    private static final JkModuleId module(String name) {
-	return JkModuleId.of(GROUP, name);
+	public static final JkModuleId WEB = module("spring-web");
+
+	public static final JkModuleId WEBMVC = module("spring-webmvc");
+
+	public static final JkModuleId WEBMVC_PORTLET = module("spring-webmvc-portlet");
+
+	public static final JkModuleId WEBSOCKET = module("spring-websocket");
+
+	private static final JkModuleId module(String name) {
+	    return JkModuleId.of(GROUP, name);
+	}
+
     }
 
     public static class Boot {
@@ -87,8 +91,7 @@ public final class JkSpringModules {
 
 	public static final JkModuleId STARTER_CLOUD_CONNECTORS = module("spring-boot-starter-cloud-connectors");
 
-	public static final JkModuleId STARTER_DATA_ELASTICSEARCH = module(
-		"spring-boot-starter-data-elasticsearch");
+	public static final JkModuleId STARTER_DATA_ELASTICSEARCH = module("spring-boot-starter-data-elasticsearch");
 
 	public static final JkModuleId STARTER_DATA_GEMFIRE = module("spring-boot-starter-data-gemfire");
 
@@ -131,7 +134,7 @@ public final class JkSpringModules {
 	public static final JkModuleId STARTER_MOBILE = module("spring-boot-starter-mobile");
 
 	public static final JkModuleId STARTER_MUSTACHE = module("spring-boot-starter-mustache");
-	
+
 	public static final JkModuleId STARTER_PARENT = module("spring-boot-starter-parent");
 
 	public static final JkModuleId STARTER_REDIS = module("spring-boot-starter-redis");
@@ -167,11 +170,11 @@ public final class JkSpringModules {
 	}
 
     }
-    
+
     public static class Integration {
-	
+
 	public static final String GROUP = "org.springframework.integration";
-	
+
 	public static final JkModuleId AMQP = module("spring-integration-amqp");
 
 	public static final JkModuleId CORE = module("spring-integration-core");
@@ -231,17 +234,17 @@ public final class JkSpringModules {
 	public static final JkModuleId XML = module("spring-integration-xml");
 
 	public static final JkModuleId XMPP = module("spring-integration-xmpp");
-	
+
 	private static final JkModuleId module(String name) {
 	    return JkModuleId.of(GROUP, name);
 	}
-	
+
     }
-    
+
     public static class Security {
-	
+
 	public static final String GROUP = "org.springframework.security";
-		
+
 	public static final JkModuleId ACL = module("spring-security-acl");
 
 	public static final JkModuleId ASPECTS = module("spring-security-aspects");
@@ -263,13 +266,187 @@ public final class JkSpringModules {
 	public static final JkModuleId TAGLIBS = module("spring-security-taglibs");
 
 	public static final JkModuleId WEB = module("spring-security-web");
-	
+
 	public static final JkModuleId JWT = module("spring-security-jwt");
+
+	private static final JkModuleId module(String name) {
+	    return JkModuleId.of(GROUP, name);
+	}
+
+    }
+
+    public static class Amqp {
+
+	public static final String GROUP = "org.springframework.amqp";
+
+	public static final JkModuleId AMQP = module("spring-amqp");
+
+	public static final JkModuleId RABBIT = module("spring-rabbit");
+
+	public static final JkModuleId ERLANG = module("spring-erlang");
+
+	private static final JkModuleId module(String name) {
+	    return JkModuleId.of(GROUP, name);
+	}
+
+    }
+
+    public static class Batch {
+
+	public static final String GROUP = "org.springframework.batch";
+
+	public static final JkModuleId CORE = module("spring-batch-core");
+
+	public static final JkModuleId INFRASTRUCTURE = module("spring-batch-infrastructure");
+
+	public static final JkModuleId INTEGRATION = module("spring-batch-integration");
+
+	public static final JkModuleId TEST = module("spring-batch-test");
+
+	private static final JkModuleId module(String name) {
+	    return JkModuleId.of(GROUP, name);
+	}
+
+    }
+
+    public static final class Data {
+
+	public static final String GROUP = "org.springframework.data";
+
+	public static final JkModuleId CASSANDRA = module("spring-data-cassandra");
+	
+	public static final JkModuleId CQL = module("spring-cql");
+
+	public static final JkModuleId COMMONS = module("spring-data-commons");
+
+	public static final JkModuleId COUCHBASE = module("spring-data-couchbase");
+
+	public static final JkModuleId ELASTICSEARCH = module("spring-data-elasticsearch");
+
+	public static final JkModuleId GEMFIRE = module("spring-data-gemfire");
+
+	public static final JkModuleId JPA = module("spring-data-jpa");
+
+	public static final JkModuleId MONGODB = module("spring-data-mongodb");
+
+	public static final JkModuleId MONGODB_CROSS_STORE = module("spring-data-mongodb-cross-store");
+
+	public static final JkModuleId MONGODB_LOG4J = module("spring-data-mongodb-log4j");
+
+	public static final JkModuleId NEO4J = module("spring-data-neo4j");
+
+	public static final JkModuleId REDIS = module("spring-data-redis");
+
+	public static final JkModuleId REST_CORE = module("spring-data-rest-core");
+
+	public static final JkModuleId REST_WEBMVC = module("spring-data-rest-webmvc");
+
+	public static final JkModuleId SOLR = module("spring-data-solr");
+
+	private static final JkModuleId module(String name) {
+	    return JkModuleId.of(GROUP, name);
+	}
+
+    }
+    
+    public static final class Hateoas {
+	
+	public static final String GROUP = "org.springframework.hateoas";
+	
+	public static final JkModuleId HATEOAS = module("spring-hateoas");
 	
 	private static final JkModuleId module(String name) {
 	    return JkModuleId.of(GROUP, name);
 	}
 	
     }
+    
+    public static final class Social {
+	
+	public static final String GROUP = "org.springframework.social";
+	
+	public static final JkModuleId CONFIG = module("spring-social-config");
+
+	public static final JkModuleId CORE = module("spring-social-core");
+
+	public static final JkModuleId FACEBOOK = module("spring-social-facebook");
+
+	public static final JkModuleId FACEBOOK_WEB = module("spring-social-facebook-web");
+
+	public static final JkModuleId LINKEDIN = module("spring-social-linkedin");
+
+	public static final JkModuleId SECURITY = module("spring-social-security");
+
+	public static final JkModuleId TWITTER = module("spring-social-twitter");
+
+	public static final JkModuleId WEB = module("spring-social-web");
+	
+	private static final JkModuleId module(String name) {
+	    return JkModuleId.of(GROUP, name);
+	}
+	
+    }
+    
+    public static final class Ws {
+
+	public static final String GROUP = "org.springframework.ws";
+
+	public static final JkModuleId CORE = module("spring-ws-core");
+
+	public static final JkModuleId SECURITY = module("spring-ws-security");
+
+	public static final JkModuleId SUPPORT = module("spring-ws-support");
+
+	public static final JkModuleId TEST = module("spring-ws-test");
+
+	private static final JkModuleId module(String name) {
+	    return JkModuleId.of(GROUP, name);
+	}
+
+    }
+    
+    public static final class Mobile {
+
+	public static final String GROUP = "org.springframework.mobile";
+
+	public static final JkModuleId DEVICE = module("spring-mobile-device");
+
+	private static final JkModuleId module(String name) {
+	    return JkModuleId.of(GROUP, name);
+	}
+
+    }
+    
+    public static final class Plugin {
+
+	public static final String GROUP = "org.springframework.plugin";
+
+	public static final JkModuleId CORE = module("spring-plugin-core");
+
+	private static final JkModuleId module(String name) {
+	    return JkModuleId.of(GROUP, name);
+	}
+
+    }
+    
+    public static final class Cloud {
+
+ 	public static final String GROUP = "org.springframework.cloud";
+
+ 	public static final JkModuleId CLOUDFOUNDRY_CONNECTOR = module("spring-cloud-cloudfoundry-connector");
+
+ 	public static final JkModuleId CORE = module("spring-cloud-core");
+
+ 	public static final JkModuleId HEROKU_CONNECTOR = module("spring-cloud-heroku-connector");
+
+ 	public static final JkModuleId LOCALCONFIG_CONNECTOR = module("spring-cloud-localconfig-connector");
+
+ 	public static final JkModuleId SPRING_SERVICE_CONNECTOR = module("spring-cloud-spring-service-connector");
+
+ 	private static final JkModuleId module(String name) {
+ 	    return JkModuleId.of(GROUP, name);
+ 	}
+
+     }
 
 }

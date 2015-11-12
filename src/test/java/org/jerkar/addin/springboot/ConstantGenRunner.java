@@ -18,8 +18,17 @@ class ConstantGenRunner {
 	//String version = "orgSpringframeworkIntegrationVersion";
 	//String prefix = "SPRING-INTEGRATION-";
 	
-	String version = "orgSpringframeworkSecurityVersion";
-	String prefix = "SPRING-SECURITY-";
+	// String version = "orgSpringframeworkSecurityVersion";
+	// String prefix = "SPRING-SECURITY-";
+	
+	// String version = "data";
+	// String prefix = "SPRING-DATA-";
+	
+	// String version = "social";
+	// String prefix = "SPRING-SOCIAL-";
+	
+	String version = "cloud";
+	String prefix = "SPRING-CLOUD-";
 	
 	List<String> lines = JkUtilsIO.readAsLines(ConstantGenRunner.class.getResourceAsStream("modules-" + version + ".txt"));
 	for (String line : lines) {

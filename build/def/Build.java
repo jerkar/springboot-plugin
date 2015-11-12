@@ -24,7 +24,7 @@ class Build extends JkJavaBuild {
     @Override
     public JkDependencies dependencies() {
         return JkDependencies.builder()
-        	.on(JERKAR_CORE, "+").scope(PROVIDED)
+        	.on(JERKAR_CORE, "+", PROVIDED)
         	.build();
     }
     

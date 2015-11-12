@@ -1,0 +1,4 @@
+		.and("org.springframework.ws:spring-ws-core", orgSpringframeworkWsVersion)
+		.and("org.springframework.ws:spring-ws-security", orgSpringframeworkWsVersion)
+		.and("org.springframework.ws:spring-ws-support", orgSpringframeworkWsVersion)
+		.and("org.springframework.ws:spring-ws-test", orgSpringframeworkWsVersion)

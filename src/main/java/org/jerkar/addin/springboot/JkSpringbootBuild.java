@@ -29,9 +29,12 @@ public class JkSpringbootBuild extends JkJavaBuild {
 	JkLog.done();
     }
 
+    // Formatter:off
     @Override
     protected JkDependencies dependencies() {
-	return JkDependencies.builder().on(Boot.STARTER).on(Boot.STARTER_TEST).scope(TEST).build();
+	return JkDependencies.builder()
+		.on(Boot.STARTER)
+		.on(Boot.STARTER_TEST, TEST).build();
     }
 
     @Override

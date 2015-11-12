@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="build/def" output="build/output/def-bin"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.jerkar.core"/>
+	<classpathentry kind="src" output="build/output/def-bin" path="build/def"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry kind="src" output="build/output/testClasses" path="src/test/java"/>
-	<classpathentry kind="var" path="JERKAR_REPO/org.jerkar/core/jars/core-0.1.3-SNAPSHOT.jar" sourcepath="JERKAR_REPO/org.jerkar/core/sources/core-0.1.3-SNAPSHOT-sources.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="jar:file:/C:/Users/djeang/.jerkar/cache/repo/org.jerkar/core/javadocs/core-0.1.3-SNAPSHOT-javadoc.jar"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="var" path="JERKAR_HOME/org.jerkar.core.jar" sourcepath="JERKAR_HOME/libs-sources/org.jerkar.core-sources.jar"/>
-	<classpathentry kind="var" path="JERKAR_HOME/libs/ext/org.jerkar.plugins-jacoco.jar" sourcepath="JERKAR_HOME/libs/ext/../../libs-sources/org.jerkar.plugins-jacoco-sources.jar"/>
-	<classpathentry kind="var" path="JERKAR_HOME/libs/ext/org.jerkar.plugins-sonar.jar" sourcepath="JERKAR_HOME/libs/ext/../../libs-sources/org.jerkar.plugins-sonar-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
