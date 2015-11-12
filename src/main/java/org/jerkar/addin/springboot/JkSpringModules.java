@@ -2,6 +2,11 @@ package org.jerkar.addin.springboot;
 
 import org.jerkar.api.depmanagement.JkModuleId;
 
+/**
+ * Commons Spring modules
+ * 
+ * @author Jerome Angibaud
+ */
 public final class JkSpringModules {
     
     public static final String GROUP = "org.springframework";
