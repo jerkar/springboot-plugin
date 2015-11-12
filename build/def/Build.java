@@ -1,6 +1,7 @@
 import static org.jerkar.api.depmanagement.JkPopularModules.JERKAR_CORE;
 
 import org.jerkar.api.depmanagement.*;
+import org.jerkar.tool.JkOptions;
 import org.jerkar.tool.builtins.javabuild.JkJavaBuild;
 
 /**
@@ -8,6 +9,16 @@ import org.jerkar.tool.builtins.javabuild.JkJavaBuild;
  * @formatter:off
  */
 public final class Build extends JkJavaBuild {
+    
+    @Override
+    public JkModuleId moduleId() {
+        return JkModuleId.of("org.jerkar", "addin-spring-boot");
+    }
+    
+    @Override
+    public JkVersion version() {
+        return JkVersion.ofName("0.1-SNAPSHOT");
+    }
 
     @Override
     public JkDependencies dependencies() {
@@ -21,8 +32,13 @@ public final class Build extends JkJavaBuild {
         return super.downloadRepositories().and(JkRepo.mavenOssrhSnapshotDownload());
     }
     
+    @Override
+    protected JkPublishRepos publishRepositories() {
+        return JkPublishRepos.ossrh(JkOptions.get("ossrh.username"), JkOptions.get("ossrh.password"), pgp());
+    }
+    
     public static void main(String[] args) {
-	new Build().doPack();
+	new Build().doPublish();
     }
     
     

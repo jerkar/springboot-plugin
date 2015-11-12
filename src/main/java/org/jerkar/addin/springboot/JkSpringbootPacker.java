@@ -75,7 +75,8 @@ public class JkSpringbootPacker {
     }
     
     private JkManifest manifest(File original) {
-	JkManifest result = JkUtilsObject.firstNonNull(JkManifest.of(original), JkManifest.empty());
+	JkManifest result = JkUtilsObject.firstNonNull(JkManifest.ofArchive(original), JkManifest.empty());
+	result.addMainClass("org.springframework.boot.loader.JarLauncher");
 	result.addContextualInfo();
 	if (this.versionedModule != null) {
 	    this.versionedModule.populateManifest(result);
