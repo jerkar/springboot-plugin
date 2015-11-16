@@ -67,10 +67,11 @@ It adds great comfort when picking some Spring dependencies.
  
  
 ```java
-import org.jerkar.addin.springboot.JkSpringModules.Boot;
 import org.jerkar.addin.springboot.JkSpringbootBuild;
 import org.jerkar.api.depmanagement.JkDependencies;
 import org.jerkar.tool.JkInit;
+
+import static org.jerkar.addin.springboot.JkSpringModules.*;
 
 @JkImport({ "org.jerkar:addin-spring-boot:0.1-SNAPSHOT"})
 public class Build extends JkSpringbootBuild {
