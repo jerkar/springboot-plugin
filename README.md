@@ -1,8 +1,8 @@
 # Jerkar Addin for Spring boot
 
-The goal of this project is to provide a Jerkar addin so you can build Spring Boot application with minimal effort.
-This allow to go farer in the no XML / script experience cause you won't need to edit any XML (Maven pom) or gradle script at all : <strong>only Java code</strong> so easy to debug in your favorite IDE.
-The way Jerkar works is also very coherent with Spring Boot philosophy (Just running main methods to get things done).
+The goal of this project is to provide a Jerkar addin so you can build Spring Boot application with minimal effort. <br/>
+This reaches to the ultimate point in the no XML/scripts experience as you won't need to edit any XML (Maven pom) or groovy script at all : <strong>only Java code !</strong>. <br/>
+This allows very lightweight and easy tooling to run/edit/debug builds, coherent with Spring Boot philosophy (Just running main methods to get things done).
 
 ## Principle
 
@@ -34,7 +34,7 @@ public class Build extends JkSpringbootBuild {
 
 Running this class performs :
 
-* Compilation and test run
+* Compilation and tests run
 * Generation of the original binary jar along its sources jar
 * Generation of the executable jar
 * Generation of the executable war file (if WEB-INF present)
