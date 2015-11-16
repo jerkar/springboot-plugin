@@ -58,9 +58,10 @@ class RunApplication {
 }
 ```
 
- This class compile the code an run the application upon the compiled code and declared dependencies.
+ This class compiles code an run the application upon the compiled code and declared dependencies.
  
- ## Adding extra dependencies
+ 
+ ##  Adding extra dependencies
  
  Springboot addin perform provides class constants to declare most of dependencies. 
  It adds great comfort when picking some Spring dependencies.
