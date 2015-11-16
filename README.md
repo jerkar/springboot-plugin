@@ -40,7 +40,7 @@ Running this class performs :
 * Generation of the executable war file (if WEB-INF present)
 
 
-### Writing extra run class
+### Writing extra run classes
 
 You can also add other runner classes beside the build class to perform other tasks: 
 
