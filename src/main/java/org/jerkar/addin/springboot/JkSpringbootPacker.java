@@ -1,6 +1,7 @@
 package org.jerkar.addin.springboot;
 
 import java.io.File;
+import java.util.zip.Deflater;
 
 import org.jerkar.api.depmanagement.JkDependencies;
 import org.jerkar.api.depmanagement.JkDependencyResolver;
@@ -8,6 +9,8 @@ import org.jerkar.api.depmanagement.JkVersionedModule;
 import org.jerkar.api.file.JkFileTree;
 import org.jerkar.api.file.JkPath;
 import org.jerkar.api.file.JkZipper;
+import org.jerkar.api.file.JkZipper.JkCompressionLevel;
+import org.jerkar.api.file.JkZipper.JkCompressionMethod;
 import org.jerkar.api.java.JkManifest;
 import org.jerkar.api.utils.JkUtilsFile;
 import org.jerkar.api.utils.JkUtilsObject;
@@ -59,6 +62,9 @@ public class JkSpringbootPacker {
 
 	// Add original jar
 	JkZipper.unzip(original, springBootArchiveDir.root());
+	
+	// Find main class
+	String className = JkSpringbootUtils.findMainClass(springBootArchiveDir.root());
 
 	// Add loader
 	JkDependencies bootloaderDep = JkDependencies.builder().on(JkSpringModules.Boot.LOADER, loaderVersion).build();
@@ -67,16 +73,18 @@ public class JkSpringbootPacker {
 
 	// Create manifest
 	springBootArchiveDir.include("META-INF/**").deleteAll();
-	manifest(original).writeTo(springBootArchiveDir.file("META-INF/MANIFEST.MF"));
+	manifest(original, className).writeTo(springBootArchiveDir.file("META-INF/MANIFEST.MF"));
 
 	// Create final jar
-	springBootArchiveDir.zip().to(target);
+	springBootArchiveDir.zip().with(JkCompressionLevel.DEFAULT_COMPRESSION)
+		.with(JkCompressionMethod.STORED).to(target);
 	JkUtilsFile.deleteDir(springBootArchiveDir.root());
     }
     
-    private JkManifest manifest(File original) {
+    private JkManifest manifest(File original, String startClassName) {
 	JkManifest result = JkUtilsObject.firstNonNull(JkManifest.ofArchive(original), JkManifest.empty());
 	result.addMainClass("org.springframework.boot.loader.JarLauncher");
+	result.addMainAttribute("Start-Class" , startClassName);
 	result.addContextualInfo();
 	if (this.versionedModule != null) {
 	    this.versionedModule.populateManifest(result);
