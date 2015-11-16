@@ -1,7 +1,7 @@
 # Jerkar Addin for Spring boot
 
 The goal of this project is to provide a Jerkar addin so you can build Spring Boot application with minimal effort. <br/>
-This reaches to the ultimate point in the no XML/scripts experience as you won't need to edit any XML (Maven pom) or groovy script at all : <strong>only Java code !</strong>. <br/>
+This reaches the ultimate point in the no XML/scripts experience as you won't need to edit any XML (Maven pom) or groovy script at all : <strong>only Java code !</strong>. <br/>
 This allows very lightweight and easy tooling to run/edit/debug builds, coherent with Spring Boot philosophy (Just running main methods to get things done).
 
 ## Principle
