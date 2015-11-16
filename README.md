@@ -1,7 +1,7 @@
 # Jerkar Addin for Spring boot
 
 The goal of this project is to provide a Jerkar addin so you can build Spring Boot application with minimal effort.
-This allow to go farer in the no XML / script experience cause you won't need to edit any XML (Maven pom) or gradle script at all : <strong>only Java code</code> so easy to debug in your favorite IDE.
+This allow to go farer in the no XML / script experience cause you won't need to edit any XML (Maven pom) or gradle script at all : <strong>only Java code</strong> so easy to debug in your favorite IDE.
 The way Jerkar works is also very coherent with Spring Boot philosophy (Just running main methods to get things done).
 
 ## Principle
@@ -10,7 +10,7 @@ The way Jerkar works is also very coherent with Spring Boot philosophy (Just run
 
 Just make your build class extending JkSpringbootBuild as the above exemple :
 
-```
+```java
 import org.jerkar.addin.springboot.JkSpringModules.Boot;
 import org.jerkar.addin.springboot.JkSpringbootBuild;
 import org.jerkar.api.depmanagement.JkDependencies;
@@ -44,7 +44,7 @@ Running this class performs :
 
 You can also add other runner classes beside the build class to perform other tasks: 
 
-```
+```java
 import org.jerkar.tool.JkInit;
 
 class RunApplication {
@@ -60,13 +60,13 @@ class RunApplication {
 
  This class compile the code an run the application upon the compiled code and declared dependencies.
  
- ##Adding extra dependencies
+ ## Adding extra dependencies
  
  Springboot addin perform provides class constants to declare most of dependencies. 
  It adds great comfort when picking some Spring dependencies.
  
  
- ```
+ ```java
 import org.jerkar.addin.springboot.JkSpringModules.Boot;
 import org.jerkar.addin.springboot.JkSpringbootBuild;
 import org.jerkar.api.depmanagement.JkDependencies;
