@@ -51,8 +51,8 @@ class RunApplication {
 
     public static void main(String[] args) {
         Build build = JkInit.instanceOf(Build.class, args);
-	     build.doCompile();
-	     build.run();
+        build.doCompile();
+        build.run();
     }
 
 }
