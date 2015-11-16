@@ -58,16 +58,15 @@ class RunApplication {
 }
 ```
 
- This class compiles code an run the application upon the compiled code and declared dependencies.
+This class compiles code an run the application upon the compiled code and declared dependencies.
+ 
+## Adding extra dependencies
+ 
+Springboot addin provides class constants to declare most of dependencies. 
+It adds great comfort when picking some Spring dependencies.
  
  
- ##  Adding extra dependencies
- 
- Springboot addin perform provides class constants to declare most of dependencies. 
- It adds great comfort when picking some Spring dependencies.
- 
- 
- ```java
+```java
 import org.jerkar.addin.springboot.JkSpringModules.Boot;
 import org.jerkar.addin.springboot.JkSpringbootBuild;
 import org.jerkar.api.depmanagement.JkDependencies;
