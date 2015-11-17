@@ -1,0 +1,5 @@
+		.and("org.springframework.cloud:spring-cloud-cloudfoundry-connector", orgSpringframeworkCloudVersion)
+		.and("org.springframework.cloud:spring-cloud-core", orgSpringframeworkCloudVersion)
+		.and("org.springframework.cloud:spring-cloud-heroku-connector", orgSpringframeworkCloudVersion)
+		.and("org.springframework.cloud:spring-cloud-localconfig-connector", orgSpringframeworkCloudVersion)
+		.and("org.springframework.cloud:spring-cloud-spring-service-connector", orgSpringframeworkCloudVersion)
