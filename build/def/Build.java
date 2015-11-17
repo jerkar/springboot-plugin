@@ -30,7 +30,7 @@ class Build extends JkJavaBuild {
     
     @Override
     protected JkRepos downloadRepositories() {
-        return super.downloadRepositories().and(JkRepo.mavenOssrhSnapshotDownload());
+        return super.downloadRepositories().and(JkRepo.mavenOssrhPublicDownload());
     }
     
     @Override
