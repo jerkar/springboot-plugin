@@ -6,6 +6,7 @@ import org.jerkar.addin.springboot.JkSpringModules.Boot;
 import org.jerkar.api.depmanagement.JkDependencies;
 import org.jerkar.api.depmanagement.JkDependencyExclusions;
 import org.jerkar.api.depmanagement.JkVersionProvider;
+import org.jerkar.api.java.JkClassLoader;
 import org.jerkar.api.java.JkClasspath;
 import org.jerkar.api.java.JkJavaProcess;
 import org.jerkar.api.system.JkLog;
@@ -75,7 +76,7 @@ public class JkSpringbootBuild extends JkJavaBuild {
     @JkDoc("Run the application based on the compiled classes (not on produced jar). It supposes the class to be yet compiled.")
     public void run() {
 	JkClasspath classpath = JkClasspath.of(this.classDir()).and(dependencyResolver().get(RUNTIME));
-	String mainClass =JkUtilsObject.firstNonNull(this.mainClass(), JkSpringbootUtils.findMainClass(this.classDir()));
+	String mainClass =JkUtilsObject.firstNonNull(this.mainClass(), JkClassLoader.findMainClass(this.classDir()));
 	JkJavaProcess.of().andClasspath(classpath).runClassSync(mainClass);
     }
     

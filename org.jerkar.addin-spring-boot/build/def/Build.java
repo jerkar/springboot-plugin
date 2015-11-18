@@ -1,6 +1,9 @@
-import static org.jerkar.api.depmanagement.JkPopularModules.JERKAR_CORE;
-
-import org.jerkar.api.depmanagement.*;
+import org.jerkar.api.depmanagement.JkDependencies;
+import org.jerkar.api.depmanagement.JkModuleId;
+import org.jerkar.api.depmanagement.JkPublishRepos;
+import org.jerkar.api.depmanagement.JkRepo;
+import org.jerkar.api.depmanagement.JkRepos;
+import org.jerkar.api.depmanagement.JkVersion;
 import org.jerkar.tool.JkInit;
 import org.jerkar.tool.JkOptions;
 import org.jerkar.tool.builtins.javabuild.JkJavaBuild;
@@ -24,7 +27,7 @@ class Build extends JkJavaBuild {
     @Override
     public JkDependencies dependencies() {
         return JkDependencies.builder()
-        	.on(JERKAR_CORE, "0.2.0-SNAPSHOT", PROVIDED)
+        //	.on(JERKAR_CORE, "0.2.0-SNAPSHOT", PROVIDED)
         	.build();
     }
     
