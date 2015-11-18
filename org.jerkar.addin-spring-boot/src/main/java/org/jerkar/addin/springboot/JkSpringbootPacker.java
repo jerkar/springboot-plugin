@@ -7,11 +7,7 @@ import java.util.jar.JarFile;
 import org.jerkar.api.depmanagement.JkDependencies;
 import org.jerkar.api.depmanagement.JkDependencyResolver;
 import org.jerkar.api.depmanagement.JkVersionedModule;
-import org.jerkar.api.file.JkFileTree;
 import org.jerkar.api.file.JkPath;
-import org.jerkar.api.file.JkZipper;
-import org.jerkar.api.file.JkZipper.JkCompressionLevel;
-import org.jerkar.api.file.JkZipper.JkCompressionMethod;
 import org.jerkar.api.java.JkClassLoader;
 import org.jerkar.api.java.JkManifest;
 import org.jerkar.api.utils.JkUtilsFile;
@@ -50,49 +46,19 @@ public class JkSpringbootPacker {
 
     public File makeExecJar(File original) {
 	File target = executableJar(original);
-	makeBootJar2(original, target);
+	makeBootJar(original, target);
 	return target;
     }
 
     public void makeBootJar(File original, File target) {
-
-	String archiveName = JkUtilsString.substringBeforeLast(target.getName(), ".");
-	JkFileTree springBootArchiveDir = JkFileTree.of(target.getParentFile()).from(archiveName);
-
-	// Add libs
-	JkPath libs = this.dependencyResolver.get(JkJavaBuild.RUNTIME);
-	springBootArchiveDir.from("lib").importFiles(libs);
-
-	// Add original jar
-	JkZipper.unzip(original, springBootArchiveDir.root());
-
-	// Find main class
-	String className = JkClassLoader.findMainClass(springBootArchiveDir.root());
-
-	// Add loader
-	JkDependencies bootloaderDep = JkDependencies.builder().on(JkSpringModules.Boot.LOADER, loaderVersion).build();
-	JkPath loaderLibs = dependencyResolver.withDependencies(bootloaderDep).get();
-	JkZipper.unzip(loaderLibs, springBootArchiveDir.root());
-
-	// Create manifest
-	springBootArchiveDir.include("META-INF/**").deleteAll();
-	manifest(original, className).writeTo(springBootArchiveDir.file("META-INF/MANIFEST.MF"));
-
-	// Create final jar
-	springBootArchiveDir.zip().with(JkCompressionLevel.DEFAULT_COMPRESSION).with(JkCompressionMethod.STORED)
-		.to(target);
-	JkUtilsFile.deleteDir(springBootArchiveDir.root());
-    }
-
-    public void makeBootJar2(File original, File target) {
 	try {
-	    _makeBootJar2(original, target);
+	    makeBootJarChecked(original, target);
 	} catch (IOException e) {
 	    throw JkUtilsThrowable.unchecked(e);
 	}
     }
 
-    private void _makeBootJar2(File original, File target) throws IOException {
+    private void makeBootJarChecked(File original, File target) throws IOException {
 	JarWriter jarWriter = new JarWriter(JkUtilsFile.createFileIfNotExist(target));
 
 	// Add manifest
