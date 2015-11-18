@@ -23,12 +23,6 @@ public class Build2 extends JkSpringbootBuild {
     protected JkDependencies dependencies() {
 	return JkDependencies.builder()
 		.on(Boot.STARTER)
-		.on(Fwk.JDBC)
-		.on(Data.MONGODB)
-		.on(Data.COMMONS)
-		.on(Security.CORE)
-		.on(Mobile.DEVICE)
-		.on(JkPopularModules.GUAVA, "18.0")
 		.on(Boot.STARTER_TEST, TEST).build();
     }
 }
