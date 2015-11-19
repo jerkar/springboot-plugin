@@ -13,10 +13,10 @@ import org.jerkar.tool.JkInit;
  * @formatter:off
  */
 //@JkImport({ "org.jerkar:addin-spring-boot:0.1-SNAPSHOT"})
-public class Build2 extends JkSpringbootBuild {
+class Build extends JkSpringbootBuild {
 
     public static void main(String[] args) {
-	JkInit.instanceOf(Build2.class, args, "-tests.output").doDefault();
+	JkInit.instanceOf(Build.class, args, "-tests.output").doDefault();
     }
 
     @Override
