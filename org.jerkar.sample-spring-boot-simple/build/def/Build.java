@@ -1,11 +1,6 @@
-import org.jerkar.addin.springboot.JkSpringModules.Boot;
-import org.jerkar.addin.springboot.JkSpringModules.Data;
-import org.jerkar.addin.springboot.JkSpringModules.Fwk;
-import org.jerkar.addin.springboot.JkSpringModules.Mobile;
-import org.jerkar.addin.springboot.JkSpringModules.Security;
+import static org.jerkar.addin.springboot.JkSpringModules.*;
 import org.jerkar.addin.springboot.JkSpringbootBuild;
 import org.jerkar.api.depmanagement.JkDependencies;
-import org.jerkar.api.depmanagement.JkPopularModules;
 import org.jerkar.tool.JkInit;
 
 /**

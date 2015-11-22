@@ -10,8 +10,10 @@ import org.jerkar.api.java.JkClassLoader;
 import org.jerkar.api.java.JkClasspath;
 import org.jerkar.api.java.JkJavaProcess;
 import org.jerkar.api.system.JkLog;
+import org.jerkar.api.tooling.JkCodeWriterForBuildClass;
 import org.jerkar.api.utils.JkUtilsObject;
 import org.jerkar.tool.JkDoc;
+import org.jerkar.tool.JkScaffolder;
 import org.jerkar.tool.builtins.javabuild.JkJavaBuild;
 
 /**
@@ -20,6 +22,8 @@ import org.jerkar.tool.builtins.javabuild.JkJavaBuild;
  * @author Jerome Angibaud
  */
 public class JkSpringbootBuild extends JkJavaBuild {
+    
+    private static final String JK_IMPORT = "org.jerkar:addin-spring-boot:0.1-SNAPSHOT";
     
     private File execJar;
     
@@ -84,6 +88,18 @@ public class JkSpringbootBuild extends JkJavaBuild {
     public void runJar() {
 	String debug = JkLog.verbose() ? "--debug" : "";
 	JkJavaProcess.of().runJarSync(execJar, debug);
+    }
+    
+    @Override
+    protected JkScaffolder scaffolder() {
+	Object codeBuilder = scaffolder().buildClassCodeWriter();
+	if (codeBuilder instanceof JkCodeWriterForBuildClass) {
+	    JkCodeWriterForBuildClass coder = (JkCodeWriterForBuildClass) codeBuilder;
+	    coder.extendedClass = "JkSpringbootBuild";
+	    coder.staticImports.add("org.jerkar.addin.springboot.JkSpringModules.*");
+	    coder.jkImports.add(JK_IMPORT);
+	}
+        return scaffolder();
     }
 
 }
