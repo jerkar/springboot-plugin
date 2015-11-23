@@ -14,7 +14,7 @@ You must have [Jerkar installed](http://jerkar.github.io/documentation/latest/ge
 
 ### Writing the build class
 
-Just make your build class extending JkSpringbootBuild (in _[project Dir]/build/def_ ) as above :
+Create a build class extending JkSpringbootBuild (in _[project Dir]/build/def_ ) as above :
 
 ```java
 import org.jerkar.addin.springboot.JkSpringModules.Boot;
