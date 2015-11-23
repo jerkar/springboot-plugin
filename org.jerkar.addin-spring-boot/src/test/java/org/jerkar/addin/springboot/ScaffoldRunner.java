@@ -8,7 +8,7 @@ public class ScaffoldRunner {
 	
 	public static void main(String[] args) {
 		File file = new File("build/output/scaffolded");
-		JkSpringbootBuild build = JkInit.instanceOf(JkSpringbootBuild.class, file,  args);
+		JkSpringbootBuild build = JkInit.instanceOf(JkSpringbootBuild.class, file,  "eclipse#");
 		build.scaffold();
 	}
 
