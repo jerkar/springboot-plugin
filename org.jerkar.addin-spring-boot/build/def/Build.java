@@ -1,5 +1,6 @@
 import org.jerkar.api.depmanagement.JkDependencies;
 import org.jerkar.api.depmanagement.JkModuleId;
+import org.jerkar.api.depmanagement.JkPopularModules;
 import org.jerkar.api.depmanagement.JkPublishRepos;
 import org.jerkar.api.depmanagement.JkRepo;
 import org.jerkar.api.depmanagement.JkRepos;
@@ -21,13 +22,13 @@ class Build extends JkJavaBuild {
     
     @Override
     public JkVersion version() {
-        return JkVersion.ofName("0.1-SNAPSHOT");
+        return JkVersion.ofName("0.1");
     }
 
     @Override
     public JkDependencies dependencies() {
         return JkDependencies.builder()
-        //	.on(JERKAR_CORE, "0.2.0-SNAPSHOT", PROVIDED)
+        	.on(JkPopularModules.JERKAR_CORE, "0.3.0", PROVIDED)
         	.build();
     }
     
