@@ -1,13 +1,14 @@
 import static org.jerkar.addin.springboot.JkSpringModules.*;
 import org.jerkar.addin.springboot.JkSpringbootBuild;
 import org.jerkar.api.depmanagement.JkDependencies;
+import org.jerkar.tool.JkImport;
 import org.jerkar.tool.JkInit;
 
 /**
  * @author djeang
  * @formatter:off
  */
-//@JkImport({ "org.jerkar:addin-spring-boot:0.1-SNAPSHOT"})
+@JkImport({ "org.jerkar:addin-spring-boot:1.2.7.0-SNAPSHOT"})
 class Build extends JkSpringbootBuild {
 
     public static void main(String[] args) {
