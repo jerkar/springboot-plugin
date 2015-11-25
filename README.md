@@ -119,3 +119,10 @@ jerkar @org.jerkar:addin-spring-boot:1.2.7.0-SNAPSHOT -buildClass=JkSpringbootBu
 ``` 
 
 The `eclipse#` parameter tells Jerkar to activate Eclipse plugin. The Eclipse plugin alters the `scaffold` method in order to add .classpath and .project file creation to the scaffolded project. 
+
+# Todo
+
+The plugin is now workable. Some additional feature will be added in nest releases :
+
+* Support for war files. 
+
