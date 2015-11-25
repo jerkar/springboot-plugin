@@ -100,6 +100,9 @@ public class JkSpringbootBuild extends JkJavaBuild {
 		if (codeBuilder instanceof JkCodeWriterForBuildClass) {
 			JkCodeWriterForBuildClass coder = (JkCodeWriterForBuildClass) codeBuilder;
 			coder.extendedClass = "JkSpringbootBuild";
+			coder.imports.remove("org.jerkar.tool.builtins.javabuild.JkJavaBuild");
+			coder.imports.add("org.jerkar.addin.springboot.JkSpringbootBuild");
+			coder.imports.add("org.jerkar.tool.JkImport");
 			coder.staticImports
 					.add("org.jerkar.addin.springboot.JkSpringModules.*");
 			coder.jkImports.add(JK_IMPORT);

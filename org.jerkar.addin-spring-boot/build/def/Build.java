@@ -22,7 +22,7 @@ class Build extends JkJavaBuild {
     
     @Override
     public JkVersion version() {
-        return JkVersion.ofName("1.2.7.0-SNAPSHOT");
+        return JkVersion.ofName("1.2.7.0");
     }
 
     @Override
