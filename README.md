@@ -122,7 +122,7 @@ The `eclipse#` parameter tells Jerkar to activate Eclipse plugin. The Eclipse pl
 
 # Todo
 
-The plugin is now workable. Some additional feature will be added in nest releases :
+The plugin is now workable. Some additional feature will be added in next releases :
 
 * Support for war files. 
 
