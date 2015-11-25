@@ -110,7 +110,7 @@ jerkar @org.jerkar:addin-spring-boot:1.2.7.0-SNAPSHOT -buildClass=JkSpringbootBu
 **Explanation :**
 
 * `@org.jerkar:addin-spring-boot:1.2.7.0-SNAPSHOT` tells jerkar to use this addin (This will be downloaded from you download repository).
-* `-buildClass=JkSpringbootBuild` tells Jerkar to instantiate an object of this class.
+* `-buildClass=JkSpringbootBuild` tells Jerkar to instantiate an object of this class. This class is located in the above addin.
 * `scaffold` tells Jerkar to execute `scaffold` method of the previously instantiated object. The `scaffold` method actually creates project directory structure along a basic build class tailored for Spring boot projects. 
 
 If you are an Eclipse user, you can also generate the .project and .classpath in the same round by executing : 
