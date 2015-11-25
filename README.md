@@ -100,4 +100,16 @@ public class Build extends JkSpringbootBuild {
     }
 }
 ```
+## Project scaffolding
 
+If you don't want to set up the entire project in a single command line, execute : `jerkar @org.jerkar:addin-spring-boot:1.2.7.0-SNAPSHOT -buildClass=JkSpringbootBuild scaffold`.
+
+Explanation : 
+
+* `@org.jerkar:addin-spring-boot:1.2.7.0-SNAPSHOT` tells jerkar tu use this Jerkar addin (This addin will be uploaded from you download repository).
+* `-buildClass=JkSpringbootBuild` tells Jerkar to instanciate an object of this class.
+* `scaffold` tells Jerkar to execute `scaffold` method of the previously instantiated object. Th scaffold method actually create project directory structure along a basic build class tailored for Spring boot project. 
+
+If you are an Eclipse user, you can also generate the .project and .classpath in the same round by executing : `jerkar @org.jerkar:addin-spring-boot:1.2.7.0-SNAPSHOT -buildClass=JkSpringbootBuild scaffold eclipse#`. 
+
+The `eclipse#` parameter tells Jerkar to activate Eclipse plugin. The Ecliple plugin alter the scaffold method in order to add .classpath and .project file creation to the scaffolded project. 
