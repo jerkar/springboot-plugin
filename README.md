@@ -102,9 +102,9 @@ public class Build extends JkSpringbootBuild {
 ```
 ## Project scaffolding
 
-If you don't want to set up the entire project in a single command line, execute : `jerkar @org.jerkar:addin-spring-boot:1.2.7.0-SNAPSHOT -buildClass=JkSpringbootBuild scaffold`.
+If you want to set up the entire project in a single command line, execute : `jerkar @org.jerkar:addin-spring-boot:1.2.7.0-SNAPSHOT -buildClass=JkSpringbootBuild scaffold`.
 
-Explanation : 
+**Explanation : **
 
 * `@org.jerkar:addin-spring-boot:1.2.7.0-SNAPSHOT` tells jerkar tu use this Jerkar addin (This addin will be uploaded from you download repository).
 * `-buildClass=JkSpringbootBuild` tells Jerkar to instanciate an object of this class.
