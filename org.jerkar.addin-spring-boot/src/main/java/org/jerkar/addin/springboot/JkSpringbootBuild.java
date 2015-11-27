@@ -77,6 +77,14 @@ public class JkSpringbootBuild extends JkJavaBuild {
 	protected final JkDependencyExclusions dependencyExclusions() {
 		return this.versionManagement().dependencyExclusions();
 	}
+	
+	/**
+	 * Override this method if you need to need to run the application with special setting on the Jvm
+	 * (agent, memory ,...)
+	 */
+	protected JkJavaProcess javaProcess() {
+		return JkJavaProcess.of();
+	}
 
 	@JkDoc("Run the application based on the compiled classes (not on produced jar). It supposes the class to be yet compiled.")
 	public void run() {
@@ -84,13 +92,13 @@ public class JkSpringbootBuild extends JkJavaBuild {
 				dependencyResolver().get(RUNTIME));
 		String mainClass = JkUtilsObject.firstNonNull(this.mainClass(),
 				JkClassLoader.findMainClass(this.classDir()));
-		JkJavaProcess.of().andClasspath(classpath).runClassSync(mainClass);
+		javaProcess().andClasspath(classpath).runClassSync(mainClass);
 	}
 
 	@JkDoc("Run the application based on the produced executable jar. It supposes jar to be yet produced.")
 	public void runJar() {
 		String debug = JkLog.verbose() ? "--debug" : "";
-		JkJavaProcess.of().runJarSync(execJar, debug);
+		javaProcess().runJarSync(execJar, debug);
 	}
 
 	@Override
