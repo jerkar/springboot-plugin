@@ -40,6 +40,9 @@ class Build extends JkJavaBuild {
 
 	@Override
 	protected JkPublishRepos publishRepositories() {
+		if (JkOptions.containsKey("jkPublisherUrl")) {
+            return JkPublishRepos.maven(JkOptions.get("jkPublisherUrl"));
+        }
 		return JkPublishRepos.ossrh(JkOptions.get("ossrh.username"),
 				JkOptions.get("ossrh.password"), pgp());
 	}
