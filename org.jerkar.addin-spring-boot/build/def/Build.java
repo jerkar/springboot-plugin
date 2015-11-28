@@ -1,4 +1,6 @@
 import org.jerkar.api.depmanagement.JkDependencies;
+import org.jerkar.api.depmanagement.JkMavenPublication;
+import org.jerkar.api.depmanagement.JkMavenPublicationInfo;
 import org.jerkar.api.depmanagement.JkModuleId;
 import org.jerkar.api.depmanagement.JkPopularModules;
 import org.jerkar.api.depmanagement.JkPublishRepos;
@@ -15,6 +17,10 @@ import org.jerkar.tool.builtins.javabuild.JkJavaBuild;
  * @formatter:off
  */
 class Build extends JkJavaBuild {
+    
+    {
+        pack.javadoc = true;
+    }
 
     @Override
     public JkModuleId moduleId() {
@@ -23,7 +29,7 @@ class Build extends JkJavaBuild {
 
     @Override
     public JkVersion version() {
-        return JkVersion.ofName("1.2.7.1-SNAPSHOT");
+        return JkVersion.ofName("1.2.7.0");
     }
 
     @Override
@@ -34,6 +40,16 @@ class Build extends JkJavaBuild {
     @Override
     protected JkRepos downloadRepositories() {
         return super.downloadRepositories().and(JkRepo.mavenOssrhPublicDownload());
+    }
+    
+    @Override
+    protected JkMavenPublication mavenPublication() {
+        return super.mavenPublication().with(
+                JkMavenPublicationInfo
+                .of("Jerkar Add-in for Sring Boot", "A Jerkar add-in for Spring boot application", "http://jerkar.github.io")
+                .withScm("https://github.com/jerkar/spring-boot-addin.git")
+                .andApache2License()
+                .andGitHubDeveloper("djeang", "djeangdev@yahoo.fr"));
     }
 
     @Override
