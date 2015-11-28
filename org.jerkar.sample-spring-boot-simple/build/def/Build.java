@@ -8,7 +8,7 @@ import org.jerkar.tool.JkInit;
  * @author djeang
  * @formatter:off
  */
-@JkImport({ "org.jerkar:addin-spring-boot:1.2.7.0-SNAPSHOT"})
+@JkImport({ "org.jerkar:addin-spring-boot:1.2.7.0"})
 class Build extends JkSpringbootBuild {
 
     public static void main(String[] args) {
