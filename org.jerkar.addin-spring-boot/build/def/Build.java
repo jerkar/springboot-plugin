@@ -16,39 +16,36 @@ import org.jerkar.tool.builtins.javabuild.JkJavaBuild;
  */
 class Build extends JkJavaBuild {
 
-	@Override
-	public JkModuleId moduleId() {
-		return JkModuleId.of("org.jerkar", "addin-spring-boot");
-	}
+    @Override
+    public JkModuleId moduleId() {
+        return JkModuleId.of("org.jerkar", "addin-spring-boot");
+    }
 
-	@Override
-	public JkVersion version() {
-		return JkVersion.ofName("1.2.7.0");
-	}
+    @Override
+    public JkVersion version() {
+        return JkVersion.ofName("1.2.7.1-SNAPSHOT");
+    }
 
-	@Override
-	public JkDependencies dependencies() {
-		return JkDependencies.builder()
-				.on(JkPopularModules.JERKAR_CORE, "0.3.0", PROVIDED).build();
-	}
+    @Override
+    public JkDependencies dependencies() {
+        return JkDependencies.builder().on(JkPopularModules.JERKAR_CORE, "0.3.0", PROVIDED).build();
+    }
 
-	@Override
-	protected JkRepos downloadRepositories() {
-		return super.downloadRepositories().and(
-				JkRepo.mavenOssrhPublicDownload());
-	}
+    @Override
+    protected JkRepos downloadRepositories() {
+        return super.downloadRepositories().and(JkRepo.mavenOssrhPublicDownload());
+    }
 
-	@Override
-	protected JkPublishRepos publishRepositories() {
-		if (JkOptions.containsKey("jkPublisherUrl")) {
+    @Override
+    protected JkPublishRepos publishRepositories() {
+        if (JkOptions.containsKey("jkPublisherUrl")) {
             return JkPublishRepos.maven(JkOptions.get("jkPublisherUrl"));
         }
-		return JkPublishRepos.ossrh(JkOptions.get("ossrh.username"),
-				JkOptions.get("ossrh.password"), pgp());
-	}
+        return JkPublishRepos.ossrh(JkOptions.get("ossrh.username"), JkOptions.get("ossrh.password"), pgp());
+    }
 
-	public static void main(String[] args) {
-		JkInit.instanceOf(Build.class, args, "-verbose=true").doDefault();
-	}
+    public static void main(String[] args) {
+        JkInit.instanceOf(Build.class, args, "-verbose=true").doDefault();
+    }
 
 }
