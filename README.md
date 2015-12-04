@@ -100,16 +100,21 @@ public class Build extends JkSpringbootBuild {
     }
 }
 ```
-## Project scaffolding
+
+## How to start
+
+### Using command line
 
 If you want to set up the entire project in a single command line, execute : 
 ```
-jerkar @org.jerkar:addin-spring-boot:1.2.7.0-SNAPSHOT -buildClass=JkSpringbootBuild scaffold
+jerkar @org.jerkar:addin-spring-boot:1.2.7.+ -buildClass=JkSpringbootBuild scaffold
 ``` 
+
+This generates a project skeleton with a basic build class in build/def directory.
 
 **Explanation :**
 
-* `@org.jerkar:addin-spring-boot:1.2.7.0-SNAPSHOT` tells jerkar to use this addin (This will be downloaded from you download repository).
+* `@org.jerkar:addin-spring-boot:1.2.7.+` tells jerkar to use this addin (This will be downloaded from your download repository). I will fetch the lastest verion of the addin starting with '1.2.7.'.
 * `-buildClass=JkSpringbootBuild` tells Jerkar to instantiate an object of this class. This class is located in the above addin.
 * `scaffold` tells Jerkar to execute `scaffold` method of the previously instantiated object. The `scaffold` method actually creates project directory structure along a basic build class tailored for Spring boot projects. 
 
@@ -120,9 +125,18 @@ jerkar @org.jerkar:addin-spring-boot:1.2.7.0-SNAPSHOT -buildClass=JkSpringbootBu
 
 The `eclipse#` parameter tells Jerkar to activate Eclipse plugin. The Eclipse plugin alters the `scaffold` method in order to add .classpath and .project file creation to the scaffolded project. 
 
+### Using Eclipse plugin for Jerkar
+
+The plugin https://github.com/jerkar/eclipsePlugin4Jerkar make it very easy.
+
+* Create an empty Java project in Eclipse (File -> New -> Java Project)
+* Right click on it and select Jerkar -> Scafffold -> Spring Boot Project
+
+That's it, you are ready to code/build/launch your project.
+
 # Todo
 
-The plugin is now workable. Some additional feature will be added in next releases :
+The addin is now workable. Some additional feature will be added in next releases :
 
 * Support for war files. 
 
