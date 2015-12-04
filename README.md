@@ -8,7 +8,7 @@ This leads in a very lightweight and easy tooling to run/edit/debug builds, cohe
 
 ### Prerequisite
 
-You must have [Jerkar installed and IDE setup](http://jerkar.github.io/documentation/latest/getting_started.html).
+You must have [Jerkar installed](http://jerkar.github.io/documentation/latest/getting_started.html) ... easy !
  
 ## Principle
 
