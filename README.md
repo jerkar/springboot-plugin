@@ -45,7 +45,7 @@ Running this class performs :
 * Generation of the executable jar
 * Generation of the executable war file (if WEB-INF present)
 
-The `JkSpringbootBuild` super class contains dependency management (version of modules to use & modules to excludes from transitive dependency resolution).
+The `JkSpringbootBuild` super class contains dependency management (version of modules to use & modules to excludes from transitive dependency resolution) along classical methods to build and run the application.
 
 ### Writing extra run classes
 
