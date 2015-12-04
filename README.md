@@ -127,7 +127,7 @@ The `eclipse#` parameter tells Jerkar to activate Eclipse plugin. The Eclipse pl
 
 ### Using Eclipse plugin for Jerkar
 
-The plugin https://github.com/jerkar/eclipsePlugin4Jerkar make it very easy.
+The following plugin *https://github.com/jerkar/eclipsePlugin4Jerkar* makes it very easy.
 
 * Create an empty Java project in Eclipse (File -> New -> Java Project)
 * Right click on it and select Jerkar -> Scafffold -> Spring Boot Project
