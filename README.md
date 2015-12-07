@@ -80,7 +80,7 @@ import org.jerkar.tool.JkInit;
 
 import static org.jerkar.addin.springboot.JkSpringModules.*;
 
-@JkImport({ "org.jerkar:addin-spring-boot:0.1-SNAPSHOT"})
+@JkImport({ "org.jerkar:addin-spring-boot:1.2.7.+"})
 public class Build extends JkSpringbootBuild {
 
     @Override
@@ -121,7 +121,7 @@ This generates a project skeleton with a basic build class in build/def director
 
 If you are an Eclipse user, you can also generate the .project and .classpath in the same round by executing : 
 ```
-jerkar @org.jerkar:addin-spring-boot:1.2.7.0-SNAPSHOT -buildClass=JkSpringbootBuild scaffold eclipse#
+jerkar @org.jerkar:addin-spring-boot:1.2.7.+ -buildClass=JkSpringbootBuild scaffold eclipse#
 ``` 
 
 The `eclipse#` parameter tells Jerkar to activate Eclipse plugin. The Eclipse plugin alters the `scaffold` method in order to add .classpath and .project file creation to the scaffolded project. 
