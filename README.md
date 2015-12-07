@@ -102,7 +102,7 @@ public class Build extends JkSpringbootBuild {
 }
 ```
 
-## How to start
+## Getting started
 
 ### Using command line
 
