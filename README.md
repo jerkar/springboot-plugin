@@ -137,7 +137,7 @@ That's it, you are ready to code/build/launch your project.
 
 # Todo
 
-The addin is now workable. Some additional feature will be added in next releases :
+The addin is now workable. Some additional features will be added in next releases :
 
 * Support for war files. 
 
