@@ -23,7 +23,7 @@ import org.jerkar.api.depmanagement.JkDependencies;
 import org.jerkar.tool.JkInit;
 
 @JkImport({ "org.jerkar:addin-spring-boot:1.2.7.+"})
-public class Build extends JkSpringbootBuild {
+class Build extends JkSpringbootBuild {
 
     @Override
     protected JkDependencies dependencies() {
