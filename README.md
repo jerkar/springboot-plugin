@@ -124,11 +124,11 @@ If you are an Eclipse user, you can also generate the .project and .classpath in
 jerkar @org.jerkar:addin-spring-boot:1.2.7.+ -buildClass=JkSpringbootBuild scaffold eclipse#
 ``` 
 
-The `eclipse#` parameter tells Jerkar to activate Eclipse plugin. The Eclipse plugin alters the `scaffold` method in order to add .classpath and .project file creation to the scaffolded project. 
+The `eclipse#` parameter tells Jerkar to activate plugin for Eclipse. The Jerkar plugin for Eclipse alters the `scaffold` method in order to add .classpath and .project file creation to the scaffolded project. 
 
-### Using Eclipse plugin for Jerkar
+### Using Eclipse plugin for Jerkar (do no confuse with above Jerkar plugin for Eclipse)
 
-The following plugin *https://github.com/jerkar/eclipsePlugin4Jerkar* makes it very easy.
+The following plugin *https://github.com/jerkar/eclipsePlugin4Jerkar* makes it all very easy.
 
 * Create an empty Java project in Eclipse (File -> New -> Java Project)
 * Right click on it and select Jerkar -> Scafffold -> Spring Boot Project
