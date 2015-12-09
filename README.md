@@ -115,7 +115,7 @@ This generates a project skeleton with a basic build class in build/def director
 
 **Explanation :**
 
-* `@org.jerkar:addin-spring-boot:1.2.7.+` tells jerkar to use this addin (This will be downloaded from your download repository). It fetches the lastest verion of the addin starting with '1.2.7.'.
+* `@org.jerkar:addin-spring-boot:1.2.7.+` tells jerkar to use this addin (This will be downloaded from your download repository, Maven central by default). It fetches the lastest verion of the addin starting with '1.2.7.'.
 * `-buildClass=JkSpringbootBuild` tells Jerkar to instantiate an object of this class. This class is located in the above addin.
 * `scaffold` tells Jerkar to execute `scaffold` method of the previously instantiated object. The `scaffold` method actually creates project directory structure along a basic build class tailored for Spring boot projects. 
 
