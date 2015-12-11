@@ -1,6 +1,6 @@
 # Jerkar Addin for Spring boot
 
-This provides a Jerkar addin to build Spring Boot applications with minimal effort. <br/>
+This provides a [Jerkar](project.jerkar.org) addin to build Spring Boot applications with minimal effort. <br/>
 It honors the promise of using **Java and only Java all over your project**. No XML/script is needed, even for the build part !<br/>
 This leads in a very lightweight and easy tooling to run/edit/debug builds, coherent with Spring Boot philosophy (just running main methods to get things done).
 
@@ -115,7 +115,7 @@ This generates a project skeleton with a basic build class in build/def director
 
 **Explanation :**
 
-* `@org.jerkar:addin-spring-boot:1.2.7.+` tells jerkar to use this addin (This will be downloaded from your download repository, Maven central by default). It fetches the lastest verion of the addin starting with '1.2.7.'.
+* `@org.jerkar:addin-spring-boot:1.2.7.+` tells Jerkar to use this addin (This will be downloaded from your download repository, Maven central by default). It fetches the lastest verion of the addin starting with '1.2.7.'.
 * `-buildClass=JkSpringbootBuild` tells Jerkar to instantiate an object of this class. This class is located in the above addin.
 * `scaffold` tells Jerkar to execute `scaffold` method of the previously instantiated object. The `scaffold` method actually creates project directory structure along a basic build class tailored for Spring boot projects. 
 
@@ -128,10 +128,10 @@ The `eclipse#` parameter tells Jerkar to activate plugin for Eclipse. The Jerkar
 
 ### Using Eclipse plugin for Jerkar (do no confuse with above Jerkar plugin for Eclipse)
 
-The following plugin *https://github.com/jerkar/eclipsePlugin4Jerkar* makes it all very easy.
+The following Eclipse plugin *https://github.com/jerkar/eclipsePlugin4Jerkar* makes it all very easy.
 
 * Create an empty Java project in Eclipse (File -> New -> Java Project)
-* Right click on it and select Jerkar -> Scafffold -> Spring Boot Project
+* Right click on it and select Jerkar -> Scafffold -> Spring-Boot Project
 
 That's it, you are ready to code/build/launch your project.
 
