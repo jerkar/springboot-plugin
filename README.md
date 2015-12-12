@@ -49,7 +49,7 @@ The `JkSpringbootBuild` super class contains dependency management (version of m
 
 ### Writing extra run classes
 
-You can also add other runner classes beside the build class to perform other tasks: 
+Writing main method is not mandatory but if you like this way of launching build, you can add other runner classes beside the build class to perform other tasks: 
 
 ```java
 import org.jerkar.tool.JkInit;
