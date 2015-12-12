@@ -83,6 +83,8 @@ import static org.jerkar.addin.springboot.JkSpringModules.*;
 @JkImport({ "org.jerkar:addin-spring-boot:1.2.7.+"})
 public class Build extends JkSpringbootBuild {
 
+    boolean securityOn = !"off".equals(System.getenv("springboot.security"));
+
     @Override
     protected JkDependencies dependencies() {
 	     return JkDependencies.builder()
@@ -90,7 +92,7 @@ public class Build extends JkSpringbootBuild {
 		      .on(Fwk.JDBC)
 		      .on(Data.MONGODB)
 		      .on(Data.COMMONS)
-		      .on(Security.CORE)
+		      .onIf(securityOn, Boot.STARTER_SECURITY)
 		      .on(Mobile.DEVICE)
 		      .on(JkPopularModules.GUAVA, "18.0")
 		      .on(Boot.STARTER_TEST, TEST).build();
