@@ -98,9 +98,6 @@ public class Build extends JkSpringbootBuild {
 		      .on(Boot.STARTER_TEST, TEST).build();
     }
     
-    public static void main(String[] args) {
-	     JkInit.instanceOf(Build.class, args).doDefault();
-    }
 }
 ```
 
