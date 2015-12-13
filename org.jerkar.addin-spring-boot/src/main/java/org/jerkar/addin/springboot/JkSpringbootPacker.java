@@ -14,6 +14,7 @@ import org.jerkar.api.utils.JkUtilsFile;
 import org.jerkar.api.utils.JkUtilsObject;
 import org.jerkar.api.utils.JkUtilsString;
 import org.jerkar.api.utils.JkUtilsThrowable;
+import org.jerkar.tool.JkException;
 import org.jerkar.tool.builtins.javabuild.JkJavaBuild;
 
 public class JkSpringbootPacker {
@@ -63,6 +64,9 @@ public class JkSpringbootPacker {
 
         // Add manifest
         String className = JkClassLoader.findMainClass(original);
+        if (className == null) {
+            throw new JkException("No class found with main method. Can't create executable jar.");
+        }
         jarWriter.writeManifest(manifest(original, className).manifest());
 
         // Add original jar

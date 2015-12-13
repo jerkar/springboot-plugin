@@ -19,6 +19,7 @@ class Build extends JkSpringbootBuild {
     protected JkDependencies dependencies() {
 	return JkDependencies.builder()
 		.on(Boot.STARTER)
+		.onIf(true, Boot.STARTER_SECURITY)
 		.on(Boot.STARTER_TEST, TEST).build();
     }
 }
