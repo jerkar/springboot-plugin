@@ -1,0 +1,38 @@
+import java.io.File;
+
+import org.jerkar.api.depmanagement.JkModuleDependency;
+import org.jerkar.api.depmanagement.JkRepos;
+import org.jerkar.api.system.JkLog;
+import org.jerkar.api.tooling.JkCodeWriterForBuildClass;
+import org.jerkar.api.tooling.JkMvn;
+import org.jerkar.api.tooling.JkPom;
+import org.jerkar.api.utils.JkUtilsFile;
+import org.jerkar.tool.JkInit;
+
+/**
+ * This class generates Java code in the console to copy/paste in 
+ * the VersionManagement class. 
+ * 
+ * @author Jerome Angibaud
+ */
+class CodeGenRunner {
+    
+    static String version = "1.3.1.RELEASE";
+    
+    public static void main(String[] args) {
+       JkInit.instanceOf(Build.class);
+       JkLog.verbose(true);
+       JkModuleDependency pomDep = JkModuleDependency.of("org.springframework.boot", "spring-boot-starter-parent", version)
+               .ext("pom").transitive(true);
+       File pom = JkRepos.mavenCentral().get(pomDep, false).first();
+       File effectivePom = JkUtilsFile.tempFile("pom", "pom");
+       JkMvn.of(JkUtilsFile.workingDir(), "-f", pom.getPath(), "help:effectivePom", "-Doutput=" + effectivePom.getPath() ).run();;
+       //effectivePom.delete();
+       JkPom jkPom = JkPom.of(effectivePom);
+       JkCodeWriterForBuildClass gen = new JkCodeWriterForBuildClass();
+       gen.dependencyExclusions = jkPom.dependencyExclusion();
+       gen.versionProvider = jkPom.versionProvider();
+       System.out.println(gen.wholeClass());
+    }
+
+}

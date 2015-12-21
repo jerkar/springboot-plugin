@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry combineaccessrules="false" kind="src" path="/org.jerkar.core"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/org.jerkar.core"/>
 	<classpathentry kind="src" output="build/output/def-bin" path="build/def"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry kind="src" output="build/output/testClasses" path="src/test/java"/>
+	<classpathentry kind="var" path="JERKAR_REPO/org.jerkar/core/jars/core-0.3.0.jar" sourcepath="JERKAR_REPO/org.jerkar/core/sources/core-0.3.0-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/H:/AppData.W7/Sun/.jerkar/cache/repo/org.jerkar/core/javadocs/core-0.3.0-javadoc.jar"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="var" path="JERKAR_HOME/org.jerkar.core-all.jar" sourcepath="JERKAR_HOME/libs-sources/org.jerkar.core-all-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
