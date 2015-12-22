@@ -4,11 +4,14 @@ This provides a [Jerkar](http://project.jerkar.org) addin to build Spring Boot a
 It honors the promise of using **Java and only Java all over your project**. No XML/script is needed, even for the build part !<br/>
 This leads in a very lightweight and easy tooling to run/edit/debug builds, coherent with Spring Boot philosophy (just running main methods to get things done).
 
+**Last release:** 1.3.1.0 (compatible with Spring Boot verions : 1.3.1, 1.3.0, 1.2.8 and 1.2.9)
+
 ## Installation
 
 ### Prerequisite
 
 You must have [Jerkar installed](http://jerkar.github.io/documentation/latest/getting_started.html) ... easy !
+Please use Jerkar 0.3.2 or later.
  
 ## Principle
 
@@ -22,7 +25,7 @@ import org.jerkar.addin.springboot.JkSpringbootBuild;
 import org.jerkar.api.depmanagement.JkDependencies;
 import org.jerkar.tool.JkInit;
 
-@JkImport({ "org.jerkar:addin-spring-boot:1.2.7.+"})
+@JkImport({ "org.jerkar:addin-spring-boot:1.3.1.+"})
 class Build extends JkSpringbootBuild {
 
     @Override
@@ -80,7 +83,7 @@ import org.jerkar.tool.JkInit;
 
 import static org.jerkar.addin.springboot.JkSpringModules.*;
 
-@JkImport({ "org.jerkar:addin-spring-boot:1.2.7.+"})
+@JkImport({ "org.jerkar:addin-spring-boot:1.3.1.+"})
 public class Build extends JkSpringbootBuild {
 
     boolean securityOn = !"off".equals(System.getenv("springboot.security"));
@@ -101,26 +104,42 @@ public class Build extends JkSpringbootBuild {
 }
 ```
 
+## Choosing Spring Boot Version
+Now, a given version of Spring Boot addin can work with different versions of Spring Boot. By default the Spring Boot version is the same than the addin. For example, if the addin version is *1.3.1.1*, then the default Spring Boot version will be *1.3.1.RELEASE*.
+Nevertheless, if you want to work with another version of Spring Boot, just override `versionManagement` method.
+
+```java
+@JkImport({ "org.jerkar:addin-spring-boot:1.3.1.+"})
+public class Build extends JkSpringbootBuild {
+    ...
+  
+    @Override
+    protected JkSpringbootVersionManagement versionManagement() {
+        return JkSpringbootVersionManagement.v1_3_0();
+    }
+    ...
+}
+
 ## Getting started
 
 ### Using command line
 
 If you want to set up the entire project in a single command line, execute : 
 ```
-jerkar @org.jerkar:addin-spring-boot:1.2.7.+ -buildClass=JkSpringbootBuild scaffold
+jerkar @org.jerkar:addin-spring-boot:1.3.1.+ -buildClass=JkSpringbootBuild scaffold
 ``` 
 
 This generates a project skeleton with a basic build class in build/def directory.
 
 **Explanation :**
 
-* `@org.jerkar:addin-spring-boot:1.2.7.+` tells Jerkar to use this addin (This will be downloaded from your download repository, Maven central by default). It fetches the lastest verion of the addin starting with '1.2.7.'.
+* `@org.jerkar:addin-spring-boot:1.3.1.+` tells Jerkar to use this addin (This will be downloaded from your download repository, Maven central by default). It fetches the lastest verion of the addin starting with '1.3.1.'.
 * `-buildClass=JkSpringbootBuild` tells Jerkar to instantiate an object of this class. This class is located in the above addin.
 * `scaffold` tells Jerkar to execute `scaffold` method of the previously instantiated object. The `scaffold` method actually creates project directory structure along a basic build class tailored for Spring boot projects. 
 
 If you are an Eclipse user, you can also generate the .project and .classpath in the same round by executing : 
 ```
-jerkar @org.jerkar:addin-spring-boot:1.2.7.+ -buildClass=JkSpringbootBuild scaffold eclipse#
+jerkar @org.jerkar:addin-spring-boot:1.3.1.+ -buildClass=JkSpringbootBuild scaffold eclipse#
 ``` 
 
 The `eclipse#` parameter tells Jerkar to activate plugin for Eclipse. The Jerkar plugin for Eclipse alters the `scaffold` method in order to add .classpath and .project files to the scaffolded project. 
