@@ -4,10 +4,9 @@ import org.jerkar.api.depmanagement.JkDependencyExclusions;
 import org.jerkar.api.depmanagement.JkVersionProvider;
 
 /**
- * Versions suggested by Spring boot. The defaults are the ones suggested by
- * Spring Boot version <code>1.2.7.RELEASE</code>
+ * Version management suggested by Spring Boot. 
  * 
- * @author djeang
+ * @author Jerome Angibaud
  * @formatter:off
  */
 public abstract class JkSpringbootVersionManagement {
