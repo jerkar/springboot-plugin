@@ -156,6 +156,8 @@ public final class JkSpringModules {
         public static final JkModuleId STARTER_TOMCAT = module("spring-boot-starter-tomcat");
 
         public static final JkModuleId STARTER_UNDERTOW = module("spring-boot-starter-undertow");
+        
+        public static final JkModuleId STARTER_VALIDATION = module("spring-boot-starter-validation");
 
         public static final JkModuleId STARTER_VELOCITY = module("spring-boot-starter-velocity");
 
