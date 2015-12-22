@@ -10,7 +10,7 @@ import org.jerkar.api.utils.JkUtilsFile;
 import org.jerkar.tool.JkInit;
 
 /**
- * This class generates Java code in the console to copy/paste in VersionX_X_X classes. 
+ * Generates Java code in the console to copy/paste in VersionX_X_X classes. 
  * 
  * @author Jerome Angibaud
  */
@@ -22,7 +22,7 @@ class CodeGenRunner {
        JkInit.instanceOf(Build.class);
        JkLog.verbose(true);
        JkModuleDependency pomDep = JkModuleDependency.of("org.springframework.boot", "spring-boot-starter-parent", version)
-               .ext("pom").transitive(true);
+               .ext("pom");
        File pom = JkRepos.mavenCentral().get(pomDep);
        File effectivePom = JkUtilsFile.tempFile("pom", "pom");
        JkMvn.of(JkUtilsFile.workingDir(), "-f", pom.getPath(), "help:effective-pom", "-Doutput=" + effectivePom.getPath() ).run();
