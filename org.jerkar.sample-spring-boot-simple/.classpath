@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="build/def" output="build/output/def-bin"/>
+	<classpathentry kind="src" output="build/output/def-bin" path="build/def"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry kind="src" path="src/main/resources"/>
@@ -109,7 +109,7 @@
 			<attribute name="javadoc_location" value="jar:file:/C:/Users/djeang/.jerkar/cache/repo/org.springframework.boot/spring-boot/javadocs/spring-boot-1.2.7.RELEASE-javadoc.jar"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="var" path="JERKAR_REPO/org.jerkar/addin-spring-boot/jars/addin-spring-boot-1.2.7.0-SNAPSHOT.jar" sourcepath="JERKAR_REPO/org.jerkar/addin-spring-boot/sources/addin-spring-boot-1.2.7.0-SNAPSHOT-sources.jar"/>
 	<classpathentry kind="var" path="JERKAR_HOME/org.jerkar.core-all.jar" sourcepath="JERKAR_HOME/libs-sources/org.jerkar.core-all-sources.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.jerkar.addin-spring-boot"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
