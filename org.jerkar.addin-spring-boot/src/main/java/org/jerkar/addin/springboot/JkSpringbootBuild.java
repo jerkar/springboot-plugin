@@ -33,17 +33,17 @@ public class JkSpringbootBuild extends JkJavaBuild {
 
     /**
      * Returns the version management used to resolve version dependencies. The
-     * default is the one suited for Spring Boot version 1.2.7.RELEASE.
+     * default is the one suited for Spring Boot version 1.3.1.RELEASE.
      */
     protected JkSpringbootVersionManagement versionManagement() {
-        return JkSpringbootVersionManagement.v1_2_7();
+        return JkSpringbootVersionManagement.v1_3_1();
     }
 
     @Override
     public void pack() {
         super.pack();
         JkSpringbootPacker packer = JkSpringbootPacker
-                .of(this.dependencyResolver(), this.versionManagement().orgSpringframeworkBootVersion)
+                .of(this.dependencyResolver(), this.versionManagement().springbootVersion())
                 .module(this.versionedModule());
         JkLog.start("Creating executable jar");
         this.execJar = packer.makeExecJar(this.packer().jarFile());

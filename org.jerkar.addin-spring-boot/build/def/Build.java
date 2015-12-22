@@ -29,12 +29,12 @@ class Build extends JkJavaBuild {
 
     @Override
     public JkVersion version() {
-        return JkVersion.ofName("1.2.7.0");
+        return JkVersion.ofName("1.3.1.0-SNAPSHOT");
     }
 
     @Override
     public JkDependencies dependencies() {
-        return JkDependencies.builder().on(JkPopularModules.JERKAR_CORE, "0.3.0", PROVIDED).build();
+        return JkDependencies.builder().on(JkPopularModules.JERKAR_CORE, "0.3.2", PROVIDED).build();
     }
 
     @Override
