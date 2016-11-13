@@ -46,6 +46,7 @@ public class JkSpringbootBuild extends JkJavaBuild {
                 .of(this.dependencyResolver(), this.versionManagement().springbootVersion())
                 .module(this.versionedModule());
         JkLog.start("Creating executable jar");
+        
         this.execJar = packer.makeExecJar(this.packer().jarFile());
         JkLog.done();
     }
