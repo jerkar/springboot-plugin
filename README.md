@@ -4,7 +4,7 @@ This provides a [Jerkar](http://project.jerkar.org) addin to build Spring Boot a
 It honors the promise of using **Java and only Java all over your project**. No XML/script is needed, even for the build part !<br/>
 This leads in a very lightweight and easy tooling to run/edit/debug builds, coherent with Spring Boot philosophy (just running main methods to get things done).
 
-**Last release:** 1.3.1.0 (compatible with Spring Boot versions : 1.3.1, 1.3.0, 1.2.8 and 1.2.9)
+**Last release:** 1.3.1.0 (compatible with Spring Boot versions : 1.3.1, 1.3.0, 1.2.8 and 1.2.7)
 
 ## Installation
 
