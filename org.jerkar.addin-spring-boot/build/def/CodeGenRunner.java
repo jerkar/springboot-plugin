@@ -16,7 +16,7 @@ import org.jerkar.tool.JkInit;
  */
 class CodeGenRunner {
     
-    static String version = "1.2.7.RELEASE";
+    static String version = "1.4.2.RELEASE";
     
     public static void main(String[] args) {
        JkInit.instanceOf(Build.class);
