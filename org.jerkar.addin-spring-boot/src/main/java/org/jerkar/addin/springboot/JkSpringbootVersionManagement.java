@@ -11,6 +11,11 @@ import org.jerkar.api.depmanagement.JkVersionProvider;
  */
 public abstract class JkSpringbootVersionManagement {
     
+    /** Creates a version management suited for Spring Boot version 1.4.2 */
+    public static JkSpringbootVersionManagement v1_4_2() {
+        return new Version1_4_2();
+    }
+    
     /** Creates a version management suited for Spring Boot version 1.3.1 */
     public static JkSpringbootVersionManagement v1_3_1() {
         return new Version1_3_1();

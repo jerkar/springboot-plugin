@@ -23,7 +23,7 @@ import org.jerkar.tool.builtins.javabuild.JkJavaBuild;
  */
 public class JkSpringbootBuild extends JkJavaBuild {
 
-    private static final String JK_IMPORT = "org.jerkar:addin-spring-boot:1.2.7.+";
+    private static final String JK_IMPORT = "org.jerkar:addin-spring-boot:1.4.2.+";
 
     private File execJar;
 

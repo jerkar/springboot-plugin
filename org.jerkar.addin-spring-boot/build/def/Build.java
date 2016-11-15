@@ -29,12 +29,12 @@ class Build extends JkJavaBuild {
 
     @Override
     public JkVersion version() {
-        return JkVersion.ofName("1.3.1.0");
+        return JkVersion.ofName("1.4.2.0");
     }
 
     @Override
     public JkDependencies dependencies() {
-        return JkDependencies.builder().on(JkPopularModules.JERKAR_CORE, "0.3.2", PROVIDED).build();
+        return JkDependencies.builder().on(JkPopularModules.JERKAR_CORE, "0.4.5", PROVIDED).build();
     }
 
     @Override
@@ -57,7 +57,7 @@ class Build extends JkJavaBuild {
         if (JkOptions.containsKey("jkPublisherUrl")) {
             return JkPublishRepos.maven(JkOptions.get("jkPublisherUrl"));
         }
-        return JkPublishRepos.ossrh(JkOptions.get("ossrh.username"), JkOptions.get("ossrh.password"), pgp());
+        return JkPublishRepos.ossrh(JkOptions.get("repo.ossrh.username"), JkOptions.get("repo.ossrh.password"), pgp());
     }
 
     public static void main(String[] args) {
