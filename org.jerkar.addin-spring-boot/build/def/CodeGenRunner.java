@@ -2,7 +2,6 @@ import java.io.File;
 
 import org.jerkar.api.depmanagement.JkModuleDependency;
 import org.jerkar.api.depmanagement.JkRepos;
-import org.jerkar.api.system.JkLog;
 import org.jerkar.api.tooling.JkCodeWriterForBuildClass;
 import org.jerkar.api.tooling.JkMvn;
 import org.jerkar.api.tooling.JkPom;
