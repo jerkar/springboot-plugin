@@ -37,7 +37,7 @@ class Build extends JkJavaBuild {
     @Override
     public JkDependencies dependencies() {
         return JkDependencies.builder()
-                //.on(JkPopularModules.JERKAR_CORE, "0.4.5", PROVIDED)
+                .on(JkPopularModules.JERKAR_CORE, "0.5.+", PROVIDED)
                 .on(new File("C:/Users/djeang/git/jerkar/org.jerkar.core/build/output/org.jerkar.core-all.jar"))
                 .build();
     }
