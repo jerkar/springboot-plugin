@@ -11,10 +11,13 @@ import org.jerkar.api.java.JkClasspath;
 import org.jerkar.api.java.JkJavaProcess;
 import org.jerkar.api.system.JkLog;
 import org.jerkar.api.tooling.JkCodeWriterForBuildClass;
+import org.jerkar.api.utils.JkUtilsFile;
 import org.jerkar.api.utils.JkUtilsObject;
 import org.jerkar.tool.JkDoc;
 import org.jerkar.tool.JkScaffolder;
 import org.jerkar.tool.builtins.javabuild.JkJavaBuild;
+import org.jerkar.tool.builtins.javabuild.JkJavaPacker;
+import org.jerkar.tool.builtins.javabuild.JkJavaPacker.JkExtraPacking;
 
 /**
  * A template class to extends for building Spring Boot application
@@ -25,8 +28,6 @@ public class JkSpringbootBuild extends JkJavaBuild {
 
     private static final String JK_IMPORT = "org.jerkar:addin-spring-boot:1.4.2.+";
 
-    private File execJar;
-
     protected JkSpringbootBuild() {
         this.tests.fork = true;
     }
@@ -36,19 +37,37 @@ public class JkSpringbootBuild extends JkJavaBuild {
      * default is the one suited for Spring Boot version 1.3.1.RELEASE.
      */
     protected JkSpringbootVersionManagement versionManagement() {
-        return JkSpringbootVersionManagement.v1_3_1();
+        return JkSpringbootVersionManagement.v1_4_2();
     }
 
-    @Override
-    public void pack() {
-        super.pack();
+    
+    private void makeExecutableJar() {
         JkSpringbootPacker packer = JkSpringbootPacker
                 .of(this.dependencyResolver(), this.versionManagement().springbootVersion())
                 .module(this.versionedModule());
-        JkLog.start("Creating executable jar");
-        
-        this.execJar = packer.makeExecJar(this.packer().jarFile());
+        JkLog.startln("Creating Springboot executable jar");
+        JkUtilsFile.move(this.packer().jarFile(), originalJar() );
+        packer.makeExecJar(originalJar(), this.packer().jarFile());
         JkLog.done();
+    }
+    
+    public File originalJar() {
+        return new File(this.packer().jarFile() + ".original");
+    }
+    
+    @Override
+    protected JkJavaPacker createPacker() {
+        return super.createPacker().builder().extraAction(new JkExtraPacking() {
+            
+            @Override
+            public void process(JkJavaBuild build) {
+                makeExecutableJar();
+                
+            }
+            
+            
+            
+        }).build();
     }
 
     // Formatter:off
@@ -85,17 +104,17 @@ public class JkSpringbootBuild extends JkJavaBuild {
         return JkJavaProcess.of();
     }
 
-    @JkDoc("Run the application based on the compiled classes (not on produced jar). It supposes the class to be yet compiled.")
+    @JkDoc("Run the spring-boot application based on the compiled classes (not on produced jar). It supposes the class to be yet compiled.")
     public void run() {
         JkClasspath classpath = JkClasspath.of(this.classDir()).and(dependencyResolver().get(RUNTIME));
         String mainClass = JkUtilsObject.firstNonNull(this.mainClass(), JkClassLoader.findMainClass(this.classDir()));
         javaProcess().andClasspath(classpath).runClassSync(mainClass);
     }
 
-    @JkDoc("Run the application based on the produced executable jar. It supposes jar to be yet produced.")
+    @JkDoc("Run the spring-boot application based on the produced executable jar. It supposes jar to be yet produced.")
     public void runJar() {
         String debug = JkLog.verbose() ? "--debug" : "";
-        javaProcess().runJarSync(execJar, debug);
+        javaProcess().runJarSync(this.packer().jarFile(), debug);
     }
 
     @Override

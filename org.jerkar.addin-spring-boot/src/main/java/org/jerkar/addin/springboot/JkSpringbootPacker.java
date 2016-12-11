@@ -7,13 +7,17 @@ import java.util.jar.JarFile;
 import org.jerkar.api.depmanagement.JkDependencies;
 import org.jerkar.api.depmanagement.JkDependencyResolver;
 import org.jerkar.api.depmanagement.JkVersionedModule;
+import org.jerkar.api.file.JkFileTree;
 import org.jerkar.api.file.JkPath;
 import org.jerkar.api.java.JkClassLoader;
 import org.jerkar.api.java.JkManifest;
+import org.jerkar.api.system.JkLog;
 import org.jerkar.api.utils.JkUtilsFile;
+import org.jerkar.api.utils.JkUtilsIO;
 import org.jerkar.api.utils.JkUtilsObject;
-import org.jerkar.api.utils.JkUtilsString;
+import org.jerkar.api.utils.JkUtilsSystem;
 import org.jerkar.api.utils.JkUtilsThrowable;
+import org.jerkar.api.utils.JkUtilsZip;
 import org.jerkar.tool.JkException;
 import org.jerkar.tool.builtins.javabuild.JkJavaBuild;
 
@@ -45,18 +49,23 @@ public class JkSpringbootPacker {
         return this;
     }
 
-    public File makeExecJar(File original) {
-        File target = executableJar(original);
-        makeBootJar(original, target);
-        return target;
-    }
 
-    public void makeBootJar(File original, File target) {
+    public void makeExecJar(File original, File target) {
         try {
             makeBootJarChecked(original, target);
         } catch (IOException e) {
             throw JkUtilsThrowable.unchecked(e);
         }
+    }
+    
+    private File bootinfJar(File jar) {
+        File tempDir = JkUtilsFile.createTempDir("jerkar-springboot");
+        File bootClassDir = new File(tempDir, "dir/BOOT-INF/classes/");
+        JkUtilsZip.unzip(jar, bootClassDir);
+        File tempZip = new File(tempDir, "boot-inf.jar");
+        JkFileTree.of(tempDir).from("dir").zip().to(tempZip);
+        JkUtilsFile.deleteDir(bootClassDir);
+        return tempZip;
     }
 
     private void makeBootJarChecked(File original, File target) throws IOException {
@@ -70,13 +79,15 @@ public class JkSpringbootPacker {
         jarWriter.writeManifest(manifest(original, className).manifest());
 
         // Add original jar
-        JarFile jarFile = new JarFile(original);
-        jarWriter.writeEntries(jarFile);
+        final File bootinfJar = bootinfJar(original);
+        JarFile bootinfJarFile = new JarFile(bootinfJar);
+        jarWriter.writeEntries(bootinfJarFile);
+        JkUtilsIO.closeQuietly(bootinfJarFile);
 
         // Add nested jars
         JkPath libs = this.dependencyResolver.get(JkJavaBuild.RUNTIME);
         for (File nestedJar : libs) {
-            jarWriter.writeNestedLibrary("lib/", nestedJar);
+            jarWriter.writeNestedLibrary("BOOT-INF/lib/", nestedJar);
         }
 
         // Add loader
@@ -88,13 +99,20 @@ public class JkSpringbootPacker {
         }
 
         jarWriter.close();
-
+        jarWriter.setExecutableFilePermission(target);
+        boolean deleteSuccess = JkUtilsFile.tryDeleteDir(bootinfJar.getParentFile());
+        JkLog.warnIf(!deleteSuccess, "Can't delete " + bootinfJar.getParentFile() + " directory.");
     }
+    
+    
 
     private JkManifest manifest(File original, String startClassName) {
         JkManifest result = JkUtilsObject.firstNonNull(JkManifest.ofArchive(original), JkManifest.empty());
         result.addMainClass("org.springframework.boot.loader.JarLauncher");
         result.addMainAttribute("Start-Class", startClassName);
+        result.addMainAttribute("Spring-Boot-Classes", "BOOT-INF/classes/");
+        result.addMainAttribute("Spring-Boot-Lib", "BOOT-INF/lib/");
+
         result.addContextualInfo();
         if (this.versionedModule != null) {
             this.versionedModule.populateManifest(result);
@@ -105,11 +123,5 @@ public class JkSpringbootPacker {
         return result;
     }
 
-    private File executableJar(File original) {
-        String name = JkUtilsString.substringBeforeLast(original.getName(), ".");
-        String ext = JkUtilsString.substringAfterLast(original.getName(), ".");
-        String execName = name + "-executable." + ext;
-        return new File(original.getParentFile(), execName);
-    }
 
 }

@@ -1,3 +1,5 @@
+import java.io.File;
+
 import org.jerkar.api.depmanagement.JkDependencies;
 import org.jerkar.api.depmanagement.JkMavenPublication;
 import org.jerkar.api.depmanagement.JkMavenPublicationInfo;
@@ -29,12 +31,15 @@ class Build extends JkJavaBuild {
 
     @Override
     public JkVersion version() {
-        return JkVersion.ofName("1.4.2.0");
+        return JkVersion.name("1.4.2.1-SNAPSHOT");
     }
 
     @Override
     public JkDependencies dependencies() {
-        return JkDependencies.builder().on(JkPopularModules.JERKAR_CORE, "0.4.5", PROVIDED).build();
+        return JkDependencies.builder()
+                //.on(JkPopularModules.JERKAR_CORE, "0.4.5", PROVIDED)
+                .on(new File("C:/Users/djeang/git/jerkar/org.jerkar.core/build/output/org.jerkar.core-all.jar"))
+                .build();
     }
 
     @Override
@@ -46,7 +51,7 @@ class Build extends JkJavaBuild {
     protected JkMavenPublication mavenPublication() {
         return super.mavenPublication().with(
                 JkMavenPublicationInfo
-                .of("Jerkar Add-in for Sring Boot", "A Jerkar add-in for Spring boot application", "http://jerkar.github.io")
+                .of("Jerkar Add-in for Spring Boot", "A Jerkar add-in for Spring boot application", "http://jerkar.github.io")
                 .withScm("https://github.com/jerkar/spring-boot-addin.git")
                 .andApache2License()
                 .andGitHubDeveloper("djeang", "djeangdev@yahoo.fr"));

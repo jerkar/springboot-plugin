@@ -20,7 +20,6 @@ class CodeGenRunner {
     
     public static void main(String[] args) {
        JkInit.instanceOf(Build.class);
-       JkLog.verbose(true);
        JkModuleDependency pomDep = JkModuleDependency.of("org.springframework.boot", "spring-boot-starter-parent", version)
                .ext("pom");
        File pom = JkRepos.mavenCentral().get(pomDep);

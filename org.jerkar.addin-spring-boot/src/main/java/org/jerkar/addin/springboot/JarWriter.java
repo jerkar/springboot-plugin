@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.attribute.PosixFilePermission;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashSet;
@@ -344,6 +347,19 @@ class JarWriter {
             entry.setCompressedSize(this.size);
             entry.setCrc(this.crc.getValue());
             entry.setMethod(ZipEntry.STORED);
+        }
+    }
+    
+    void setExecutableFilePermission(File file) {
+        try {
+            Path path = file.toPath();
+            Set<PosixFilePermission> permissions = new HashSet<PosixFilePermission>(
+                    Files.getPosixFilePermissions(path));
+            permissions.add(PosixFilePermission.OWNER_EXECUTE);
+            Files.setPosixFilePermissions(path, permissions);
+        }
+        catch (Throwable ex) {
+            // Ignore and continue creating the jar
         }
     }
 
