@@ -16,26 +16,6 @@ public abstract class JkSpringbootVersionManagement {
         return new Version1_4_2();
     }
     
-    /** Creates a version management suited for Spring Boot version 1.3.1 */
-    public static JkSpringbootVersionManagement v1_3_1() {
-        return new Version1_3_1();
-    }
-    
-    /** Creates a  version management suited for Spring Boot version 1.3.0 */
-    public static JkSpringbootVersionManagement v1_3_0() {
-        return new Version1_3_0();
-    }
-    
-    /** Creates a  version management suited for Spring Boot version 1.2.8 */
-    public static JkSpringbootVersionManagement v1_2_8() {
-        return new Version1_2_8();
-    }
-    
-    /** Creates a version management suited for Spring Boot version 1.2.7 */
-    public static JkSpringbootVersionManagement v1_2_7() {
-        return new Version1_2_7();
-    }
-    
     /** Returns versions provider */
     public final JkVersionProvider versionProvider;
     

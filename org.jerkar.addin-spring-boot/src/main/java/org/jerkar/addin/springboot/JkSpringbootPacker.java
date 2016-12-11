@@ -15,7 +15,6 @@ import org.jerkar.api.system.JkLog;
 import org.jerkar.api.utils.JkUtilsFile;
 import org.jerkar.api.utils.JkUtilsIO;
 import org.jerkar.api.utils.JkUtilsObject;
-import org.jerkar.api.utils.JkUtilsSystem;
 import org.jerkar.api.utils.JkUtilsThrowable;
 import org.jerkar.api.utils.JkUtilsZip;
 import org.jerkar.tool.JkException;
