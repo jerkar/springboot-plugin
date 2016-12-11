@@ -137,7 +137,6 @@ public class JkSpringbootBuild extends JkJavaBuild {
                     .append("            .on(Boot.STARTER_TEST, TEST).build();\n").append("    }");
             coder.extraMethods.add(methodDep.toString());
         }
-
         return scaffolder;
     }
 }

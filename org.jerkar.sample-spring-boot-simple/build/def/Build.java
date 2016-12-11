@@ -9,7 +9,7 @@ import org.jerkar.tool.JkInit;
  * @author djeang
  * @formatter:off
  */
-@JkImport({ "org.jerkar:addin-spring-boot:1.3.1.0"})
+@JkImport({ "org.jerkar:addin-spring-boot:1.4.2.+"})
 class Build extends JkSpringbootBuild {
 
     public static void main(String[] args) {
@@ -18,7 +18,7 @@ class Build extends JkSpringbootBuild {
     
     @Override
     protected JkSpringbootVersionManagement versionManagement() {
-        return JkSpringbootVersionManagement.v1_3_0();
+        return JkSpringbootVersionManagement.v1_4_2();
     }
     
 

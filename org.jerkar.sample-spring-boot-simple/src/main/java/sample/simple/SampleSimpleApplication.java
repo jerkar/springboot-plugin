@@ -27,7 +27,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 @SpringBootApplication
 public class SampleSimpleApplication implements CommandLineRunner {
 
-	// Simple example shows how a command line spring application can execute an
+	// Simple example showing how a command line spring application can execute an
 	// injected bean service. Also demonstrates how you can use @Value to inject
 	// command line args ('--name=whatever') or application properties
 
