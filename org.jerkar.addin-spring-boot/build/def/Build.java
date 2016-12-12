@@ -21,8 +21,6 @@ class Build extends JkJavaBuild {
     {
         pack.javadoc = true;
     }
-
-    private boolean localPublish;
     
     @Override
     public JkModuleId moduleId() {
@@ -58,9 +56,6 @@ class Build extends JkJavaBuild {
 
     @Override
     protected JkPublishRepos publishRepositories() {
-        if (localPublish) {
-            return super.publishRepositories();
-        }
         return JkPublishRepos.ossrh(JkOptions.get("repo.ossrh.username"), JkOptions.get("repo.ossrh.password"), pgp());
     }
 
