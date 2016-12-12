@@ -67,8 +67,6 @@ public class JkSpringbootBuild extends JkJavaBuild {
                 
             }
             
-            
-            
         }).build();
     }
 
