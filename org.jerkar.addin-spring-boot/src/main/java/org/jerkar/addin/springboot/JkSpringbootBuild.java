@@ -135,7 +135,7 @@ public class JkSpringbootBuild extends JkJavaBuild {
             coder.version = "0.1-SNAPSHOT";
             StringBuilder methodDep = new StringBuilder();
             methodDep.append("    @Override\n").append("    protected JkDependencies dependencies() {\n")
-                    .append("        return JkDependencies.builder()\n").append("            .on(Boot.STARTER)\n")
+                    .append("        return JkDependencies.builder()\n").append("            .on(Boot.STARTER_WEB)\n")
                     .append("            .on(Boot.STARTER_TEST, TEST).build();\n").append("    }");
             coder.extraMethods.add(methodDep.toString());
         }
