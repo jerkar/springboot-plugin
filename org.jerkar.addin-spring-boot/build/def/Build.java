@@ -24,6 +24,8 @@ class Build extends JkJavaBuild {
         pack.javadoc = true;
     }
 
+    private boolean localPublish;
+    
     @Override
     public JkModuleId moduleId() {
         return JkModuleId.of("org.jerkar", "addin-spring-boot");
@@ -58,8 +60,8 @@ class Build extends JkJavaBuild {
 
     @Override
     protected JkPublishRepos publishRepositories() {
-        if (JkOptions.containsKey("jkPublisherUrl")) {
-            return JkPublishRepos.maven(JkOptions.get("jkPublisherUrl"));
+        if (localPublish) {
+            return super.publishRepositories();
         }
         return JkPublishRepos.ossrh(JkOptions.get("repo.ossrh.username"), JkOptions.get("repo.ossrh.password"), pgp());
     }
