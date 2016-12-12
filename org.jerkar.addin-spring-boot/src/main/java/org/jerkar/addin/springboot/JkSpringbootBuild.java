@@ -12,7 +12,9 @@ import org.jerkar.api.java.JkJavaProcess;
 import org.jerkar.api.system.JkLog;
 import org.jerkar.api.tooling.JkCodeWriterForBuildClass;
 import org.jerkar.api.utils.JkUtilsFile;
+import org.jerkar.api.utils.JkUtilsIO;
 import org.jerkar.api.utils.JkUtilsObject;
+import org.jerkar.api.utils.JkUtilsString;
 import org.jerkar.tool.JkDoc;
 import org.jerkar.tool.JkScaffolder;
 import org.jerkar.tool.builtins.javabuild.JkJavaBuild;
@@ -137,6 +139,32 @@ public class JkSpringbootBuild extends JkJavaBuild {
                     .append("            .on(Boot.STARTER_TEST, TEST).build();\n").append("    }");
             coder.extraMethods.add(methodDep.toString());
         }
+        scaffolder.extraAction(new Runnable() {
+            
+            @Override
+            public void run() {
+                writeScaffoldedClasses();
+            }
+        });
         return scaffolder;
+    }
+    
+    private void writeScaffoldedClasses() {
+        String packageName = JkUtilsString.conformPackageName(this.moduleId().fullName());
+        String applicationSourceTemplate = JkUtilsIO.read(JkSpringbootBuild.class.getResource("templates/Application.java.template"));
+        String helloControllerSourceTemplate = JkUtilsIO.read(JkSpringbootBuild.class.getResource("templates/HelloController.java.template"));
+        String helloControllerTestSourceTemplate = JkUtilsIO.read(JkSpringbootBuild.class.getResource("templates/HelloControllerTest.java.template"));
+        String applicationSource = applicationSourceTemplate.replace("{packageName}", packageName);
+        String helloControllerSource = helloControllerSourceTemplate.replace("{packageName}", packageName);
+        String helloControllerTestSource = helloControllerTestSourceTemplate.replace("{packageName}", packageName);
+        String path = packageName.replace('.', '/') + "/";
+        File sourceFolder = this.editedSources().roots().get(0);
+        File application = new File (sourceFolder, path + "Application.java");
+        JkUtilsFile.writeStringAtTop(application, applicationSource);
+        File helloCopntroller = new File (sourceFolder, path + "HelloController.java");
+        JkUtilsFile.writeStringAtTop(helloCopntroller, helloControllerSource);
+        File testSourceFolder = this.unitTestEditedSources().roots().get(0);
+        File helloTestConntroller = new File (testSourceFolder, path + "HelloControllerTest.java");
+        JkUtilsFile.writeStringAtTop(helloTestConntroller, helloControllerTestSource);   
     }
 }

@@ -31,14 +31,13 @@ class Build extends JkJavaBuild {
 
     @Override
     public JkVersion version() {
-        return JkVersion.name("1.4.2.1-SNAPSHOT");
+        return JkVersion.name("1.4.2.0-SNAPSHOT");
     }
 
     @Override
     public JkDependencies dependencies() {
         return JkDependencies.builder()
                 .on(JkPopularModules.JERKAR_CORE, "0.5.+", PROVIDED)
-                .on(new File("C:/Users/djeang/git/jerkar/org.jerkar.core/build/output/org.jerkar.core-all.jar"))
                 .build();
     }
 
