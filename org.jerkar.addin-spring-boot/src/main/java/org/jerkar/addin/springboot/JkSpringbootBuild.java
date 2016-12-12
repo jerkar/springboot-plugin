@@ -158,11 +158,11 @@ public class JkSpringbootBuild extends JkJavaBuild {
         String path = packageName.replace('.', '/') + "/";
         File sourceFolder = this.editedSources().roots().get(0);
         File application = new File (sourceFolder, path + "Application.java");
-        JkUtilsFile.writeStringAtTop(application, applicationSource);
+        JkUtilsFile.writeString(application, applicationSource, false);
         File helloCopntroller = new File (sourceFolder, path + "HelloController.java");
-        JkUtilsFile.writeStringAtTop(helloCopntroller, helloControllerSource);
+        JkUtilsFile.writeString(helloCopntroller, helloControllerSource, false);
         File testSourceFolder = this.unitTestEditedSources().roots().get(0);
-        File helloTestConntroller = new File (testSourceFolder, path + "HelloControllerTest.java");
-        JkUtilsFile.writeStringAtTop(helloTestConntroller, helloControllerTestSource);   
+        File helloTestController = new File (testSourceFolder, path + "HelloControllerTest.java");
+        JkUtilsFile.writeString(helloTestController, helloControllerTestSource, false);   
     }
 }
