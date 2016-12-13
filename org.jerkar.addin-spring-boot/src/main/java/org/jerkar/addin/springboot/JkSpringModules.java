@@ -137,7 +137,7 @@ public final class JkSpringModules {
 
         public static final JkModuleId STARTER_PARENT = module("spring-boot-starter-parent");
 
-        public static final JkModuleId STARTER_REDIS = module("spring-boot-starter-redis");
+        public static final JkModuleId STARTER_DATA_REDIS = module("spring-boot-starter-data-redis");
 
         public static final JkModuleId STARTER_REMOTE_SHELL = module("spring-boot-starter-remote-shell");
 
