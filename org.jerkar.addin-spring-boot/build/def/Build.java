@@ -7,6 +7,7 @@ import org.jerkar.api.depmanagement.JkPublishRepos;
 import org.jerkar.api.depmanagement.JkRepo;
 import org.jerkar.api.depmanagement.JkRepos;
 import org.jerkar.api.depmanagement.JkVersion;
+import org.jerkar.api.java.JkJavaCompiler;
 import org.jerkar.tool.JkInit;
 import org.jerkar.tool.JkOptions;
 import org.jerkar.tool.builtins.javabuild.JkJavaBuild;
@@ -30,6 +31,11 @@ class Build extends JkJavaBuild {
     @Override
     public JkVersion version() {
         return JkVersion.name("1.4.2.0-SNAPSHOT");
+    }
+    
+    @Override
+    public String javaSourceVersion() {
+        return JkJavaCompiler.V7;
     }
 
     @Override
@@ -60,7 +66,7 @@ class Build extends JkJavaBuild {
     }
 
     public static void main(String[] args) {
-        JkInit.instanceOf(Build.class, args, "-verbose=true").doDefault();
+        JkInit.instanceOf(Build.class, args, args).doDefault();
     }
 
 }
