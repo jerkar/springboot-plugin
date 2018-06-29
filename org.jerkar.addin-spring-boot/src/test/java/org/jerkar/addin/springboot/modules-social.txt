@@ -1,8 +1,0 @@
-		.and("org.springframework.social:spring-social-config", "1.1.2.RELEASE")
-		.and("org.springframework.social:spring-social-core", "1.1.2.RELEASE")
-		.and("org.springframework.social:spring-social-facebook", "2.0.2.RELEASE")
-		.and("org.springframework.social:spring-social-facebook-web", "2.0.2.RELEASE")
-		.and("org.springframework.social:spring-social-linkedin", "1.0.2.RELEASE")
-		.and("org.springframework.social:spring-social-security", "1.1.2.RELEASE")
-		.and("org.springframework.social:spring-social-twitter", "1.1.1.RELEASE")
-		.and("org.springframework.social:spring-social-web", "1.1.2.RELEASE")

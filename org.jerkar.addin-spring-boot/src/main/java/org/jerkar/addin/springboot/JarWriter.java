@@ -1,15 +1,6 @@
 package org.jerkar.addin.springboot;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FilterInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -46,15 +37,15 @@ class JarWriter {
     /**
      * Create a new {@link JarWriter} instance.
      * 
-     * @param file
+     * @param target
      *            the file to write
      * @throws IOException
      *             if the file cannot be opened
      * @throws FileNotFoundException
      *             if the file cannot be found
      */
-    public JarWriter(File file) throws FileNotFoundException, IOException {
-        FileOutputStream fileOutputStream = new FileOutputStream(file);
+    public JarWriter(Path target) throws FileNotFoundException, IOException {
+        OutputStream fileOutputStream = Files.newOutputStream(target);
         this.jarOutput = new JarOutputStream(fileOutputStream);
     }
 
@@ -129,17 +120,16 @@ class JarWriter {
      * @throws IOException
      *             if the write fails
      */
-    public void writeNestedLibrary(String destination, File library) throws IOException {
-        File file = library;
-        JarEntry entry = new JarEntry(destination + library.getName());
-        entry.setTime(getNestedLibraryTime(file));
-        new CrcAndSize(file).setupStoredEntry(entry);
-        writeEntry(entry, new InputStreamEntryWriter(new FileInputStream(file), true));
+    public void writeNestedLibrary(String destination, Path library) throws IOException {
+        JarEntry entry = new JarEntry(destination + library.getFileName().toString());
+        entry.setTime(getNestedLibraryTime(library));
+        new CrcAndSize(library).setupStoredEntry(entry);
+        writeEntry(entry, new InputStreamEntryWriter(Files.newInputStream(library), true));
     }
 
-    private long getNestedLibraryTime(File file) {
+    private long getNestedLibraryTime(Path path) {
         try {
-            JarFile jarFile = new JarFile(file);
+            JarFile jarFile = new JarFile(path.toFile());
             try {
                 Enumeration<JarEntry> entries = jarFile.entries();
                 while (entries.hasMoreElements()) {
@@ -151,10 +141,11 @@ class JarWriter {
             } finally {
                 jarFile.close();
             }
-        } catch (Exception ex) {
-            // Ignore and just use the source file timestamp
+            return Files.getLastModifiedTime(path).toMillis();
+        } catch (IOException ex) {
+            throw new UncheckedIOException(ex);
         }
-        return file.lastModified();
+
     }
 
     /**
@@ -320,8 +311,8 @@ class JarWriter {
 
         private long size;
 
-        CrcAndSize(File file) throws IOException {
-            FileInputStream inputStream = new FileInputStream(file);
+        CrcAndSize(Path file) throws IOException {
+            InputStream inputStream = Files.newInputStream(file);
             try {
                 load(inputStream);
             } finally {
@@ -350,9 +341,8 @@ class JarWriter {
         }
     }
     
-    void setExecutableFilePermission(File file) {
+    void setExecutableFilePermission(Path path) {
         try {
-            Path path = file.toPath();
             Set<PosixFilePermission> permissions = new HashSet<PosixFilePermission>(
                     Files.getPosixFilePermissions(path));
             permissions.add(PosixFilePermission.OWNER_EXECUTE);

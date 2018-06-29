@@ -16,13 +16,13 @@
 
 package sample.simple.service;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+//import org.springframework.beans.factory.annotation.Value;
+//import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class HelloWorldService {
 
-	@Value("${name:World}")
+	//@Value("${name:World}")
 	private String name;
 
 	public String getHelloMessage() {
