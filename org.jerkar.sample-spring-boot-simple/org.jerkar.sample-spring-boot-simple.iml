@@ -1,50 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager" inherit-compileRunner-output="false">
-    <output url="file://$MODULE_DIR$/idea-output/classes"/>
-    <output-test url="file://$MODULE_DIR$/idea-output/test-classes"/>
-    <exclude-output/>
-    <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK"/>
+  <component name="NewModuleRootManager">
+    <output url="file://$MODULE_DIR$/idea-output/classes" />
+    <output-test url="file://$MODULE_DIR$/idea-output/test-classes" />
+    <exclude-output />
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/build/def" isTestSource="true"/>
-      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true"/>
-      <sourceFolder url="file://$MODULE_DIR$/src/test/resources" type="java-test-resource"/>
-      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false"/>
-      <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource"/>
-      <excludeFolder url="file://$MODULE_DIR$/build/output"/>
-      <excludeFolder url="file://$MODULE_DIR$/idea-output"/>
+      <sourceFolder url="file://$MODULE_DIR$/build/def" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test/resources" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
+      <excludeFolder url="file://$MODULE_DIR$/build/output" />
+      <excludeFolder url="file://$MODULE_DIR$/idea-output" />
     </content>
-    <orderEntry type="sourceFolder" forTests="false"/>
-    <orderEntry type="module-library" scope="TEST" exported="">
-      <library>
-        <CLASSES>
-          <root url="file://C:/Users/angibaudj/IdeaProjects/spring-boot-addin/org.jerkar.sample-spring-boot-simple/../org.jerkar.addin-spring-boot/build/output/classes"/>
-        </CLASSES>
-        <JAVADOC/>
-        <SOURCES/>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="TEST" exported="">
-      <library>
-        <CLASSES>
-          <root url="jar://C:/Users/angibaudj/IdeaProjects/jerkar/org.jerkar.distrib-all/build/output/dist/org.jerkar.core-all.jar!/"/>
-        </CLASSES>
-        <JAVADOC/>
-        <SOURCES>
-          <root url="jar://C:/Users/angibaudj/IdeaProjects/jerkar/org.jerkar.distrib-all/build/output/dist/libs-sources/org.jerkar.core-all-sources.jar!/"/>
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="TEST" exported="">
-      <library>
-        <CLASSES>
-          <root url="jar://C:/Users/angibaudj/IdeaProjects/jerkar/org.jerkar.distrib-all/build/output/dist/org.jerkar.core-all.jar!/"/>
-        </CLASSES>
-        <JAVADOC/>
-        <SOURCES>
-          <root url="jar://C:/Users/angibaudj/IdeaProjects/jerkar/org.jerkar.distrib-all/build/output/dist/libs-sources/org.jerkar.core-all-sources.jar!/"/>
-        </SOURCES>
-      </library>
-    </orderEntry>
+    <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="org.jerkar.addin-spring-boot" />
   </component>
 </module>

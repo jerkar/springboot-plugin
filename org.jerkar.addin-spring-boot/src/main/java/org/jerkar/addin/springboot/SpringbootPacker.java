@@ -1,7 +1,5 @@
 package org.jerkar.addin.springboot;
 
-import org.jerkar.api.depmanagement.JkDependencyResolver;
-import org.jerkar.api.depmanagement.JkDependencySet;
 import org.jerkar.api.file.JkPathSequence;
 import org.jerkar.api.file.JkPathTree;
 import org.jerkar.api.java.JkClassLoader;

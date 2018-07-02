@@ -18,7 +18,7 @@ class Build extends JkJavaProjectBuild {
 
     @Override
     protected void configure() {
-        this.project().setDependencies(dependencies());
+        this.project().setDependencies(this.project().getDependencies().and(dependencies()));
     }
 
     private JkDependencySet dependencies() {
