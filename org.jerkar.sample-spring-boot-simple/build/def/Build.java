@@ -24,7 +24,7 @@ class Build extends JkJavaProjectBuild {
     private JkDependencySet dependencies() {
 	    return JkDependencySet.of()
 		    .and(Boot.STARTER)
-            .and( Boot.STARTER_SECURITY)
+            .and(Boot.STARTER_SECURITY)
 		    .and(Boot.STARTER_TEST, JkJavaDepScopes.TEST);
     }
 

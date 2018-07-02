@@ -25,7 +25,6 @@ public class JkPluginSpringBoot extends JkPlugin {
     private final JkPluginJava java;
 
 
-
     /**
      * Right after to be instantiated, plugin instances are likely to configured by the owning build.
      * Therefore, every plugin members that are likely to be configured by the owning build must be
