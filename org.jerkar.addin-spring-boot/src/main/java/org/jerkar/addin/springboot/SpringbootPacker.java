@@ -43,37 +43,21 @@ class SpringbootPacker {
         try {
             makeBootJarChecked(original, target);
         } catch (IOException e) {
-            throw JkUtilsThrowable.unchecked(e);
-        }
-    }
-    
-    private Path bootinfJar(Path jar) {
-        Path tempDir = null;
-        try {
-            tempDir = Files.createTempDirectory("jerkar-springboot");
-        } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
-        Path bootClassDir = tempDir.resolve("dir/BOOT-INF/classes/");
-        JkPathTree.ofZip(jar).copyTo(bootClassDir);
-        Path tempZip = tempDir.resolve("boot-inf.jar");
-        JkPathTree.ofZip(tempZip).merge(JkPathTree.of(tempDir).goTo("dir"));
-        JkUtilsPath.deleteIfExists(bootClassDir);
-        return tempZip;
     }
 
     private void makeBootJarChecked(Path original, Path target) throws IOException {
 
         JarWriter jarWriter = new JarWriter(target);
+
+        // Manifest
         Path path = JkPathTree.ofZip(original).goTo("META-INF").get("manifest.mf");
-        JkManifest manifest = JkManifest.of(path);
+        final JkManifest manifest = Files.exists(path) ? JkManifest.of(path) : JkManifest.empty();
         jarWriter.writeManifest(createManifest(manifest, mainClassNeme).manifest());
 
         // Add original jar
-        final Path bootinfJar = bootinfJar(original);
-        JarFile bootinfJarFile = new JarFile(bootinfJar.toFile());
-        jarWriter.writeEntries(bootinfJarFile);
-        JkUtilsIO.closeQuietly(bootinfJarFile);
+        jarWriter.writeEntries(new JarFile(original.toFile()));
 
         // Add nested jars
         for (Path nestedJar : this.nestedLibs) {
@@ -81,15 +65,10 @@ class SpringbootPacker {
         }
 
         // Add loader
-        JkPathSequence loaderJars = nestedLibs.and(bootLaderJar);
-        for (Path loaderJar : loaderJars) {
-            JarFile loaderJarFile = new JarFile(loaderJar.toFile());
-            jarWriter.writeEntries(loaderJarFile);
-        }
+        jarWriter.writeLoaderClasses(bootLaderJar.toUri().toURL());
 
         jarWriter.close();
         jarWriter.setExecutableFilePermission(target);
-        JkUtilsPath.deleteFile(bootinfJar.getParent());
     }
     
     
