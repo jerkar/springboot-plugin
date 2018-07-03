@@ -15,6 +15,7 @@ import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.jar.JarFile;
+import java.util.jar.Manifest;
 
 class SpringbootPacker {
 
@@ -24,15 +25,18 @@ class SpringbootPacker {
 
     private final JkManifest manifestToMerge;
 
-    private SpringbootPacker(JkPathSequence nestedLibs, Path loader, JkManifest manifestToMerge) {
+    private final String mainClassNeme;
+
+    private SpringbootPacker(JkPathSequence nestedLibs, Path loader, String mainClassNeme, JkManifest manifestToMerge) {
         super();
         this.nestedLibs = nestedLibs;
         this.bootLaderJar = loader;
         this.manifestToMerge = manifestToMerge;
+        this.mainClassNeme = mainClassNeme;
     }
 
-    public static final SpringbootPacker of(JkPathSequence nestedLibs, Path loader) {
-        return new SpringbootPacker(nestedLibs, loader, null);
+    public static final SpringbootPacker of(JkPathSequence nestedLibs, Path loader, String mainClassName) {
+        return new SpringbootPacker(nestedLibs, loader, mainClassName, null);
     }
 
     public void makeExecJar(Path original, Path target) {
@@ -61,13 +65,9 @@ class SpringbootPacker {
     private void makeBootJarChecked(Path original, Path target) throws IOException {
 
         JarWriter jarWriter = new JarWriter(target);
-
-        // Add manifest
-        String className = JkClassLoader.findMainClass(original);
-        if (className == null) {
-            throw new JkException("No class found with main method. Can't create executable jar.");
-        }
-        jarWriter.writeManifest(manifest(original, className).manifest());
+        Path path = JkPathTree.ofZip(original).goTo("META-INF").get("manifest.mf");
+        JkManifest manifest = JkManifest.of(path);
+        jarWriter.writeManifest(createManifest(manifest, mainClassNeme).manifest());
 
         // Add original jar
         final Path bootinfJar = bootinfJar(original);
@@ -93,8 +93,8 @@ class SpringbootPacker {
     }
     
     
-    private JkManifest manifest(Path original, String startClassName) {
-        JkManifest result = JkUtilsObject.firstNonNull(JkManifest.of(original), JkManifest.empty());
+    private JkManifest createManifest(JkManifest original, String startClassName) {
+        JkManifest result = JkUtilsObject.firstNonNull(original, JkManifest.empty());
         result.addMainClass("org.springframework.boot.loader.JarLauncher");
         result.addMainAttribute("Start-Class", startClassName);
         result.addMainAttribute("Spring-Boot-Classes", "BOOT-INF/classes/");

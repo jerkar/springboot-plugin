@@ -8,7 +8,7 @@ import org.jerkar.tool.JkImport;
 import org.jerkar.tool.JkInit;
 import org.jerkar.tool.builtins.java.JkJavaProjectBuild;
 
-@JkImport("../org.jerkar.addin-spring-boot/build/output/classes")
+@JkImport("../org.jerkar.addin-spring-boot/idea-output/classes")
 class Build extends JkJavaProjectBuild {
 
     @Override
@@ -29,6 +29,6 @@ class Build extends JkJavaProjectBuild {
     }
 
     public static void main(String[] args) {
-        JkInit.instanceOf(Build.class, args).java().showDependencies();
+        JkInit.instanceOf(Build.class, args).doDefault();
     }
 }
