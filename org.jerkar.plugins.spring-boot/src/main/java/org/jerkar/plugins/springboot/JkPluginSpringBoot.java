@@ -19,12 +19,11 @@ import java.nio.file.Path;
  * 
  * @author Jerome Angibaud
  */
-public class JkPluginSpringBoot extends JkPlugin {
+public final class JkPluginSpringBoot extends JkPlugin {
 
-    public String springbootVersion = "2.0.3.RELEASE";
+    private String springbootVersion = "2.0.3.RELEASE";
 
     private final JkPluginJava java;
-
 
     /**
      * Right after to be instantiated, plugin instances are likely to configured by the owning build.
@@ -55,12 +54,23 @@ public class JkPluginSpringBoot extends JkPlugin {
         JkVersion loaderVersion = versionProvider.versionOf(JkSpringModules.Boot.LOADER);
         Path bootloader = maker.getDependencyResolver().repositories()
                 .get(JkSpringModules.Boot.LOADER, loaderVersion.name());
-        JkPathSequence nestedLibs = maker.runtimeDependencies(maker.mainArtifactId());
         project.maker().defineArtifact(boot, () -> {
+            final JkPathSequence nestedLibs = maker.runtimeDependencies(maker.mainArtifactId());
             createBootJar(maker.mainArtifactPath(), nestedLibs, bootloader, target);
         });
         java.addArtifactToProduce(boot);
+    }
 
+    public JkPluginJava java() {
+        return java;
+    }
+
+    public String getSpringbootVersion() {
+        return springbootVersion;
+    }
+
+    public void setSpringbootVersion(String springbootVersion) {
+        this.springbootVersion = springbootVersion;
     }
 
     public static JkVersionProvider resolveVersions(JkRepos repo, String springbootVersion) {
