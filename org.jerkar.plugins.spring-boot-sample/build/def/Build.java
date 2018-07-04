@@ -1,6 +1,6 @@
 import org.jerkar.api.depmanagement.JkDependencySet;
 import org.jerkar.api.depmanagement.JkJavaDepScopes;
-import org.jerkar.plugins.springboot.JkPluginSpringBoot;
+import org.jerkar.plugins.springboot.JkPluginSpringboot;
 import org.jerkar.tool.JkImport;
 import org.jerkar.tool.JkInit;
 import org.jerkar.tool.builtins.java.JkJavaProjectBuild;
@@ -12,7 +12,7 @@ class Build extends JkJavaProjectBuild {
 
     @Override
     protected void configurePlugins() {
-        this.plugins().get(JkPluginSpringBoot.class).setSpringbootVersion("2.0.2.RELEASE");
+        this.plugins().get(JkPluginSpringboot.class).setSpringbootVersion("2.0.2.RELEASE");
     }
 
     @Override

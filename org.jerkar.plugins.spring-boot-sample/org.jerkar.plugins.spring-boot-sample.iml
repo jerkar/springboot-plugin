@@ -540,28 +540,6 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library" exported="" scope="TEST">
-      <library>
-        <CLASSES>
-          <root url="jar://$JERKAR_HOME$/org.jerkar.core-all.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$JERKAR_HOME$/libs-sources/org.jerkar.core-all-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="" scope="TEST">
-      <library>
-        <CLASSES>
-          <root url="jar://$JERKAR_HOME$/org.jerkar.core-all.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$JERKAR_HOME$/libs-sources/org.jerkar.core-all-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
     <orderEntry type="module" module-name="org.jerkar.plugins.spring-boot" scope="TEST" />
   </component>
 </module>

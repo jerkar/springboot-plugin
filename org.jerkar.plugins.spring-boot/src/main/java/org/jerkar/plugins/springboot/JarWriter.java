@@ -155,7 +155,6 @@ class JarWriter {
      *             if the classes cannot be written
      */
     public void writeLoaderClasses(URL loaderJar) throws IOException {
-        // URL loaderJar = getClass().getClassLoader().getResource(NESTED_LOADER_JAR);
         JarInputStream inputStream = new JarInputStream(new BufferedInputStream(loaderJar.openStream()));
         JarEntry entry;
         while ((entry = inputStream.getNextJarEntry()) != null) {

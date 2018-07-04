@@ -7,19 +7,21 @@ import org.jerkar.api.project.java.JkJavaProject;
 import org.jerkar.api.project.java.JkJavaProjectMaker;
 import org.jerkar.api.system.JkException;
 import org.jerkar.api.tooling.JkPom;
+import org.jerkar.api.utils.JkUtilsPath;
 import org.jerkar.tool.JkBuild;
 import org.jerkar.tool.JkPlugin;
 import org.jerkar.tool.builtins.java.JkPluginJava;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * A template class to extends for building Spring Boot application
  * 
  * @author Jerome Angibaud
  */
-public final class JkPluginSpringBoot extends JkPlugin {
+public final class JkPluginSpringboot extends JkPlugin {
 
     private String springbootVersion = "2.0.3.RELEASE";
 
@@ -32,7 +34,7 @@ public final class JkPluginSpringBoot extends JkPlugin {
      *
      * @param build
      */
-    protected JkPluginSpringBoot(JkBuild build) {
+    protected JkPluginSpringboot(JkBuild build) {
         super(build);
         java = build.plugins().get(JkPluginJava.class);
     }
@@ -50,11 +52,13 @@ public final class JkPluginSpringBoot extends JkPlugin {
 
         // add bootable jar artifact
         JkArtifactId boot = JkArtifactId.of("boot", "jar");
-        Path target = java.project().maker().artifactPath(boot);
+       // Path target = java.project().maker().artifactPath(boot);
+        Path target = Paths.get("zozo.zip");
         JkVersion loaderVersion = versionProvider.versionOf(JkSpringModules.Boot.LOADER);
         Path bootloader = maker.getDependencyResolver().repositories()
                 .get(JkSpringModules.Boot.LOADER, loaderVersion.name());
         project.maker().defineArtifact(boot, () -> {
+            JkUtilsPath.deleteIfExists(target);
             final JkPathSequence nestedLibs = maker.runtimeDependencies(maker.mainArtifactId());
             createBootJar(maker.mainArtifactPath(), nestedLibs, bootloader, target);
         });
@@ -88,9 +92,5 @@ public final class JkPluginSpringBoot extends JkPlugin {
         String className = JkClassLoader.findMainClass(original);
         SpringbootPacker.of(libsToInclude, bootLoaderJar, className).makeExecJar(original, targetJar);
     }
-
-
-
-
 
 }

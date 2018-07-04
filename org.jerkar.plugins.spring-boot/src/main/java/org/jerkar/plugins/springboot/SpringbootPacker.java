@@ -3,12 +3,16 @@ package org.jerkar.plugins.springboot;
 import org.jerkar.api.file.JkPathSequence;
 import org.jerkar.api.file.JkPathTree;
 import org.jerkar.api.java.JkManifest;
+import org.jerkar.api.utils.JkUtilsFile;
+import org.jerkar.api.utils.JkUtilsIO;
 import org.jerkar.api.utils.JkUtilsObject;
+import org.jerkar.api.utils.JkUtilsPath;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.jar.JarFile;
 
 class SpringbootPacker {
@@ -46,23 +50,37 @@ class SpringbootPacker {
         JarWriter jarWriter = new JarWriter(target);
 
         // Manifest
-        Path path = JkPathTree.ofZip(original).goTo("META-INF").get("manifest.mf");
+        Path path = JkPathTree.ofZip(original).goTo("META-INF").get("MANIFEST.MF");
         final JkManifest manifest = Files.exists(path) ? JkManifest.of(path) : JkManifest.empty();
         jarWriter.writeManifest(createManifest(manifest, mainClassNeme).manifest());
-
-        // Add original jar
-        jarWriter.writeEntries(new JarFile(original.toFile()));
 
         // Add nested jars
         for (Path nestedJar : this.nestedLibs) {
             jarWriter.writeNestedLibrary("BOOT-INF/lib/", nestedJar);
         }
 
+        // Add original jar
+        writeClasses(original, target);
+
         // Add loader
         jarWriter.writeLoaderClasses(bootLaderJar.toUri().toURL());
 
         jarWriter.close();
         jarWriter.setExecutableFilePermission(target);
+    }
+
+    private void writeClasses(Path original, Path target) {
+        Path tempDir = JkUtilsPath.createTempDirectory("jkspringboot");
+        Path bootclass = tempDir.resolve("BOOT-INF/classes");
+        //JkPathTree targetPathTree = JkPathTree.ofZip(target); // .goTo("/BOOT-INF/classes");
+        JkPathTree.ofZip(original).copyTo(bootclass);
+        System.out.println("---------------------------- " + tempDir);
+        //JkUtilsPath.deleteIfExists(target);
+        JkUtilsFile.zip(tempDir, target);
+       // JkPathTree.of(tempDir).zipTo(target);
+     //   JkPathTree.of(tempDir).deleteContent().deleteRoot();
+       // targetPathTree.merge(originalPathTree);
+        System.out.println("------------------------" + target);
     }
     
     
