@@ -9,11 +9,18 @@ import org.jerkar.api.utils.JkUtilsObject;
 import org.jerkar.api.utils.JkUtilsPath;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UncheckedIOException;
+import java.nio.file.FileSystem;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.jar.JarFile;
+import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 class SpringbootPacker {
 
@@ -25,16 +32,21 @@ class SpringbootPacker {
 
     private final String mainClassNeme;
 
-    private SpringbootPacker(JkPathSequence nestedLibs, Path loader, String mainClassNeme, JkManifest manifestToMerge) {
+    private final String springbootVersion;
+
+    private SpringbootPacker(JkPathSequence nestedLibs, Path loader, String mainClassNeme, JkManifest manifestToMerge,
+                             String springbootVersion) {
         super();
         this.nestedLibs = nestedLibs;
         this.bootLaderJar = loader;
         this.manifestToMerge = manifestToMerge;
         this.mainClassNeme = mainClassNeme;
+        this.springbootVersion = springbootVersion;
     }
 
-    public static final SpringbootPacker of(JkPathSequence nestedLibs, Path loader, String mainClassName) {
-        return new SpringbootPacker(nestedLibs, loader, mainClassName, null);
+    public static final SpringbootPacker of(JkPathSequence nestedLibs, Path loader, String mainClassName,
+                                            String springbootVersion) {
+        return new SpringbootPacker(nestedLibs, loader, mainClassName, null, springbootVersion);
     }
 
     public void makeExecJar(Path original, Path target) {
@@ -59,33 +71,32 @@ class SpringbootPacker {
             jarWriter.writeNestedLibrary("BOOT-INF/lib/", nestedJar);
         }
 
-        // Add original jar
-        writeClasses(original, target);
-
         // Add loader
         jarWriter.writeLoaderClasses(bootLaderJar.toUri().toURL());
+
+        // Add original jar
+        writeClasses(original, jarWriter);
 
         jarWriter.close();
         jarWriter.setExecutableFilePermission(target);
     }
 
-    private void writeClasses(Path original, Path target) {
-        Path tempDir = JkUtilsPath.createTempDirectory("jkspringboot");
-        Path bootclass = tempDir.resolve("BOOT-INF/classes");
-        //JkPathTree targetPathTree = JkPathTree.ofZip(target); // .goTo("/BOOT-INF/classes");
-        JkPathTree.ofZip(original).copyTo(bootclass);
-        System.out.println("---------------------------- " + tempDir);
-        //JkUtilsPath.deleteIfExists(target);
-        JkUtilsFile.zip(tempDir, target);
-       // JkPathTree.of(tempDir).zipTo(target);
-     //   JkPathTree.of(tempDir).deleteContent().deleteRoot();
-       // targetPathTree.merge(originalPathTree);
-        System.out.println("------------------------" + target);
+    private void writeClasses(Path original, JarWriter jarWriter) {
+        JkPathTree originalJar = JkPathTree.ofZip(original);
+        originalJar.stream().filter(path -> !path.toString().endsWith("/")).forEach(path -> {
+            String entryName = "BOOT-INF/classes" + path.toString();
+            try (InputStream inputStream = Files.newInputStream(path)){
+                jarWriter.writeEntry(entryName, Files.newInputStream(path));
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
+            }
+
+        });
     }
-    
-    
+
     private JkManifest createManifest(JkManifest original, String startClassName) {
         JkManifest result = JkUtilsObject.firstNonNull(original, JkManifest.empty());
+        result.addMainAttribute("Spring-Boot_Version", springbootVersion);
         result.addMainClass("org.springframework.boot.loader.JarLauncher");
         result.addMainAttribute("Start-Class", startClassName);
         result.addMainAttribute("Spring-Boot-Classes", "BOOT-INF/classes/");
@@ -97,6 +108,5 @@ class SpringbootPacker {
         }
         return result;
     }
-
 
 }

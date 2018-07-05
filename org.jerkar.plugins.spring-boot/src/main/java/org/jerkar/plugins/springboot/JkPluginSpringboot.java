@@ -41,7 +41,6 @@ public final class JkPluginSpringboot extends JkPlugin {
 
     @Override
     protected void decorateBuild() {
-
         JkJavaProject project = java.project();
         JkJavaProjectMaker maker = project.maker();
 
@@ -50,19 +49,23 @@ public final class JkPluginSpringboot extends JkPlugin {
         JkVersionProvider versionProvider = resolveVersions(repos, springbootVersion);
         project.setDependencies(project.getDependencies().andVersionProvider(versionProvider));
 
-        // add bootable jar artifact
-        JkArtifactId boot = JkArtifactId.of("boot", "jar");
-       // Path target = java.project().maker().artifactPath(boot);
-        Path target = Paths.get("zozo.zip");
+        // add original jar artifact
+        JkArtifactId original = JkArtifactId.of("original", "jar");
+        Path originalPath = maker.artifactPath(original);
+        maker.defineArtifact(original, () -> maker.makeBinJar(originalPath));
+
+        // define bootable jar as main artifact
         JkVersion loaderVersion = versionProvider.versionOf(JkSpringModules.Boot.LOADER);
         Path bootloader = maker.getDependencyResolver().repositories()
-                .get(JkSpringModules.Boot.LOADER, loaderVersion.name());
-        project.maker().defineArtifact(boot, () -> {
-            JkUtilsPath.deleteIfExists(target);
+                .get(JkSpringModules.Boot.LOADER, loaderVersion.value());
+        project.maker().defineArtifact(maker.mainArtifactId(), () -> {
+            if (!Files.exists(originalPath)) {
+                maker.makeArtifact(original);
+            }
             final JkPathSequence nestedLibs = maker.runtimeDependencies(maker.mainArtifactId());
-            createBootJar(maker.mainArtifactPath(), nestedLibs, bootloader, target);
+            createBootJar(originalPath, nestedLibs, bootloader, maker.mainArtifactPath(),
+                    springbootVersion);
         });
-        java.addArtifactToProduce(boot);
     }
 
     public JkPluginJava java() {
@@ -88,9 +91,10 @@ public final class JkPluginSpringboot extends JkPlugin {
         return pom.versionProvider();
     }
 
-    public static void createBootJar(Path original, JkPathSequence libsToInclude, Path bootLoaderJar, Path targetJar) {
+    public static void createBootJar(Path original, JkPathSequence libsToInclude, Path bootLoaderJar, Path targetJar,
+                                     String springbootVersion) {
         String className = JkClassLoader.findMainClass(original);
-        SpringbootPacker.of(libsToInclude, bootLoaderJar, className).makeExecJar(original, targetJar);
+        SpringbootPacker.of(libsToInclude, bootLoaderJar, className, springbootVersion).makeExecJar(original, targetJar);
     }
 
 }
