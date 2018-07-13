@@ -6,6 +6,7 @@ import org.jerkar.api.java.JkClassLoader;
 import org.jerkar.api.project.java.JkJavaProject;
 import org.jerkar.api.project.java.JkJavaProjectMaker;
 import org.jerkar.api.system.JkException;
+import org.jerkar.api.system.JkLog;
 import org.jerkar.api.tooling.JkPom;
 import org.jerkar.api.utils.JkUtilsPath;
 import org.jerkar.tool.JkBuild;
@@ -45,7 +46,7 @@ public final class JkPluginSpringboot extends JkPlugin {
         JkJavaProjectMaker maker = project.maker();
 
         // resolve dependency versions upon springboot provided ones
-        JkRepos repos = maker.getDependencyResolver().repositories();
+        JkRepoSet repos = maker.getDependencyResolver().repositories();
         JkVersionProvider versionProvider = resolveVersions(repos, springbootVersion);
         project.setDependencies(project.getDependencies().andVersionProvider(versionProvider));
 
@@ -80,14 +81,16 @@ public final class JkPluginSpringboot extends JkPlugin {
         this.springbootVersion = springbootVersion;
     }
 
-    public static JkVersionProvider resolveVersions(JkRepos repo, String springbootVersion) {
+    public static JkVersionProvider resolveVersions(JkRepoSet repos, String springbootVersion) {
         JkModuleDependency moduleDependency = JkModuleDependency.of(
                 "org.springframework.boot", "spring-boot-dependencies", springbootVersion).ext("pom");
-        Path pomFile = repo.get(moduleDependency);
+        JkLog.info("Fetch Springboot dependency versions from " + moduleDependency);
+        Path pomFile = repos.get(moduleDependency);
         if (pomFile == null || !Files.exists(pomFile)) {
             throw new JkException(moduleDependency + " not found");
         }
         JkPom pom = JkPom.of(pomFile);
+        JkLog.info("Springboot dependency version will be resolved from " + pomFile);
         return pom.versionProvider();
     }
 
