@@ -10,6 +10,8 @@ import org.jerkar.api.system.JkLog;
 import org.jerkar.api.tooling.JkPom;
 import org.jerkar.api.utils.JkUtilsPath;
 import org.jerkar.tool.JkBuild;
+import org.jerkar.tool.JkDoc;
+import org.jerkar.tool.JkDocPluginDeps;
 import org.jerkar.tool.JkPlugin;
 import org.jerkar.tool.builtins.java.JkPluginJava;
 
@@ -17,14 +19,17 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-/**
- * A template class to extends for building Spring Boot application
- * 
- * @author Jerome Angibaud
- */
+@JkDoc("Provides enhancement to Java plugin in order to produce a startable Springboot jar or your application.\n" +
+        "The main produced artifact is the springboot one (embedding all dependencies) while the artifact classified as 'original' stands for the vanilla jar.\n" +
+        "Dependency versions are resolved against BOM provided by Spring Boot team according Spring Boot version you use.")
+@JkDocPluginDeps(JkPluginJava.class)
 public final class JkPluginSpringboot extends JkPlugin {
 
-    private String springbootVersion = "2.0.3.RELEASE";
+    @JkDoc("Version of Spring Boot version used to resolve dependency versions.")
+    public String springbootVersion = "2.0.3.RELEASE";
+
+    @JkDoc("Class name holding main method to start Spring Boot. If null, Jerkar will try to guess it at build time.")
+    public String mainClassName;
 
     private final JkPluginJava java;
 
@@ -65,20 +70,12 @@ public final class JkPluginSpringboot extends JkPlugin {
             }
             final JkPathSequence nestedLibs = maker.runtimeDependencies(maker.mainArtifactId());
             createBootJar(originalPath, nestedLibs, bootloader, maker.mainArtifactPath(),
-                    springbootVersion);
+                    springbootVersion, mainClassName);
         });
     }
 
     public JkPluginJava java() {
         return java;
-    }
-
-    public String getSpringbootVersion() {
-        return springbootVersion;
-    }
-
-    public void setSpringbootVersion(String springbootVersion) {
-        this.springbootVersion = springbootVersion;
     }
 
     public static JkVersionProvider resolveVersions(JkRepoSet repos, String springbootVersion) {
@@ -95,8 +92,8 @@ public final class JkPluginSpringboot extends JkPlugin {
     }
 
     public static void createBootJar(Path original, JkPathSequence libsToInclude, Path bootLoaderJar, Path targetJar,
-                                     String springbootVersion) {
-        String className = JkClassLoader.findMainClass(original);
+                                     String springbootVersion, String mainClassName) {
+        String className = mainClassName != null ? mainClassName : JkClassLoader.findMainClass(original);
         SpringbootPacker.of(libsToInclude, bootLoaderJar, className, springbootVersion).makeExecJar(original, targetJar);
     }
 
