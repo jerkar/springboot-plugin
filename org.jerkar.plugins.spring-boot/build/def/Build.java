@@ -14,14 +14,12 @@ import java.nio.file.Paths;
 class Build extends JkJavaProjectBuild {
 
     @Override
-    protected void configure() {
+    protected void afterPluginsActivated() {
         project().setVersionedModule("org.jerkar.plugins:springboot", "2.0-SNAPSHOT");
         project().getCompileSpec().setSourceAndTargetVersion(JkJavaVersion.V8);
         project().setDependencies(JkDependencySet.of()
-                .and(Paths.get("C:\\Users\\angibaudj\\IdeaProjects\\jerkar\\org.jerkar.core\\build\\output\\org.jerkar.core.jar"), JkJavaDepScopes.PROVIDED));
+                .and(Paths.get("..\\..\\jerkar\\org.jerkar.core\\build\\output\\org.jerkar.core.jar"), JkJavaDepScopes.PROVIDED));
         project().setMavenPublicationInfo(mavenPublicationInfo());
-       // project().maker().setDownloadRepos(JkPublishRepo.local().repo());
-
     }
 
     protected JkMavenPublicationInfo mavenPublicationInfo() {

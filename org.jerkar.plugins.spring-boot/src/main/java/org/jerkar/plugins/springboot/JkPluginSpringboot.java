@@ -46,8 +46,12 @@ public final class JkPluginSpringboot extends JkPlugin {
     }
 
     @Override
-    protected void decorateBuild() {
-        JkJavaProject project = java.project();
+    @JkDoc("Modifies the Java project from Java plugin in such this project produces a SpringBoot jar as the main artifact.")
+    protected void activate() {
+        activate(java.project());
+    }
+
+    public void activate(JkJavaProject project) {
         JkJavaProjectMaker maker = project.maker();
 
         // resolve dependency versions upon springboot provided ones
