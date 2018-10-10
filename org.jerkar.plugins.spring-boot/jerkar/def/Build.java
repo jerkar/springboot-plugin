@@ -17,8 +17,8 @@ class Build extends JkJavaProjectBuild {
     protected void afterPluginsActivated() {
         project().setVersionedModule("org.jerkar.plugins:springboot", "2.0-SNAPSHOT");
         project().getCompileSpec().setSourceAndTargetVersion(JkJavaVersion.V8);
-        project().setDependencies(JkDependencySet.of()
-                .and(Paths.get("..\\..\\jerkar\\org.jerkar.core\\build\\output\\org.jerkar.core.jar"), JkJavaDepScopes.PROVIDED));
+        project().addDependencies(JkDependencySet.of()
+                .and(Paths.get("..\\..\\jerkar\\org.jerkar.core\\jerkar\\output\\distrib\\org.jerkar.core.jar"), JkJavaDepScopes.PROVIDED));
         project().setMavenPublicationInfo(mavenPublicationInfo());
     }
 
@@ -31,7 +31,7 @@ class Build extends JkJavaProjectBuild {
     }
 
     public static void main(String[] args) {
-        JkInit.instanceOf(Build.class, args).doDefault();
+        JkInit.instanceOf(Build.class, args).maker().makeAllArtifacts();
     }
 
 }

@@ -7,16 +7,16 @@ import org.jerkar.tool.builtins.java.JkJavaProjectBuild;
 
 import static org.jerkar.plugins.springboot.JkSpringModules.Boot;
 
-@JkImport("../org.jerkar.plugins.spring-boot/idea-output/classes")
+@JkImport("../org.jerkar.plugins.spring-boot/.idea/output/production")
 class Build extends JkJavaProjectBuild {
 
-    @Override
-    protected void configurePlugins() {
-        this.plugins().get(JkPluginSpringboot.class).setSpringbootVersion("2.0.2.RELEASE");
+
+    protected Build() {
+        this.plugins().get(JkPluginSpringboot.class).springbootVersion = "2.0.2.RELEASE";
     }
 
     @Override
-    protected void configure() {
+    protected void afterOptionsInjected() {
         this.project().addDependencies(dependencies());
     }
 
@@ -27,6 +27,6 @@ class Build extends JkJavaProjectBuild {
     }
 
     public static void main(String[] args) {
-        JkInit.instanceOf(Build.class, args).doDefault();
+        JkInit.instanceOf(Build.class, args).java().pack();
     }
 }

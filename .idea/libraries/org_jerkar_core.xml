@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="org.jerkar.core">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../jerkar/org.jerkar.core/jerkar/output/org.jerkar.core.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

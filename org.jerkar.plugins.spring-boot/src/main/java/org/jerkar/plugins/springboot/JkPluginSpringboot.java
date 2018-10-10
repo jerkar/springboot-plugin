@@ -3,21 +3,19 @@ package org.jerkar.plugins.springboot;
 import org.jerkar.api.depmanagement.*;
 import org.jerkar.api.file.JkPathSequence;
 import org.jerkar.api.java.JkClassLoader;
-import org.jerkar.api.project.java.JkJavaProject;
-import org.jerkar.api.project.java.JkJavaProjectMaker;
+import org.jerkar.api.java.project.JkJavaProject;
+import org.jerkar.api.java.project.JkJavaProjectMaker;
 import org.jerkar.api.system.JkException;
 import org.jerkar.api.system.JkLog;
 import org.jerkar.api.tooling.JkPom;
-import org.jerkar.api.utils.JkUtilsPath;
-import org.jerkar.tool.JkBuild;
 import org.jerkar.tool.JkDoc;
 import org.jerkar.tool.JkDocPluginDeps;
 import org.jerkar.tool.JkPlugin;
+import org.jerkar.tool.JkRun;
 import org.jerkar.tool.builtins.java.JkPluginJava;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 @JkDoc("Provides enhancement to Java plugin in order to produce a startable Springboot jar or your application.\n" +
         "The main produced artifact is the springboot one (embedding all dependencies) while the artifact classified as 'original' stands for the vanilla jar.\n" +
@@ -37,12 +35,10 @@ public final class JkPluginSpringboot extends JkPlugin {
      * Right after to be instantiated, plugin instances are likely to configured by the owning build.
      * Therefore, every plugin members that are likely to be configured by the owning build must be
      * initialized in the constructor.
-     *
-     * @param build
      */
-    protected JkPluginSpringboot(JkBuild build) {
-        super(build);
-        java = build.plugins().get(JkPluginJava.class);
+    protected JkPluginSpringboot(JkRun run) {
+        super(run);
+        java = run.plugins().get(JkPluginJava.class);
     }
 
     @Override
