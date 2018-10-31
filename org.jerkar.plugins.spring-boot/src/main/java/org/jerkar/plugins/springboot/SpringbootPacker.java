@@ -3,34 +3,23 @@ package org.jerkar.plugins.springboot;
 import org.jerkar.api.file.JkPathSequence;
 import org.jerkar.api.file.JkPathTree;
 import org.jerkar.api.java.JkManifest;
-import org.jerkar.api.utils.JkUtilsFile;
-import org.jerkar.api.utils.JkUtilsIO;
 import org.jerkar.api.utils.JkUtilsObject;
-import org.jerkar.api.utils.JkUtilsPath;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.UncheckedIOException;
-import java.nio.file.FileSystem;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.jar.JarFile;
-import java.util.stream.Collectors;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 class SpringbootPacker {
 
     private final JkPathSequence nestedLibs;
 
-    private final Path bootLaderJar;
+    private final Path bootLoaderJar;
 
     private final JkManifest manifestToMerge;
 
-    private final String mainClassNeme;
+    private final String mainClassName;
 
     private final String springbootVersion;
 
@@ -38,9 +27,9 @@ class SpringbootPacker {
                              String springbootVersion) {
         super();
         this.nestedLibs = nestedLibs;
-        this.bootLaderJar = loader;
+        this.bootLoaderJar = loader;
         this.manifestToMerge = manifestToMerge;
-        this.mainClassNeme = mainClassNeme;
+        this.mainClassName = mainClassNeme;
         this.springbootVersion = springbootVersion;
     }
 
@@ -63,8 +52,8 @@ class SpringbootPacker {
 
         // Manifest
         Path path = JkPathTree.ofZip(original).goTo("META-INF").get("MANIFEST.MF");
-        final JkManifest manifest = Files.exists(path) ? JkManifest.of(path) : JkManifest.empty();
-        jarWriter.writeManifest(createManifest(manifest, mainClassNeme).manifest());
+        final JkManifest manifest = Files.exists(path) ? JkManifest.of(path) : JkManifest.ofEmpty();
+        jarWriter.writeManifest(createManifest(manifest, mainClassName).getManifest());
 
         // Add nested jars
         for (Path nestedJar : this.nestedLibs) {
@@ -72,7 +61,7 @@ class SpringbootPacker {
         }
 
         // Add loader
-        jarWriter.writeLoaderClasses(bootLaderJar.toUri().toURL());
+        jarWriter.writeLoaderClasses(bootLoaderJar.toUri().toURL());
 
         // Add original jar
         writeClasses(original, jarWriter);
@@ -90,12 +79,11 @@ class SpringbootPacker {
             } catch (IOException e) {
                 throw new UncheckedIOException(e);
             }
-
         });
     }
 
     private JkManifest createManifest(JkManifest original, String startClassName) {
-        JkManifest result = JkUtilsObject.firstNonNull(original, JkManifest.empty());
+        JkManifest result = JkUtilsObject.firstNonNull(original, JkManifest.ofEmpty());
         result.addMainAttribute("Spring-Boot_Version", springbootVersion);
         result.addMainClass("org.springframework.boot.loader.JarLauncher");
         result.addMainAttribute("Start-Class", startClassName);

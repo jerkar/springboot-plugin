@@ -145,7 +145,6 @@ class JarWriter {
         } catch (IOException ex) {
             throw new UncheckedIOException(ex);
         }
-
     }
 
     /**

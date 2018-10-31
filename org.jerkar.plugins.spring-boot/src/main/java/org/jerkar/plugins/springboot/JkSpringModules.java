@@ -3,7 +3,7 @@ package org.jerkar.plugins.springboot;
 import org.jerkar.api.depmanagement.JkModuleId;
 
 /**
- * Commons Spring modules
+ * Some common Spring modules
  * 
  * @author Jerome Angibaud
  */

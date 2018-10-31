@@ -14,6 +14,14 @@ public final class JkSpringRepos {
 
     public static final JkRepo RELEASE = JkRepo.of("https://repo.spring.io/release/");
 
-    public static final JkRepoSet ALL = JkRepoSet.of(RELEASE, MILESTONE, SNAPSHOT);
+    public static JkRepoSet getRepoForVersion(String releaseType) {
+        if ("BUILD-SNAPSHOT".equals(releaseType)) {
+            return SNAPSHOT.toSet();
+        }
+        if (releaseType.startsWith("M") || releaseType.startsWith("RC")) {
+            return MILESTONE.toSet();
+        }
+        return JkRepoSet.ofEmpty();
+    }
 
 }
