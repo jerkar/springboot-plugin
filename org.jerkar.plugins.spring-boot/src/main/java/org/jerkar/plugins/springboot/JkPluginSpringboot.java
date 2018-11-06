@@ -41,7 +41,7 @@ public final class JkPluginSpringboot extends JkPlugin {
      */
     protected JkPluginSpringboot(JkRun run) {
         super(run);
-        java = run.plugins().get(JkPluginJava.class);
+        java = run.getPlugins().get(JkPluginJava.class);
     }
 
     @Override
@@ -100,7 +100,7 @@ public final class JkPluginSpringboot extends JkPlugin {
         }
         JkPom pom = JkPom.of(pomFile);
         JkLog.info("Springboot dependency version will be resolved from " + pomFile);
-        return pom.versionProvider();
+        return pom.getVersionProvider();
     }
 
     public static void createBootJar(Path original, JkPathSequence libsToInclude, Path bootLoaderJar, Path targetJar,
