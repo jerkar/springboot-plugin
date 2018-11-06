@@ -2,6 +2,7 @@ import org.jerkar.api.depmanagement.JkDependencySet;
 import org.jerkar.api.depmanagement.JkMavenPublicationInfo;
 import org.jerkar.api.depmanagement.JkRepo;
 import org.jerkar.api.java.JkJavaVersion;
+import org.jerkar.api.java.project.JkJavaProjectMaker;
 import org.jerkar.tool.JkInit;
 import org.jerkar.tool.builtins.java.JkJavaProjectBuild;
 
@@ -39,7 +40,10 @@ class Build extends JkJavaProjectBuild {
     }
 
     public static void main(String[] args) {
-        JkInit.instanceOf(Build.class, args).maker().getPublishTasks().publishLocal();
+        JkJavaProjectMaker maker = JkInit.instanceOf(Build.class, args).maker();
+        maker.clean();
+        maker.makeAllArtifacts();
+        maker.getPublishTasks().publishLocal();
     }
 
 }

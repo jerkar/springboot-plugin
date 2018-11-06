@@ -10,17 +10,15 @@ import static org.jerkar.plugins.springboot.JkSpringModules.Boot;
 
 //@JkImport("../org.jerkar.plugins.spring-boot/.idea/output/production")
 @JkImport("org.jerkar.plugins:springboot:2.0-SNAPSHOT")
-class Build extends JkJavaProjectBuild {
+class BuildSample extends JkJavaProjectBuild {
 
-    protected Build() {
-        this.plugins().get(JkPluginSpringboot.class).springbootVersion = "2.0.3.RELEASE";
+    protected BuildSample() {
+        this.getPlugins().get(JkPluginSpringboot.class).springbootVersion = "2.0.3.RELEASE";
     }
 
     @Override
     protected void setup() {
         project().addDependencies(dependencies());
-
-        //maker().setDependencyResolver(maker().getDependencyResolver().withRepos(JkRepo.ofMavenCentral()));
     }
 
     private JkDependencySet dependencies() {
@@ -35,6 +33,6 @@ class Build extends JkJavaProjectBuild {
     }
 
     public static void main(String[] args) {
-        JkInit.instanceOf(Build.class, args).java().pack();
+        JkInit.instanceOf(BuildSample.class, args).java().pack();
     }
 }
