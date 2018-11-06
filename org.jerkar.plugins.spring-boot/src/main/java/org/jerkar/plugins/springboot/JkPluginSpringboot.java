@@ -65,12 +65,13 @@ public final class JkPluginSpringboot extends JkPlugin {
         JkVersionProvider versionProvider = resolveVersions(repos, springbootVersion);
         project.setDependencies(project.getDependencies().andVersionProvider(versionProvider));
 
+        maker.undefineArtifact(maker.getMainArtifactId());
+
         // add original jar artifact
         JkArtifactId original = JkArtifactId.of("original", "jar");
         Path originalPath = maker.getArtifactPath(original);
         JkArtifactId mainArtifactId = maker.getMainArtifactId();
-        Runnable originalJarCreator = maker.getRunnable(mainArtifactId);
-        maker.defineArtifact(original, originalJarCreator);
+        maker.defineArtifact(original, () -> maker.getPackTasks().createBinJar(maker.getArtifactPath(original)));
 
         // define bootable jar as main artifact
         JkVersion loaderVersion = versionProvider.getVersionOf(JkSpringModules.Boot.LOADER);
