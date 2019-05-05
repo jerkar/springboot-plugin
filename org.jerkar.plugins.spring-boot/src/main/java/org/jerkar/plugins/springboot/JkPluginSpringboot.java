@@ -18,7 +18,7 @@ import org.jerkar.tool.builtins.java.JkPluginJava;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-@JkDoc("Provides enhancement to Java plugin in order to produce a startable Springboot jar or your application.\n" +
+@JkDoc("Provides enhancement to Java plugin in order to produce a startable Springboot jar for your application.\n" +
         "The main produced artifact is the springboot one (embedding all dependencies) while the artifact classified as 'original' stands for the vanilla jar.\n" +
         "Dependency versions are resolved against BOM provided by Spring Boot team according Spring Boot version you use.")
 @JkDocPluginDeps(JkPluginJava.class)
@@ -88,7 +88,7 @@ public final class JkPluginSpringboot extends JkPlugin {
         });
     }
 
-    public JkPluginJava java() {
+    public JkPluginJava javaPlugin() {
         return java;
     }
 

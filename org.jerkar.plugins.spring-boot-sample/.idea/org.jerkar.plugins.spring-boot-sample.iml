@@ -14,23 +14,16 @@
     <orderEntry type="module-library" exported="" scope="TEST">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../org.jerkar.plugins.spring-boot/.idea/output/production" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="" scope="TEST">
-      <library>
-        <CLASSES>
           <root url="jar://$JERKAR_HOME$/org.jerkar.core.jar!/" />
         </CLASSES>
-        <JAVADOC />
+        <JAVADOC>
+          <root url="jar://$JERKAR_HOME$/libs-javadoc/org.jerkar.core-javadoc.jar!/" />
+        </JAVADOC>
         <SOURCES>
           <root url="jar://$JERKAR_HOME$/libs-sources/org.jerkar.core-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="org.jerkar.plugins.spring-boot" scope="TEST" />
+    <orderEntry type="module" module-name="org.jerkar.plugins.spring-boot" />
   </component>
 </module>
