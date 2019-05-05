@@ -3,6 +3,7 @@ package org.jerkar.plugins.springboot;
 import org.jerkar.api.depmanagement.*;
 import org.jerkar.api.file.JkPathSequence;
 import org.jerkar.api.java.JkClassLoader;
+import org.jerkar.api.java.JkUrlClassLoader;
 import org.jerkar.api.java.project.JkJavaProject;
 import org.jerkar.api.java.project.JkJavaProjectMaker;
 import org.jerkar.api.system.JkException;
@@ -47,7 +48,7 @@ public final class JkPluginSpringboot extends JkPlugin {
     @Override
     @JkDoc("Modifies the Java project from Java plugin in such this project produces a SpringBoot jar as the main artifact.")
     protected void activate() {
-        activate(java.project());
+        activate(java.getProject());
     }
 
     public void activate(JkJavaProject project) {
@@ -65,19 +66,19 @@ public final class JkPluginSpringboot extends JkPlugin {
         JkVersionProvider versionProvider = resolveVersions(repos, springbootVersion);
         project.setDependencies(project.getDependencies().andVersionProvider(versionProvider));
 
-        maker.undefineArtifact(maker.getMainArtifactId());
+        maker.removeArtifact(maker.getMainArtifactId());
 
         // add original jar artifact
         JkArtifactId original = JkArtifactId.of("original", "jar");
         Path originalPath = maker.getArtifactPath(original);
         JkArtifactId mainArtifactId = maker.getMainArtifactId();
-        maker.defineArtifact(original, () -> maker.getPackTasks().createBinJar(maker.getArtifactPath(original)));
+        maker.addArtifact(original, () -> maker.getTasksForPackaging().createBinJar(maker.getArtifactPath(original)));
 
         // define bootable jar as main artifact
         JkVersion loaderVersion = versionProvider.getVersionOf(JkSpringModules.Boot.LOADER);
         Path bootloader = maker.getDependencyResolver().getRepos()
                 .get(JkSpringModules.Boot.LOADER, loaderVersion.getValue());
-        maker.defineArtifact(mainArtifactId, () -> {
+        maker.addArtifact(mainArtifactId, () -> {
             if (!Files.exists(originalPath)) {
                 maker.makeArtifact(original);
             }
@@ -106,7 +107,7 @@ public final class JkPluginSpringboot extends JkPlugin {
 
     public static void createBootJar(Path original, JkPathSequence libsToInclude, Path bootLoaderJar, Path targetJar,
                                      String springbootVersion, String mainClassName) {
-        String className = mainClassName != null ? mainClassName : JkClassLoader.findMainClass(original);
+        String className = mainClassName != null ? mainClassName : JkUrlClassLoader.findMainClass(original);
         SpringbootPacker.of(libsToInclude, bootLoaderJar, className, springbootVersion).makeExecJar(original, targetJar);
     }
 

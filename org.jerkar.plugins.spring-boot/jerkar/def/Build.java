@@ -2,9 +2,11 @@ import org.jerkar.api.depmanagement.JkDependencySet;
 import org.jerkar.api.depmanagement.JkMavenPublicationInfo;
 import org.jerkar.api.depmanagement.JkRepo;
 import org.jerkar.api.java.JkJavaVersion;
+import org.jerkar.api.java.project.JkJavaProject;
 import org.jerkar.api.java.project.JkJavaProjectMaker;
 import org.jerkar.tool.JkInit;
-import org.jerkar.tool.builtins.java.JkJavaProjectBuild;
+import org.jerkar.tool.JkRun;
+import org.jerkar.tool.builtins.java.JkPluginJava;
 
 import static org.jerkar.api.depmanagement.JkJavaDepScopes.PROVIDED;
 
@@ -14,16 +16,18 @@ import static org.jerkar.api.depmanagement.JkJavaDepScopes.PROVIDED;
  * 
  * @formatter:off
  */
-class Build extends JkJavaProjectBuild {
+class Build extends JkRun {
+
+    private final JkPluginJava javaPlugin = getPlugin(JkPluginJava.class);
 
     @Override
     protected void setup() {
-        project().setVersionedModule("org.jerkar.plugins:springboot", "2.0-SNAPSHOT");
-        project().getCompileSpec().setSourceAndTargetVersion(JkJavaVersion.V8);
-        project().addDependencies(JkDependencySet.of()
+        JkJavaProject project = javaPlugin.getProject();
+        project.setVersionedModule("org.jerkar.plugins:springboot", "2.0-SNAPSHOT");
+        project.getCompileSpec().setSourceAndTargetVersion(JkJavaVersion.V8);
+        project.addDependencies(JkDependencySet.of()
                 .and("org.jerkar:core:0.7-SNAPSHOT", PROVIDED));
-        project().setMavenPublicationInfo(mavenPublicationInfo());
-
+        project.setMavenPublicationInfo(mavenPublicationInfo());
     }
 
     protected JkMavenPublicationInfo mavenPublicationInfo() {
@@ -36,14 +40,14 @@ class Build extends JkJavaProjectBuild {
 
     @Override
     protected void postPluginSetup() {
-        maker().setDependencyResolver(maker().getDependencyResolver().andRepos(JkRepo.ofLocal().toSet()));
+        JkJavaProjectMaker maker = javaPlugin.getProject().getMaker();
+        maker.setDependencyResolver(maker.getDependencyResolver().andRepos(JkRepo.ofLocal().toSet()));
     }
 
     public static void main(String[] args) {
-        JkJavaProjectMaker maker = JkInit.instanceOf(Build.class, args).maker();
-        maker.clean();
-        maker.makeAllArtifacts();
-        maker.getPublishTasks().publishLocal();
+        JkPluginJava javaPlugin = JkInit.instanceOf(Build.class, args).javaPlugin;
+        javaPlugin.clean().pack();
+        javaPlugin.getProject().getMaker().getTasksForPublishing().publishLocal();
     }
 
 }

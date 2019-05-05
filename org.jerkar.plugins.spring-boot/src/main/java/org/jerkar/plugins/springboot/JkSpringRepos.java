@@ -21,7 +21,7 @@ public final class JkSpringRepos {
         if (releaseType.startsWith("M") || releaseType.startsWith("RC")) {
             return MILESTONE.toSet();
         }
-        return JkRepoSet.ofEmpty();
+        return JkRepoSet.of();
     }
 
 }
