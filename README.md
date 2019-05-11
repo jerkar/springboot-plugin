@@ -2,7 +2,7 @@
 
 [Jerkar](http://project.jerkar.org) plugin to build Spring Boot applications with minimal effort. <br/>
 
-**Last release:** 2.0.0-SNAPSHOT (compatible with Spring Boot versions : 0.7.0-SNAPSHOT)
+**Last release:** 2.0.0-SNAPSHOT (compatible with Spring Boot versions : 1.5.x and 2.x)
  
 ## Principle
 
