@@ -1,8 +1,6 @@
 # Springboot plugin for Jerkar
 
-This provides a [Jerkar](http://project.jerkar.org) addin to build Spring Boot applications with minimal effort. <br/>
-It honors the promise of using **Java and only Java all over your project**. No XML/script is needed, even for the build part !<br/>
-This leads in a very lightweight and easy tooling to run/edit/debug builds, coherent with Spring Boot philosophy (just running main methods to get things done).
+[Jerkar](http://project.jerkar.org) plugin to build Spring Boot applications with minimal effort. <br/>
 
 **Last release:** 2.0.0-SNAPSHOT (compatible with Spring Boot versions : 0.7.0-SNAPSHOT)
  
@@ -10,7 +8,7 @@ This leads in a very lightweight and easy tooling to run/edit/debug builds, cohe
 
 ### Writing the build class
 
-Create a build class extending `JkSpringbootBuild` (in _[project Dir]/build/def_ ) as above :
+Just declare the plugin in your Jerkar run class (in _[project Dir]/jerkar/def_ ) as above :
 
 ```java
 import org.jerkar.api.depmanagement.JkDependencySet;
@@ -55,7 +53,7 @@ Running this class performs :
 
 ### Adding extra dependencies
  
-Springboot addin provides class constants to declare most of dependencies. 
+Springboot plugin provides class constants to declare most of dependencies. 
 It adds great comfort when picking some Spring dependencies.
  
 ```java
