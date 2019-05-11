@@ -24,6 +24,7 @@ import org.jerkar.tool.builtins.java.JkPluginJava;
 import static org.jerkar.plugins.springboot.JkSpringModules.Boot;
 
 @JkImport("org.jerkar.plugins:springboot:2.0.0-SNAPSHOT")
+@JkImportRepo("https://oss.sonatype.org/content/repositories/snapshots")
 class Build extends JkRun {
 
     private final JkPluginJava javaPlugin = getPlugin(JkPluginJava.class);
