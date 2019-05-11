@@ -47,8 +47,7 @@ class Build extends JkRun {
     @Override
     protected void setupAfterPluginActivations() {
         JkJavaProjectMaker maker = javaPlugin.getProject().getMaker();
-        maker.setDependencyResolver(maker.getDependencyResolver().andRepos(
-                JkRepoSet.ofOssrhSnapshotAndRelease()));
+        maker.setDependencyResolver(maker.getDependencyResolver().andRepos(JkRepoSet.ofOssrhSnapshotAndRelease()));
         maker.getTasksForPublishing().setPublishRepos(JkRepoSet.ofOssrhSnapshotAndRelease(ossrhUsername, ossrhPwd));
     }
 
