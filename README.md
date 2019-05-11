@@ -1,4 +1,4 @@
-# Jerkar Addin for Spring boot
+# Springboot plugin for Jerkar
 
 This provides a [Jerkar](http://project.jerkar.org) addin to build Spring Boot applications with minimal effort. <br/>
 It honors the promise of using **Java and only Java all over your project**. No XML/script is needed, even for the build part !<br/>
@@ -24,6 +24,7 @@ import org.jerkar.tool.builtins.java.JkPluginJava;
 import static org.jerkar.plugins.springboot.JkSpringModules.Boot;
 
 @JkImport("org.jerkar.plugins:springboot:2.0.0-SNAPSHOT")
+@JkImportRepo("https://oss.sonatype.org/content/repositories/snapshots")
 class Build extends JkRun {
 
     private final JkPluginJava javaPlugin = getPlugin(JkPluginJava.class);
