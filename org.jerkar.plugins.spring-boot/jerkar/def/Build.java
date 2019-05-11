@@ -1,6 +1,7 @@
 import org.jerkar.api.depmanagement.JkDependencySet;
 import org.jerkar.api.depmanagement.JkMavenPublicationInfo;
 import org.jerkar.api.depmanagement.JkRepo;
+import org.jerkar.api.depmanagement.JkRepoSet;
 import org.jerkar.api.java.JkJavaVersion;
 import org.jerkar.api.java.project.JkJavaProject;
 import org.jerkar.api.java.project.JkJavaProjectMaker;
@@ -18,30 +19,37 @@ import static org.jerkar.api.depmanagement.JkJavaDepScopes.PROVIDED;
  */
 class Build extends JkRun {
 
-    private final JkPluginJava javaPlugin = getPlugin(JkPluginJava.class);
+    final JkPluginJava javaPlugin = getPlugin(JkPluginJava.class);
+
+    public String ossrhUsername;
+
+    public String ossrhPwd;
 
     @Override
     protected void setup() {
         JkJavaProject project = javaPlugin.getProject();
-        project.setVersionedModule("org.jerkar.plugins:springboot", "2.0-SNAPSHOT");
+        project.setVersionedModule("org.jerkar.plugins:springboot", "2.0.0-SNAPSHOT");
         project.getCompileSpec().setSourceAndTargetVersion(JkJavaVersion.V8);
         project.addDependencies(JkDependencySet.of()
-                .and("org.jerkar:core:0.7-SNAPSHOT", PROVIDED));
+                .and("org.jerkar:core:0.7.0-SNAPSHOT", PROVIDED));
         project.setMavenPublicationInfo(mavenPublicationInfo());
     }
 
     protected JkMavenPublicationInfo mavenPublicationInfo() {
         return JkMavenPublicationInfo
-                .of("Jerkar Add-in for Spring Boot", "A Jerkar add-in for Spring boot application", "http://jerkar.github.io")
+                .of("Jerkar Add-in for Spring Boot",
+                        "A Jerkar add-in for Spring boot application", "http://jerkar.github.io")
                 .withScm("https://github.com/jerkar/spring-boot-addin.git")
                 .andApache2License()
                 .andGitHubDeveloper("djeang", "djeangdev@yahoo.fr");
     }
 
     @Override
-    protected void postPluginSetup() {
+    protected void setupAfterPluginActivations() {
         JkJavaProjectMaker maker = javaPlugin.getProject().getMaker();
-        maker.setDependencyResolver(maker.getDependencyResolver().andRepos(JkRepo.ofLocal().toSet()));
+        maker.setDependencyResolver(maker.getDependencyResolver().andRepos(
+                JkRepoSet.ofOssrhSnapshotAndRelease()));
+        maker.getTasksForPublishing().setPublishRepos(JkRepoSet.ofOssrhSnapshotAndRelease(ossrhUsername, ossrhPwd));
     }
 
     public static void main(String[] args) {
