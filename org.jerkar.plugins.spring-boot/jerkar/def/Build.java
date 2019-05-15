@@ -1,9 +1,11 @@
 import org.jerkar.api.depmanagement.JkDependencySet;
 import org.jerkar.api.depmanagement.JkMavenPublicationInfo;
 import org.jerkar.api.depmanagement.JkRepoSet;
+import org.jerkar.api.depmanagement.JkVersion;
 import org.jerkar.api.java.JkJavaVersion;
 import org.jerkar.api.java.project.JkJavaProject;
 import org.jerkar.api.java.project.JkJavaProjectMaker;
+import org.jerkar.api.system.JkProcess;
 import org.jerkar.tool.JkInit;
 import org.jerkar.tool.JkRun;
 import org.jerkar.tool.builtins.java.JkPluginJava;
@@ -27,17 +29,22 @@ class Build extends JkRun {
     @Override
     protected void setup() {
         JkJavaProject project = javaPlugin.getProject();
-        project.setVersionedModule("org.jerkar.plugins:springboot", "2.0.0.RC1");
+        project.setVersionedModule("org.jerkar.plugins:springboot", "2.0.0-SNAPSOT");
         project.getCompileSpec().setSourceAndTargetVersion(JkJavaVersion.V8);
         project.addDependencies(JkDependencySet.of()
                 .and("org.jerkar:core:0.7.0-SNAPSHOT", PROVIDED));
         project.setMavenPublicationInfo(mavenPublicationInfo());
+        if (!project.getVersionedModule().getVersion().isSnapshot()) {
+            javaPlugin.pack.javadoc = true;
+            javaPlugin.pack.sources = true;
+            javaPlugin.publish.signArtifacts = true;
+        }
     }
 
     protected JkMavenPublicationInfo mavenPublicationInfo() {
         return JkMavenPublicationInfo
                 .of("Jerkar Add-in for Spring Boot",
-                        "A Jerkar add-in for Spring boot application", "http://jerkar.github.io")
+                        "A Jerkar plugin for Spring boot application", "http://jerkar.github.io")
                 .withScm("https://github.com/jerkar/spring-boot-addin.git")
                 .andApache2License()
                 .andGitHubDeveloper("djeang", "djeangdev@yahoo.fr");
@@ -48,6 +55,24 @@ class Build extends JkRun {
         JkJavaProjectMaker maker = javaPlugin.getProject().getMaker();
         maker.setDependencyResolver(maker.getDependencyResolver().andRepos(JkRepoSet.ofOssrhSnapshotAndRelease()));
         maker.getTasksForPublishing().setPublishRepos(JkRepoSet.ofOssrhSnapshotAndRelease(ossrhUsername, ossrhPwd));
+    }
+
+    public void release() {
+        JkVersion version = javaPlugin.getProject().getVersionedModule().getVersion();
+        if (version.isSnapshot()) {
+            throw new IllegalStateException("Cannot release a snapshot version");
+        }
+        javaPlugin.pack.javadoc = true;
+        javaPlugin.pack.sources = true;
+        javaPlugin.clean().pack();
+        String tagName = version.toString();
+        JkProcess git = JkProcess.of("git").withFailOnError(true);
+        git.andParams("pull").runSync();
+        git.andParams("add", "*").runSync();
+        git.andParams("commit", "-am", "Release " + version).runSync();
+        git.andParams("tag", "-a", tagName, "-m", "Release").runSync();
+        git.andParams("push").runSync();
+        git.andParams("push", "origin", tagName).runSync();
     }
 
     public static void main(String[] args) {
