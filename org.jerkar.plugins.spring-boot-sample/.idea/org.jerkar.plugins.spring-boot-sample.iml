@@ -711,7 +711,7 @@
     <orderEntry type="module-library" scope="TEST" exported="">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../org.jerkar.plugins.spring-boot/.idea/output/production"/>
+          <root url="file://$MODULE_DIR$/../org.jerkar.plugins.spring-boot/jerkar/output/classes"/>
         </CLASSES>
         <JAVADOC/>
         <SOURCES/>

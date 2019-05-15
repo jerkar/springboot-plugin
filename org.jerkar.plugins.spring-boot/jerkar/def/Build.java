@@ -1,6 +1,5 @@
 import org.jerkar.api.depmanagement.JkDependencySet;
 import org.jerkar.api.depmanagement.JkMavenPublicationInfo;
-import org.jerkar.api.depmanagement.JkRepo;
 import org.jerkar.api.depmanagement.JkRepoSet;
 import org.jerkar.api.java.JkJavaVersion;
 import org.jerkar.api.java.project.JkJavaProject;
@@ -28,7 +27,7 @@ class Build extends JkRun {
     @Override
     protected void setup() {
         JkJavaProject project = javaPlugin.getProject();
-        project.setVersionedModule("org.jerkar.plugins:springboot", "2.0.0-SNAPSHOT");
+        project.setVersionedModule("org.jerkar.plugins:springboot", "2.0.0.RC1");
         project.getCompileSpec().setSourceAndTargetVersion(JkJavaVersion.V8);
         project.addDependencies(JkDependencySet.of()
                 .and("org.jerkar:core:0.7.0-SNAPSHOT", PROVIDED));

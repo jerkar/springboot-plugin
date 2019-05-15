@@ -8,7 +8,7 @@ import org.jerkar.tool.builtins.java.JkPluginJava;
 
 import static org.jerkar.plugins.springboot.JkSpringModules.Boot;
 
-@JkImport("../org.jerkar.plugins.spring-boot/.idea/output/production")
+@JkImport("../org.jerkar.plugins.spring-boot/jerkar/output/classes")
 class BuildSample extends JkRun {
 
     private final JkPluginJava javaPlugin = getPlugin(JkPluginJava.class);
