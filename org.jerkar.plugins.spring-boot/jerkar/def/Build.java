@@ -1,7 +1,4 @@
-import org.jerkar.api.depmanagement.JkDependencySet;
-import org.jerkar.api.depmanagement.JkMavenPublicationInfo;
-import org.jerkar.api.depmanagement.JkRepoSet;
-import org.jerkar.api.depmanagement.JkVersion;
+import org.jerkar.api.depmanagement.*;
 import org.jerkar.api.java.JkJavaVersion;
 import org.jerkar.api.java.project.JkJavaProject;
 import org.jerkar.api.java.project.JkJavaProjectMaker;
@@ -53,7 +50,8 @@ class Build extends JkRun {
     @Override
     protected void setupAfterPluginActivations() {
         JkJavaProjectMaker maker = javaPlugin.getProject().getMaker();
-        maker.setDependencyResolver(maker.getDependencyResolver().andRepos(JkRepoSet.ofOssrhSnapshotAndRelease()));
+        maker.setDependencyResolver(maker.getDependencyResolver().andRepos(
+                JkRepo.ofMavenOssrhDownloadAndDeploySnapshot(ossrhUsername, ossrhPwd).toSet()));
         maker.getTasksForPublishing().setPublishRepos(JkRepoSet.ofOssrhSnapshotAndRelease(ossrhUsername, ossrhPwd));
     }
 
