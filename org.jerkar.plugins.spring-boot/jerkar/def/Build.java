@@ -73,7 +73,6 @@ class Build extends JkRun {
     public static void main(String[] args) {
         JkPluginJava javaPlugin = JkInit.instanceOf(Build.class, args).javaPlugin;
         javaPlugin.clean().pack();
-        javaPlugin.getProject().getMaker().getTasksForPublishing().publishLocal();
     }
 
 }
