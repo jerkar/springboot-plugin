@@ -29,10 +29,10 @@ class Build extends JkRun {
     @Override
     protected void setup() {
         JkJavaProject project = javaPlugin.getProject();
-        project.setVersionedModule("org.jerkar.plugins:springboot", "2.0.0-SNAPSOT");
+        project.setVersionedModule("org.jerkar.plugins:springboot", "2.0.0-SNAPSHOT");
         project.getCompileSpec().setSourceAndTargetVersion(JkJavaVersion.V8);
         project.addDependencies(JkDependencySet.of()
-                .and("org.jerkar:core:0.7.0-SNAPSHOT", PROVIDED));
+                .and("org.jerkar:core:0.7.0.RC1", PROVIDED));
         project.setMavenPublicationInfo(mavenPublicationInfo());
         if (!project.getVersionedModule().getVersion().isSnapshot()) {
             javaPlugin.pack.javadoc = true;
@@ -53,7 +53,7 @@ class Build extends JkRun {
     @Override
     protected void setupAfterPluginActivations() {
         JkJavaProjectMaker maker = javaPlugin.getProject().getMaker();
-        maker.setDependencyResolver(maker.getDependencyResolver().andRepos(JkRepoSet.ofOssrhSnapshotAndRelease()));
+        maker.setDependencyResolver(maker.getDependencyResolver().withRepos(JkRepoSet.ofOssrhSnapshotAndRelease()));
         maker.getTasksForPublishing().setPublishRepos(JkRepoSet.ofOssrhSnapshotAndRelease(ossrhUsername, ossrhPwd));
     }
 
@@ -65,13 +65,10 @@ class Build extends JkRun {
         javaPlugin.pack.javadoc = true;
         javaPlugin.pack.sources = true;
         javaPlugin.clean().pack();
+        javaPlugin.publish();
         String tagName = version.toString();
         JkProcess git = JkProcess.of("git").withFailOnError(true);
-        git.andParams("pull").runSync();
-        git.andParams("add", "*").runSync();
-        git.andParams("commit", "-am", "Release " + version).runSync();
         git.andParams("tag", "-a", tagName, "-m", "Release").runSync();
-        git.andParams("push").runSync();
         git.andParams("push", "origin", tagName).runSync();
     }
 
