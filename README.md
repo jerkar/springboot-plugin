@@ -1,3 +1,5 @@
+[![Maven Central](https://img.shields.io/maven-central/v/org.jerkar.plugins/springboot.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22org.jerkar.plugins%22%20AND%20a:%22springboot%22)
+
 # Springboot plugin for Jerkar
 
 [Jerkar](http://project.jerkar.org) plugin to build Spring Boot applications with minimal effort. <br/>
