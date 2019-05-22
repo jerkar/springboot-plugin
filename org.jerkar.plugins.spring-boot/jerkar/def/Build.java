@@ -25,6 +25,7 @@ class Build extends JkRun {
 
     @Override
     protected void setup() {
+        javaPlugin.publish.signArtifacts = true;
         JkJavaProject project = javaPlugin.getProject();
         project.setVersionedModule("org.jerkar.plugins:springboot", "2.0.0.RC1");
         project.getCompileSpec().setSourceAndTargetVersion(JkJavaVersion.V8);
