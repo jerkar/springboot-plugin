@@ -1,4 +1,5 @@
-[![Maven Central](https://img.shields.io/maven-central/v/org.jerkar.plugins/springboot.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22org.jerkar.plugins%22%20AND%20a:%22springboot%22)
+[![Build Status](https://travis-ci.org/jerkar/spring-boot-plugin.svg?branch=master)](https://travis-ci.org/jerkar/spring-boot-plugin)
+[![Maven Central](https://img.shields.io/maven-central/v/dev.jeka.plugins/springboot.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22dev.jeka.plugins%22%20AND%20a:%22springboot%22)
 
 # Springboot plugin for Jerkar
 
