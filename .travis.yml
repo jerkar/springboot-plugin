@@ -6,5 +6,5 @@ before_install: cd ./dev.jeka.plugins.spring-boot
 
 jobs:
   include:
-    - script: sh ./jekaw java#pack java#publish
+    - script: sh ./jekaw java#pack java#publish -pgp#secretKeyPassword=$PGP_PASSPHRASE -LML=120
 
