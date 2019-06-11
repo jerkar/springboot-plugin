@@ -7,8 +7,10 @@ import dev.jeka.core.api.system.JkPrompt;
 import dev.jeka.core.api.tooling.JkGitWrapper;
 import dev.jeka.core.tool.JkCommands;
 import dev.jeka.core.tool.JkConstants;
+import dev.jeka.core.tool.JkEnv;
 import dev.jeka.core.tool.JkInit;
 import dev.jeka.core.tool.builtins.java.JkPluginJava;
+import dev.jeka.core.tool.builtins.repos.JkPluginPgp;
 
 import static dev.jeka.core.api.depmanagement.JkJavaDepScopes.PROVIDED;
 
@@ -21,8 +23,10 @@ class Build extends JkCommands {
 
     final JkPluginJava javaPlugin = getPlugin(JkPluginJava.class);
 
-    public String ossrhUsername;
+    @JkEnv("OSSRH_USER")
+    public String ossrhUser;
 
+    @JkEnv("OSSRH_PWD")
     public String ossrhPwd;
 
     @Override
@@ -38,6 +42,10 @@ class Build extends JkCommands {
             javaPlugin.pack.javadoc = true;
             javaPlugin.pack.sources = true;
         }
+
+        // Use embedded secret ring protected by a passphrase to deploy releases on ossrh
+        JkPluginPgp pgpPlugin = getPlugins().get(JkPluginPgp.class);
+        pgpPlugin.secretRingPath = getBaseDir().resolve("jeka/secring.gpg").toString();
     }
 
     protected JkMavenPublicationInfo mavenPublicationInfo() {
@@ -53,8 +61,8 @@ class Build extends JkCommands {
     protected void setupAfterPluginActivations() {
         JkJavaProjectMaker maker = javaPlugin.getProject().getMaker();
         maker.setDependencyResolver(maker.getDependencyResolver().andRepos(
-                JkRepo.ofMavenOssrhDownloadAndDeploySnapshot(ossrhUsername, ossrhPwd).toSet()));
-        maker.getTasksForPublishing().setPublishRepos(JkRepoSet.ofOssrhSnapshotAndRelease(ossrhUsername, ossrhPwd));
+                JkRepo.ofMavenOssrhDownloadAndDeploySnapshot(ossrhUser, ossrhPwd).toSet()));
+        maker.getTasksForPublishing().setPublishRepos(JkRepoSet.ofOssrhSnapshotAndRelease(ossrhUser, ossrhPwd));
     }
 
     public void release() {
