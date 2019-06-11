@@ -32,7 +32,7 @@ class Build extends JkCommands {
         project.setVersionedModule("dev.jeka.plugins:springboot", git.getVersionWithTagOrSnapshot());
         project.getCompileSpec().setSourceAndTargetVersion(JkJavaVersion.V8);
         project.addDependencies(JkDependencySet.of()
-                .andFile(getBaseDir().resolve(JkConstants.JEKA_DIR).resolve("boot/dev.jeka.jeka-core.jar")));
+                .andFile(getBaseDir().resolve(JkConstants.JEKA_DIR).resolve("boot/dev.jeka.jeka-core.jar"), PROVIDED));
         project.setMavenPublicationInfo(mavenPublicationInfo());
         if (!project.getVersionedModule().getVersion().isSnapshot()) {
             javaPlugin.pack.javadoc = true;
