@@ -6,6 +6,5 @@ before_install: cd ./dev.jeka.plugins.spring-boot
 
 jobs:
   include:
-    - script: ls
-    - script: ./jekaw java#pack java#publish
+    - script: sh ./jekaw java#pack java#publish
 
