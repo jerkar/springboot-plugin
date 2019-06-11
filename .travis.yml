@@ -2,9 +2,8 @@ language: java
 jdk:
   - oraclejdk8
 
-before_script: cd dev.jeka.plugins.spring-boot
-
 jobs:
   include:
+    - script: cd dev.jeka.plugins.spring-boot
     - script: ./jekaw java#pack java#publish
 
