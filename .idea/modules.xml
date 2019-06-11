@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/org.jerkar.plugins.spring-boot/.idea/org.jerkar.plugins.spring-boot.iml" filepath="$PROJECT_DIR$/org.jerkar.plugins.spring-boot/.idea/org.jerkar.plugins.spring-boot.iml" />
-      <module fileurl="file://$PROJECT_DIR$/org.jerkar.plugins.spring-boot-sample/.idea/org.jerkar.plugins.spring-boot-sample.iml" filepath="$PROJECT_DIR$/org.jerkar.plugins.spring-boot-sample/.idea/org.jerkar.plugins.spring-boot-sample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dev.jeka.plugins.spring-boot/.idea/dev.jeka.plugins.spring-boot.iml" filepath="$PROJECT_DIR$/dev.jeka.plugins.spring-boot/.idea/dev.jeka.plugins.spring-boot.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dev.jeka.plugins.spring-boot-sample/.idea/dev.jeka.plugins.spring-boot-sample.iml" filepath="$PROJECT_DIR$/dev.jeka.plugins.spring-boot-sample/.idea/dev.jeka.plugins.spring-boot-sample.iml" />
     </modules>
   </component>
 </project>

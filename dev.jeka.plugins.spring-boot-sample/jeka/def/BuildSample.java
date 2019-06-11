@@ -1,17 +1,17 @@
-import org.jerkar.api.depmanagement.JkDependencySet;
-
+import dev.jeka.core.api.depmanagement.JkDependencySet;
+import dev.jeka.core.tool.JkCommands;
+import dev.jeka.core.tool.JkImport;
+import dev.jeka.core.tool.JkInit;
+import dev.jeka.core.tool.builtins.java.JkPluginJava;
 import org.jerkar.plugins.springboot.JkPluginSpringboot;
-import org.jerkar.tool.JkImportProject;
-import org.jerkar.tool.JkInit;
-import org.jerkar.tool.JkRun;
-import org.jerkar.tool.builtins.java.JkPluginJava;
+import org.jerkar.plugins.springboot.JkSpringModules;
 
-import static org.jerkar.api.depmanagement.JkJavaDepScopes.TEST;
-import static org.jerkar.plugins.springboot.JkSpringModules.Boot;
+import static dev.jeka.core.api.depmanagement.JkJavaDepScopes.TEST;
+
 
 // Should be @JkImport("org.jerkar.plugins:spring-boot:2.x.x") to rely on a release version
-@JkImportProject("../org.jerkar.plugins.spring-boot")
-class BuildSample extends JkRun {
+@JkImport("../dev.jeka.plugins.spring-boot/jeka/output/classes")
+class BuildSample extends JkCommands {
 
     private final JkPluginJava javaPlugin = getPlugin(JkPluginJava.class);
 
@@ -21,8 +21,8 @@ class BuildSample extends JkRun {
     protected void setup() {
         springbootPlugin.springbootVersion = "2.0.3.RELEASE";
         javaPlugin.getProject().addDependencies(JkDependencySet.of()
-                .and(Boot.STARTER_WEB)
-                .and(Boot.STARTER_TEST, TEST)
+                .and(JkSpringModules.Boot.STARTER_WEB)
+                .and(JkSpringModules.Boot.STARTER_TEST, TEST)
         );
     }
 
