@@ -3,30 +3,28 @@
 
 # Springboot plugin for Jerkar
 
-[Jerkar](http://project.jerkar.org) plugin to build Spring Boot applications with minimal effort. <br/>
-
-**Last release:** 2.0.0-SNAPSHOT (compatible with Spring Boot versions : 1.5.x and 2.x)
+[Jeka](https://jeka.dev) plugin to build Spring Boot applications with minimal effort. <br/>
  
 ## Principle
 
 ### Writing the build class
 
-Just declare the plugin in your Jerkar run class (in _[project Dir]/jerkar/def_ ) as above :
+Just declare the plugin in your Jeka command class (in _[project Dir]/jeka/def_ ) as above :
 
 ```java
-import org.jerkar.api.depmanagement.JkDependencySet;
-import org.jerkar.api.depmanagement.JkJavaDepScopes;
-import org.jerkar.plugins.springboot.JkPluginSpringboot;
-import org.jerkar.tool.JkImport;
-import org.jerkar.tool.JkInit;
-import org.jerkar.tool.JkRun;
-import org.jerkar.tool.builtins.java.JkPluginJava;
+import dev.jeka.core.api.depmanagement.JkDependencySet;
+import dev.jeka.core.api.depmanagement.JkJavaDepScopes;
+import dev.jeka.core.plugins.springboot.JkPluginSpringboot;
+import dev.jeka.core.tool.JkImport;
+import dev.jeka.core.tool.JkInit;
+import dev.jeka.core.tool.JkCommands;
+import dev.jeka.core.tool.builtins.java.JkPluginJava;
 
-import static org.jerkar.plugins.springboot.JkSpringModules.Boot;
+import static dev.jeka.core.plugins.springboot.JkSpringModules.Boot;
 
-@JkImport("org.jerkar.plugins:springboot:2.0.0-SNAPSHOT")
+@JkImport("dev.jeka.core.plugins:springboot:2.0.0-SNAPSHOT")
 @JkImportRepo("https://oss.sonatype.org/content/repositories/snapshots")
-class Build extends JkRun {
+class Build extends JkCommands {
 
     private final JkPluginJava javaPlugin = getPlugin(JkPluginJava.class);
 
