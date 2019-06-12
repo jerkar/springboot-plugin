@@ -4,7 +4,6 @@ import dev.jeka.core.api.java.project.JkJavaProject;
 import dev.jeka.core.api.system.JkLocator;
 import dev.jeka.core.api.tooling.JkGitWrapper;
 import dev.jeka.core.tool.JkCommands;
-import dev.jeka.core.tool.JkConstants;
 import dev.jeka.core.tool.JkEnv;
 import dev.jeka.core.tool.JkInit;
 import dev.jeka.core.tool.builtins.java.JkPluginJava;
