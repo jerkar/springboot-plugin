@@ -1,0 +1,10 @@
+language: java
+jdk:
+  - oraclejdk8
+
+before_install: cd ./dev.jeka.plugins.spring-boot
+
+jobs:
+  include:
+    - script: sh ./jekaw java#pack java#publish -pgp#secretKeyPassword=$PGP_PASSPHRASE -LML=120
+
