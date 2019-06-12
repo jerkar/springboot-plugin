@@ -2,7 +2,7 @@
 <module type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager">
     <output url="file://$MODULE_DIR$/.idea/output/production" />
-    <output-test url="file://$MODULE_DIR$/.idea/output/test" />
+    <output-test url="file://$MODULE_DIR$/../dev.jeka.plugins.spring-boot-sample/.idea/output/test" />
     <exclude-output />
     <content url="file://$MODULE_DIR$/../dev.jeka.plugins.spring-boot-sample">
       <sourceFolder url="file://$MODULE_DIR$/../dev.jeka.plugins.spring-boot-sample/jeka/def" isTestSource="true" />
