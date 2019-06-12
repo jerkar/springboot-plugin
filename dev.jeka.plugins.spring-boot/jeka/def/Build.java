@@ -44,7 +44,7 @@ class Build extends JkCommands {
                 .setPublishRepos(JkRepoSet.ofOssrhSnapshotAndRelease(ossrhUser, ossrhPwd));
     }
 
-    protected JkMavenPublicationInfo mavenPublicationInfo() {
+    private JkMavenPublicationInfo mavenPublicationInfo() {
         return JkMavenPublicationInfo
                 .of("Jeka plugin for Spring Boot", "A Jeka plugin for Spring boot application",
                         "https://github.com/jerkar/spring-boot-plugin")
