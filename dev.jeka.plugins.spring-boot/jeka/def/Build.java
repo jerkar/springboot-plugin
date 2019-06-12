@@ -1,6 +1,7 @@
 import dev.jeka.core.api.depmanagement.*;
 import dev.jeka.core.api.java.JkJavaVersion;
 import dev.jeka.core.api.java.project.JkJavaProject;
+import dev.jeka.core.api.system.JkLocator;
 import dev.jeka.core.api.tooling.JkGitWrapper;
 import dev.jeka.core.tool.JkCommands;
 import dev.jeka.core.tool.JkConstants;
@@ -30,19 +31,20 @@ class Build extends JkCommands {
         JkJavaProject project = javaPlugin.getProject();
         JkGitWrapper git = JkGitWrapper.of(getBaseDir());
 
-        //Git drives project version numbering
+        // Let Git drives project version numbering
         String projectVersion = git.getVersionWithTagOrSnapshot();
         project.setVersionedModule("dev.jeka.plugins:springboot", projectVersion);
         project.getCompileSpec().setSourceAndTargetVersion(JkJavaVersion.V8);
 
-        // Use same jeka version as the one for building
-        project.addDependencies(JkDependencySet.of()
-                .andFile(getBaseDir().resolve(JkConstants.JEKA_DIR).resolve("boot/dev.jeka.jeka-core.jar"), PROVIDED));
+        // Make javadoc only for releases
         if (!JkVersion.of(projectVersion).isSnapshot()) {
             javaPlugin.pack.javadoc = true;
         }
 
-        // Publication on Maven Central
+        // Use same Jeka version both for building and compiling
+        project.addDependencies(JkDependencySet.of().andFile(JkLocator.getJekaJarPath(), PROVIDED));
+
+        // Setup to publish on Maven Central
         javaPlugin.getProject().getMaker().getTasksForPublishing()
                 .setMavenPublicationInfo(mavenPublicationInfo())
                 .setPublishRepos(JkRepoSet.ofOssrhSnapshotAndRelease(ossrhUser, ossrhPwd));
@@ -50,8 +52,8 @@ class Build extends JkCommands {
 
     protected JkMavenPublicationInfo mavenPublicationInfo() {
         return JkMavenPublicationInfo
-                .of("Jerkar Add-in for Spring Boot",
-                        "A Jerkar plugin for Spring boot application", "http://jerkar.github.io")
+                .of("Jeka plugin for Spring Boot", "A Jeka plugin for Spring boot application",
+                        "https://github.com/jerkar/spring-boot-plugin")
                 .withScm("https://github.com/jerkar/spring-boot-addin.git")
                 .andApache2License()
                 .andGitHubDeveloper("djeang", "djeangdev@yahoo.fr");
