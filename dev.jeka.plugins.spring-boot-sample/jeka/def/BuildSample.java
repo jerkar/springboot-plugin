@@ -3,8 +3,8 @@ import dev.jeka.core.tool.JkCommands;
 import dev.jeka.core.tool.JkImport;
 import dev.jeka.core.tool.JkInit;
 import dev.jeka.core.tool.builtins.java.JkPluginJava;
-import org.jerkar.plugins.springboot.JkPluginSpringboot;
-import org.jerkar.plugins.springboot.JkSpringModules;
+import dev.jeka.plugins.springboot.JkPluginSpringboot;
+import dev.jeka.plugins.springboot.JkSpringModules;
 
 import static dev.jeka.core.api.depmanagement.JkJavaDepScopes.TEST;
 
