@@ -71,13 +71,13 @@ public final class JkPluginSpringboot extends JkPlugin {
         JkArtifactId original = JkArtifactId.of("original", "jar");
         Path originalPath = maker.getArtifactPath(original);
         JkArtifactId mainArtifactId = maker.getMainArtifactId();
-        maker.addArtifact(original, () -> maker.getTasksForPackaging().createBinJar(maker.getArtifactPath(original)));
+        maker.putArtifact(original, () -> maker.getTasksForPackaging().createBinJar(maker.getArtifactPath(original)));
 
         // define bootable jar as main artifact
         JkVersion loaderVersion = versionProvider.getVersionOf(JkSpringModules.Boot.LOADER);
         Path bootloader = maker.getDependencyResolver().getRepos()
                 .get(JkSpringModules.Boot.LOADER, loaderVersion.getValue());
-        maker.addArtifact(mainArtifactId, () -> {
+        maker.putArtifact(mainArtifactId, () -> {
             if (!Files.exists(originalPath)) {
                 maker.makeArtifact(original);
             }
