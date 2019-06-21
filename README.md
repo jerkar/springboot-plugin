@@ -22,8 +22,7 @@ import dev.jeka.core.tool.builtins.java.JkPluginJava;
 
 import static dev.jeka.core.plugins.springboot.JkSpringModules.Boot;
 
-@JkImport("dev.jeka.core.plugins:springboot:2.0.0-SNAPSHOT")
-@JkImportRepo("https://oss.sonatype.org/content/repositories/snapshots")
+@JkImport("dev.jeka.core.plugins:springboot:2.0.0.RC7")
 class Build extends JkCommands {
 
     private final JkPluginJava javaPlugin = getPlugin(JkPluginJava.class);
