@@ -8,7 +8,7 @@ if [ -n "$JEKA_JDK" ] ; then
   export JAVA_HOME=$JEKA_JDK
 fi
 
-# OS specific support.  $var must be set to either true or false.
+# OS specific support.  $var _must_ be set to either true or false.
 cygwin=false;
 darwin=false;
 mingw=false
@@ -160,6 +160,5 @@ else
    LOCAL_BUILD_DIR=""
 fi
 
-exec "$JAVACMD" \
-  $JEKA_OPTS \
-  -cp "$LOCAL_BUILD_DIR$JEKA_HOME/dev.jeka.jeka-core.jar" dev.jeka.core.tool.Main "$@"
+SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
+exec "$JAVACMD" $JEKA_OPTS -cp "$LOCAL_BUILD_DIR$SCRIPTPATH/jeka/wrapper/*" dev.jeka.core.wrapper.Booter $SCRIPTPATH "$@"
