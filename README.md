@@ -45,7 +45,7 @@ class Build extends JkCommands {
 }
 ```
 
-Running this class performs :
+Running the main method or executing `jeka java#pack` performs :
 
 * Compilation and tests run
 * Generation of the original binary jar along its sources jar
