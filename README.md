@@ -72,5 +72,5 @@ It adds great comfort when picking some Spring dependencies.
 ### How to build this project ?
 
 This repository contains 2 projects. They use Jeka wrapper so you don't need to have Jeka installed on your machine. 
-* Execute `jekaw java#pack` in _dev.jeka.plugins.spring-boot_ folder to build the plugin project. 
-* Execute `../dev.jeka.plugins.spring-boot/jekaw java#pack` in _dev.jeka.plugins.spring-boot-sample_ folder to build the sample project
+* Execute `jekaw java#pack` from _dev.jeka.plugins.spring-boot_ folder to build the main project. 
+* Execute `../dev.jeka.plugins.spring-boot/jekaw java#pack` from _dev.jeka.plugins.spring-boot-sample_ folder to build the sample project.
