@@ -45,11 +45,15 @@ class Build extends JkCommands {
 }
 ```
 
-Running this class performs :
+Running the main method or executing `jeka java#pack` performs :
 
 * Compilation and tests run
 * Generation of the original binary jar along its sources jar
 * Generation of the executable jar
+
+Pratically, this plugin reads the Springboot pom/bom for the specified version and enrich the java plugin with dependency version provider according the pom. It also instructs java plugin to produce a workable springboot jar instead of the vanilla jar. 
+
+Utility methods are provided if you want to construct your own springboot jar and dependency version provider without embracing the plugin mechanism.
 
 ### Adding extra dependencies
  
@@ -72,5 +76,5 @@ It adds great comfort when picking some Spring dependencies.
 ### How to build this project ?
 
 This repository contains 2 projects. They use Jeka wrapper so you don't need to have Jeka installed on your machine. 
-* Execute `jekaw java#pack` in _dev.jeka.plugins.spring-boot_ folder to build the plugin project. 
-* Execute `../dev.jeka.plugins.spring-boot/jekaw java#pack` in _dev.jeka.plugins.spring-boot-sample_ folder to build the sample project
+* Execute `jekaw java#pack` from _dev.jeka.plugins.spring-boot_ folder to build the main project. 
+* Execute `../dev.jeka.plugins.spring-boot/jekaw java#pack` from _dev.jeka.plugins.spring-boot-sample_ folder to build the sample project.
