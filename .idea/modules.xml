@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project>
+<project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/dev.jeka.plugins.spring-boot-sample/dev.jeka.plugins.spring-boot-sample.iml" filepath="$PROJECT_DIR$/dev.jeka.plugins.spring-boot-sample/dev.jeka.plugins.spring-boot-sample.iml"/>
-      <module fileurl="file://$PROJECT_DIR$/dev.jeka.plugins.spring-boot/dev.jeka.plugins.spring-boot.iml" filepath="$PROJECT_DIR$/dev.jeka.plugins.spring-boot/dev.jeka.plugins.spring-boot.iml"/>
+      <module fileurl="file://$PROJECT_DIR$/dev.jeka.plugins.spring-boot/dev.jeka.plugins.spring-boot.iml" filepath="$PROJECT_DIR$/dev.jeka.plugins.spring-boot/dev.jeka.plugins.spring-boot.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dev.jeka.plugins.spring-boot-sample/dev.jeka.plugins.spring-boot-sample.iml" filepath="$PROJECT_DIR$/dev.jeka.plugins.spring-boot-sample/dev.jeka.plugins.spring-boot-sample.iml" />
     </modules>
-  </component></project>
+  </component>
+</project>
