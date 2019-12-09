@@ -16,6 +16,7 @@ import dev.jeka.core.tool.builtins.java.JkPluginJava;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 @JkDoc("Provides enhancement to Java plugin in order to produce a startable Springboot jar for your application.\n" +
         "The main produced artifact is the springboot one (embedding all dependencies) while the artifact classified as 'original' stands for the vanilla jar.\n" +
@@ -106,7 +107,11 @@ public final class JkPluginSpringboot extends JkPlugin {
 
     public static void createBootJar(Path original, JkPathSequence libsToInclude, Path bootLoaderJar, Path targetJar,
                                      String springbootVersion, String mainClassName) {
-        String className = mainClassName != null ? mainClassName : JkUrlClassLoader.findMainClass(original);
+        List<String> mainClasses = JkUrlClassLoader.of(original).toJkClassLoader().findClassesHavingMainMethod();
+        if (mainClasses.isEmpty()) {
+            throw new JkException("No classes with main method found");
+        }
+        String className = mainClassName != null ? mainClassName : mainClasses.get(0);
         SpringbootPacker.of(libsToInclude, bootLoaderJar, className, springbootVersion).makeExecJar(original, targetJar);
     }
 
