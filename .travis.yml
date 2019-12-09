@@ -1,6 +1,6 @@
 language: java
 jdk:
-  - oraclejdk8
+  - oraclejdk9
 
 before_install: cd ./dev.jeka.plugins.spring-boot
 
