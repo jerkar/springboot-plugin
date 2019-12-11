@@ -72,14 +72,17 @@ class SpringbootPacker {
 
     private void writeClasses(Path original, JarWriter jarWriter) {
         JkPathTree originalJar = JkPathTree.ofZip(original);
-        originalJar.stream().filter(path -> !path.toString().endsWith("/")).forEach(path -> {
-            String entryName = "BOOT-INF/classes" + path.toString();
-            try (InputStream inputStream = Files.newInputStream(path)){
-                jarWriter.writeEntry(entryName, Files.newInputStream(path));
-            } catch (IOException e) {
-                throw new UncheckedIOException(e);
-            }
-        });
+        originalJar.stream()
+                .filter(path -> !path.toString().endsWith("/"))
+                .filter(path -> !Files.isDirectory(path))
+                .forEach(path -> {
+                    String entryName = "BOOT-INF/classes" + path.toString();
+                    try (InputStream inputStream = Files.newInputStream(path)){
+                        jarWriter.writeEntry(entryName, inputStream);
+                    } catch (IOException e) {
+                        throw new UncheckedIOException(e);
+                    }
+                });
     }
 
     private JkManifest createManifest(JkManifest original, String startClassName) {
