@@ -1,4 +1,3 @@
 Manifest-Version: 1.0
-Name: common/class1.class
 Digest-Algorithms: MD5
 MD5-Digest: (base64 representation of MD5 digest)
