@@ -9,8 +9,7 @@ import dev.jeka.plugins.springboot.JkSpringModules;
 import static dev.jeka.core.api.depmanagement.JkJavaDepScopes.TEST;
 
 
-// Should be @JkImport("org.jerkar.plugins:spring-boot:2.x.x") to rely on a release version
-@JkImport("../dev.jeka.plugins.spring-boot/jeka/output/classes")
+@JkImport("dev.jeka:springboot-plugin:2.0.1.RELEASE")
 class BuildSample extends JkCommands {
 
     private final JkPluginJava javaPlugin = getPlugin(JkPluginJava.class);
