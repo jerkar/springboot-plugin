@@ -8,7 +8,6 @@ import dev.jeka.plugins.springboot.JkSpringModules;
 
 import static dev.jeka.core.api.depmanagement.JkJavaDepScopes.TEST;
 
-
 @JkImport("dev.jeka:springboot-plugin:2.0.1.RELEASE")
 class BuildSample extends JkCommands {
 
@@ -20,8 +19,8 @@ class BuildSample extends JkCommands {
     protected void setup() {
         springbootPlugin.springbootVersion = "2.0.3.RELEASE";
         javaPlugin.getProject().addDependencies(JkDependencySet.of()
-                .and(JkSpringModules.Boot.STARTER_WEB)
-                .and(JkSpringModules.Boot.STARTER_TEST, TEST)
+                .and("org.springframework.boot:spring-boot-starter-web")
+                .and("org.springframework.bootspring-boot-starter-test", TEST)
         );
     }
 
