@@ -8,7 +8,7 @@ import dev.jeka.plugins.springboot.JkPluginSpringboot;
 import static dev.jeka.core.api.depmanagement.JkJavaDepScopes.TEST;
 
 @JkImport("dev.jeka:springboot-plugin:2.0.1.RELEASE")
-class BuildSample extends JkCommands {
+class ApplicationBuild extends JkCommands {
 
     private final JkPluginJava javaPlugin = getPlugin(JkPluginJava.class);
 
@@ -27,7 +27,7 @@ class BuildSample extends JkCommands {
 
     // Clean, compile, test and generate springboot application jar
     public static void main(String[] args) {
-        JkInit.instanceOf(BuildSample.class, args).javaPlugin.clean().pack();
+        JkInit.instanceOf(ApplicationBuild.class, args).javaPlugin.clean().pack();
     }
 
 }
