@@ -4,7 +4,6 @@ import dev.jeka.core.tool.JkImport;
 import dev.jeka.core.tool.JkInit;
 import dev.jeka.core.tool.builtins.java.JkPluginJava;
 import dev.jeka.plugins.springboot.JkPluginSpringboot;
-import dev.jeka.plugins.springboot.JkSpringModules;
 
 import static dev.jeka.core.api.depmanagement.JkJavaDepScopes.TEST;
 
