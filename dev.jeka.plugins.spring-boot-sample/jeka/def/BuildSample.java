@@ -19,10 +19,13 @@ class BuildSample extends JkCommands {
         springbootPlugin.springbootVersion = "2.0.3.RELEASE";
         javaPlugin.getProject().addDependencies(JkDependencySet.of()
                 .and("org.springframework.boot:spring-boot-starter-web")
+                .and("org.springframework.boot:spring-boot-starter-data-jpa")
+                .and("org.springframework.boot:spring-boot-starter-data-rest")
                 .and("org.springframework.boot:spring-boot-starter-test", TEST)
         );
     }
 
+    // Clean, compile, test and generate springboot application jar
     public static void main(String[] args) {
         JkInit.instanceOf(BuildSample.class, args).javaPlugin.clean().pack();
     }
