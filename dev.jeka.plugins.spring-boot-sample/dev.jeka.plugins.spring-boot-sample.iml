@@ -711,10 +711,14 @@
     <orderEntry type="module-library" scope="TEST" exported="">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../dev.jeka.plugins.spring-boot/jeka/output/classes"/>
+          <root url="jar://$JEKA_USER_HOME$/cache/repo/dev.jeka/springboot-plugin/jars/springboot-plugin-2.0.1.RELEASE.jar!/"/>
         </CLASSES>
-        <JAVADOC/>
-        <SOURCES/>
+        <JAVADOC>
+          <root url="jar://$JEKA_USER_HOME$/cache/repo/dev.jeka/springboot-plugin/jars/springboot-plugin-2.0.1.RELEASE-javadoc.jar!/"/>
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar://$JEKA_USER_HOME$/cache/repo/dev.jeka/springboot-plugin/jars/springboot-plugin-2.0.1.RELEASE-sources.jar!/"/>
+        </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="TEST" exported="">
