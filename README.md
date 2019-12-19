@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/jerkar/springboot-plugin.svg?branch=master)](https://travis-ci.org/jerkar/springboot-plugin)
 [![Maven Central](https://img.shields.io/maven-central/v/dev.jeka.plugins/springboot.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22dev.jeka22%20AND%20a:%22springboot-plugin%22)
 
-# Springboot plugin for Jerkar
+# Springboot plugin for Jeka
 
 [Jeka](https://jeka.dev) plugin to build Spring Boot applications with minimal effort. <br/>
  
