@@ -4,6 +4,7 @@ import dev.jeka.core.tool.JkImport;
 import dev.jeka.core.tool.JkInit;
 import dev.jeka.core.tool.builtins.java.JkPluginJava;
 import dev.jeka.plugins.springboot.JkPluginSpringboot;
+import dev.jeka.plugins.springboot.JkSpringModules.Boot;
 
 import static dev.jeka.core.api.depmanagement.JkJavaDepScopes.TEST;
 
@@ -18,10 +19,10 @@ class ApplicationBuild extends JkCommands {
     protected void setup() {
         springbootPlugin.setSpringbootVersion("2.0.3.RELEASE");
         javaPlugin.getProject().addDependencies(JkDependencySet.of()
-                .and("org.springframework.boot:spring-boot-starter-web")
-                .and("org.springframework.boot:spring-boot-starter-data-jpa")
-                .and("org.springframework.boot:spring-boot-starter-data-rest")
-                .and("org.springframework.boot:spring-boot-starter-test", TEST)
+                .and(Boot.STARTER_WEB)
+                .and(Boot.STARTER_DATA_JPA)
+                .and(Boot.STARTER_DATA_REST)
+                .and(Boot.STARTER_TEST, TEST)
         );
     }
 
