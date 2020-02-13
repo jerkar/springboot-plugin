@@ -25,7 +25,7 @@ import java.util.List;
 public final class JkPluginSpringboot extends JkPlugin {
 
     @JkDoc("Version of Spring Boot version used to resolve dependency versions.")
-    public String springbootVersion = "2.0.3.RELEASE";
+    private String springbootVersion = "2.0.3.RELEASE";
 
     @JkDoc("Class name holding main method to start Spring Boot. If null, Jerkar will try to guess it at build time.")
     public String mainClassName;
@@ -43,6 +43,10 @@ public final class JkPluginSpringboot extends JkPlugin {
     protected JkPluginSpringboot(JkCommands jkCommands) {
         super(jkCommands);
         java = jkCommands.getPlugins().get(JkPluginJava.class);
+    }
+
+    public void setSpringbootVersion(String springbootVersion) {
+        this.springbootVersion = springbootVersion;
     }
 
     @Override

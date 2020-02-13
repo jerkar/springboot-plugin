@@ -25,9 +25,14 @@ class ApplicationBuild extends JkCommands {
         );
     }
 
+
+    public void cleanPack() {
+        clean(); javaPlugin.pack();
+    }
+
     // Clean, compile, test and generate springboot application jar
     public static void main(String[] args) {
-        JkInit.instanceOf(ApplicationBuild.class, args).javaPlugin.clean().pack();
+        JkInit.instanceOf(ApplicationBuild.class, args).cleanPack();
     }
 
 }

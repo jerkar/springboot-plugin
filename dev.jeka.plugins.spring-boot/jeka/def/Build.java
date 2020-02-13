@@ -26,7 +26,7 @@ class Build extends JkCommands {
         JkGitWrapper git = JkGitWrapper.of(getBaseDir());
 
         // Let Git drive project version numbering
-        String projectVersion = git.getVersionWithTagOrSnapshot();
+        String projectVersion = git.getVersionFromTags();
         project.setVersionedModule("dev.jeka:springboot-plugin", projectVersion);
         project.getCompileSpec().setSourceAndTargetVersion(JkJavaVersion.V8);
 

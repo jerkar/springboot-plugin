@@ -4,6 +4,8 @@
 # Springboot plugin for Jeka
 
 [Jeka](https://jeka.dev) plugin to build Spring Boot applications with minimal effort. <br/>
+
+Caution : use it with Jeka 0.8.14 or later !
  
 ## Principle
 
