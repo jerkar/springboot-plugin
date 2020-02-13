@@ -7,7 +7,7 @@ import dev.jeka.plugins.springboot.JkPluginSpringboot;
 
 import static dev.jeka.core.api.depmanagement.JkJavaDepScopes.TEST;
 
-@JkImport("dev.jeka:springboot-plugin:2.0.1.RELEASE")
+@JkImport("dev.jeka:springboot-plugin:2.1.0.RELEASE")
 class ApplicationBuild extends JkCommands {
 
     private final JkPluginJava javaPlugin = getPlugin(JkPluginJava.class);
@@ -16,7 +16,7 @@ class ApplicationBuild extends JkCommands {
 
     @Override
     protected void setup() {
-        springbootPlugin.springbootVersion = "2.0.3.RELEASE";
+        springbootPlugin.setSpringbootVersion("2.0.3.RELEASE");
         javaPlugin.getProject().addDependencies(JkDependencySet.of()
                 .and("org.springframework.boot:spring-boot-starter-web")
                 .and("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -24,7 +24,6 @@ class ApplicationBuild extends JkCommands {
                 .and("org.springframework.boot:spring-boot-starter-test", TEST)
         );
     }
-
 
     public void cleanPack() {
         clean(); javaPlugin.pack();
