@@ -3,6 +3,7 @@ import dev.jeka.core.api.java.JkJavaVersion;
 import dev.jeka.core.api.java.project.JkJavaProject;
 import dev.jeka.core.api.system.JkLocator;
 import dev.jeka.core.api.tooling.JkGitWrapper;
+import dev.jeka.core.api.utils.JkUtilsIterable;
 import dev.jeka.core.tool.JkCommands;
 import dev.jeka.core.tool.JkEnv;
 import dev.jeka.core.tool.JkInit;
@@ -39,9 +40,12 @@ class Build extends JkCommands {
         project.addDependencies(JkDependencySet.of().andFile(JkLocator.getJekaJarPath(), PROVIDED));
 
         // Setup to publish on Maven Central
-        javaPlugin.getProject().getMaker().getTasksForPublishing()
+        project.getMaker().getTasksForPublishing()
                 .setMavenPublicationInfo(mavenPublicationInfo())
                 .setPublishRepos(JkRepoSet.ofOssrhSnapshotAndRelease(ossrhUser, ossrhPwd));
+
+        project.addResourceInterpolator("Build.java.snippet", JkUtilsIterable.mapOf("${version}",
+                project.getVersionedModule().getVersion().getValue()));
     }
 
     private JkMavenPublicationInfo mavenPublicationInfo() {
@@ -53,9 +57,12 @@ class Build extends JkCommands {
                 .andGitHubDeveloper("djeang", "djeangdev@yahoo.fr");
     }
 
+    public void cleanPack() {
+        clean(); javaPlugin.pack();
+    }
+
     public static void main(String[] args) {
-        JkPluginJava javaPlugin = JkInit.instanceOf(Build.class, args).javaPlugin;
-        javaPlugin.clean().pack();
+        JkInit.instanceOf(Build.class, args).cleanPack();
     }
 
 }

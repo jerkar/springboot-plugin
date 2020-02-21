@@ -1,19 +1,26 @@
 package dev.jeka.plugins.springboot;
 
+import com.sun.jndi.toolkit.url.UrlUtil;
 import dev.jeka.core.api.depmanagement.*;
 import dev.jeka.core.api.file.JkPathSequence;
+import dev.jeka.core.api.java.JkManifest;
 import dev.jeka.core.api.java.JkUrlClassLoader;
 import dev.jeka.core.api.java.project.JkJavaProject;
 import dev.jeka.core.api.java.project.JkJavaProjectMaker;
 import dev.jeka.core.api.system.JkException;
 import dev.jeka.core.api.system.JkLog;
 import dev.jeka.core.api.tooling.JkPom;
+import dev.jeka.core.api.utils.JkUtilsIO;
+import dev.jeka.core.api.utils.JkUtilsString;
 import dev.jeka.core.tool.JkCommands;
 import dev.jeka.core.tool.JkDoc;
 import dev.jeka.core.tool.JkDocPluginDeps;
 import dev.jeka.core.tool.JkPlugin;
 import dev.jeka.core.tool.builtins.java.JkPluginJava;
+import dev.jeka.core.tool.builtins.scaffold.JkPluginScaffold;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -90,6 +97,13 @@ public final class JkPluginSpringboot extends JkPlugin {
             createBootJar(originalPath, nestedLibs, bootloader, maker.getMainArtifactPath(),
                     springbootVersion, mainClassName);
         });
+
+        // Add template build class to scaffold
+        if (this.getCommands().getPlugins().hasLoaded(JkPluginScaffold.class)) {
+            JkPluginScaffold scaffold = this.getCommands().getPlugins().get(JkPluginScaffold.class);
+            String code = JkUtilsIO.read(JkPluginSpringboot.class.getResource("Build.java.snippet"));
+            scaffold.getScaffolder().setCommandClassCode(code);
+        }
     }
 
     public JkPluginJava javaPlugin() {
@@ -105,7 +119,7 @@ public final class JkPluginSpringboot extends JkPlugin {
             throw new JkException(moduleDependency + " not found");
         }
         JkPom pom = JkPom.of(pomFile);
-        JkLog.info("Springboot dependency version will be resolved from " + pomFile);
+        JkLog.info("Springboot dependency versions will be resolved from " + pomFile);
         return pom.getVersionProvider();
     }
 
