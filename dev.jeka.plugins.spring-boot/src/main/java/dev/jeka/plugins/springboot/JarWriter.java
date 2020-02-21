@@ -9,11 +9,7 @@ import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
-import java.util.jar.JarInputStream;
-import java.util.jar.JarOutputStream;
-import java.util.jar.Manifest;
+import java.util.jar.*;
 import java.util.zip.CRC32;
 import java.util.zip.ZipEntry;
 
@@ -32,7 +28,7 @@ class JarWriter {
 
     private final JarOutputStream jarOutput;
 
-    private final Set<String> writtenEntries = new HashSet<String>();
+    private final Set<String> writtenEntries = new HashSet<>();
 
     /**
      * Create a new {@link JarWriter} instance.
@@ -59,12 +55,7 @@ class JarWriter {
      */
     public void writeManifest(final Manifest manifest) throws IOException {
         JarEntry entry = new JarEntry("META-INF/MANIFEST.MF");
-        writeEntry(entry, new EntryWriter() {
-            @Override
-            public void write(OutputStream outputStream) throws IOException {
-                manifest.write(outputStream);
-            }
-        });
+        writeEntry(entry, outputStream -> manifest.write(outputStream));
     }
 
     /**
@@ -129,8 +120,7 @@ class JarWriter {
 
     private long getNestedLibraryTime(Path path) {
         try {
-            JarFile jarFile = new JarFile(path.toFile());
-            try {
+            try (JarFile jarFile = new JarFile(path.toFile())) {
                 Enumeration<JarEntry> entries = jarFile.entries();
                 while (entries.hasMoreElements()) {
                     JarEntry entry = entries.nextElement();
@@ -138,8 +128,6 @@ class JarWriter {
                         return entry.getTime();
                     }
                 }
-            } finally {
-                jarFile.close();
             }
             return Files.getLastModifiedTime(path).toMillis();
         } catch (IOException ex) {
@@ -240,7 +228,7 @@ class JarWriter {
         @Override
         public void write(OutputStream outputStream) throws IOException {
             byte[] buffer = new byte[BUFFER_SIZE];
-            int bytesRead = -1;
+            int bytesRead;
             while ((bytesRead = this.inputStream.read(buffer)) != -1) {
                 outputStream.write(buffer, 0, bytesRead);
             }
@@ -310,11 +298,8 @@ class JarWriter {
         private long size;
 
         CrcAndSize(Path file) throws IOException {
-            InputStream inputStream = Files.newInputStream(file);
-            try {
+            try (InputStream inputStream = Files.newInputStream(file)) {
                 load(inputStream);
-            } finally {
-                inputStream.close();
             }
         }
 
@@ -324,7 +309,7 @@ class JarWriter {
 
         private void load(InputStream inputStream) throws IOException {
             byte[] buffer = new byte[BUFFER_SIZE];
-            int bytesRead = -1;
+            int bytesRead;
             while ((bytesRead = inputStream.read(buffer)) != -1) {
                 this.crc.update(buffer, 0, bytesRead);
                 this.size += bytesRead;
@@ -341,7 +326,7 @@ class JarWriter {
     
     void setExecutableFilePermission(Path path) {
         try {
-            Set<PosixFilePermission> permissions = new HashSet<PosixFilePermission>(
+            Set<PosixFilePermission> permissions = new HashSet<>(
                     Files.getPosixFilePermissions(path));
             permissions.add(PosixFilePermission.OWNER_EXECUTE);
             Files.setPosixFilePermissions(path, permissions);

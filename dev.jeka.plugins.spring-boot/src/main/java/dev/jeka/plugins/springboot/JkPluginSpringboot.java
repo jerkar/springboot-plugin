@@ -1,9 +1,7 @@
 package dev.jeka.plugins.springboot;
 
-import com.sun.jndi.toolkit.url.UrlUtil;
 import dev.jeka.core.api.depmanagement.*;
 import dev.jeka.core.api.file.JkPathSequence;
-import dev.jeka.core.api.java.JkManifest;
 import dev.jeka.core.api.java.JkUrlClassLoader;
 import dev.jeka.core.api.java.project.JkJavaProject;
 import dev.jeka.core.api.java.project.JkJavaProjectMaker;
@@ -11,7 +9,6 @@ import dev.jeka.core.api.system.JkException;
 import dev.jeka.core.api.system.JkLog;
 import dev.jeka.core.api.tooling.JkPom;
 import dev.jeka.core.api.utils.JkUtilsIO;
-import dev.jeka.core.api.utils.JkUtilsString;
 import dev.jeka.core.tool.JkCommands;
 import dev.jeka.core.tool.JkDoc;
 import dev.jeka.core.tool.JkDocPluginDeps;
@@ -19,8 +16,6 @@ import dev.jeka.core.tool.JkPlugin;
 import dev.jeka.core.tool.builtins.java.JkPluginJava;
 import dev.jeka.core.tool.builtins.scaffold.JkPluginScaffold;
 
-import java.io.InputStream;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;

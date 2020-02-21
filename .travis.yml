@@ -10,4 +10,4 @@ jobs:
     - script:
       - ./jekaw java#pack java#publish -LML=120
       - cd ../dev.jeka.plugins.spring-boot-sample
-      - ../dev.jeka.plugins.spring-boot/jekaw java#pack
+      - ./jekaw java#pack
