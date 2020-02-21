@@ -8,7 +8,7 @@ import dev.jeka.plugins.springboot.JkSpringModules.Boot;
 
 import static dev.jeka.core.api.depmanagement.JkJavaDepScopes.TEST;
 
-@JkImport("dev.jeka:springboot-plugin:2.2.0.RELEASE")
+@JkImport("dev.jeka:springboot-plugin:2.1.0.RELEASE")
 class ApplicationBuild extends JkCommands {
 
     private final JkPluginJava javaPlugin = getPlugin(JkPluginJava.class);
