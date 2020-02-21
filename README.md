@@ -75,6 +75,10 @@ It adds great comfort when picking some Spring dependencies.
 }
 ```
 
+### Scaffolding Springboot tailored build class
+
+* Execute `jeka scaffold#run #springboot`
+
 ### How to build this project ?
 
 This repository contains 2 projects. They use Jeka wrapper so you don't need to have Jeka installed on your machine. 
