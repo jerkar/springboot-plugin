@@ -21,8 +21,6 @@ class Build extends JkCommands {
         javaPlugin.getProject().addDependencies(JkDependencySet.of()
                 .and(Boot.STARTER_WEB)
                 .and(Boot.STARTER_TEST, TEST)
-                .and(Boot.STARTER_DATA_JPA)
-                .and(Boot.STARTER_DATA_REST)
         );
     }
 
