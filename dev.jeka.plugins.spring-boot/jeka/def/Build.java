@@ -44,7 +44,7 @@ class Build extends JkCommands {
                 .setMavenPublicationInfo(mavenPublicationInfo())
                 .setPublishRepos(JkRepoSet.ofOssrhSnapshotAndRelease(ossrhUser, ossrhPwd));
 
-        project.addResourceInterpolator("Build.java.snippet", JkUtilsIterable.mapOf("${version}",
+        project.addResourceInterpolator("**/Build.java.snippet", JkUtilsIterable.mapOf("${version}",
                 project.getVersionedModule().getVersion().getValue()));
     }
 
