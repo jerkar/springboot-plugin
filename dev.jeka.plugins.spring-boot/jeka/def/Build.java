@@ -4,14 +4,14 @@ import dev.jeka.core.api.java.project.JkJavaProject;
 import dev.jeka.core.api.system.JkLocator;
 import dev.jeka.core.api.tooling.JkGitWrapper;
 import dev.jeka.core.api.utils.JkUtilsIterable;
-import dev.jeka.core.tool.JkCommands;
+import dev.jeka.core.tool.JkCommandSet;
 import dev.jeka.core.tool.JkEnv;
 import dev.jeka.core.tool.JkInit;
 import dev.jeka.core.tool.builtins.java.JkPluginJava;
 
 import static dev.jeka.core.api.depmanagement.JkJavaDepScopes.PROVIDED;
 
-class Build extends JkCommands {
+class Build extends JkCommandSet {
 
     final JkPluginJava javaPlugin = getPlugin(JkPluginJava.class);
 

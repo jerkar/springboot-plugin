@@ -9,7 +9,7 @@ import dev.jeka.core.api.system.JkException;
 import dev.jeka.core.api.system.JkLog;
 import dev.jeka.core.api.tooling.JkPom;
 import dev.jeka.core.api.utils.JkUtilsIO;
-import dev.jeka.core.tool.JkCommands;
+import dev.jeka.core.tool.JkCommandSet;
 import dev.jeka.core.tool.JkDoc;
 import dev.jeka.core.tool.JkDocPluginDeps;
 import dev.jeka.core.tool.JkPlugin;
@@ -42,9 +42,14 @@ public final class JkPluginSpringboot extends JkPlugin {
      * Therefore, every plugin members that are likely to be configured by the owning build must be
      * initialized in the constructor.
      */
-    protected JkPluginSpringboot(JkCommands jkCommands) {
-        super(jkCommands);
-        java = jkCommands.getPlugins().get(JkPluginJava.class);
+    protected JkPluginSpringboot(JkCommandSet commandSet) {
+        super(commandSet);
+        java = commandSet.getPlugins().get(JkPluginJava.class);
+    }
+
+    @Override
+    protected String getLowestJekaCompatibleVersion() {
+        return "0.8.18.RELEASE";
     }
 
     public void setSpringbootVersion(String springbootVersion) {
@@ -94,8 +99,8 @@ public final class JkPluginSpringboot extends JkPlugin {
         });
 
         // Add template build class to scaffold
-        if (this.getCommands().getPlugins().hasLoaded(JkPluginScaffold.class)) {
-            JkPluginScaffold scaffold = this.getCommands().getPlugins().get(JkPluginScaffold.class);
+        if (this.getCommandSet().getPlugins().hasLoaded(JkPluginScaffold.class)) {
+            JkPluginScaffold scaffold = this.getCommandSet().getPlugins().get(JkPluginScaffold.class);
             String code = JkUtilsIO.read(JkPluginSpringboot.class.getResource("Build.java.snippet"));
             scaffold.getScaffolder().setCommandClassCode(code);
         }
