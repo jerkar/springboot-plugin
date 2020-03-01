@@ -6,7 +6,7 @@ import dev.jeka.plugins.springboot.JkSpringModules.Boot;
 
 import static dev.jeka.core.api.depmanagement.JkJavaDepScopes.TEST;
 
-@JkDefClasspath("dev.jeka:springboot-plugin:2.3.0.RELEASE")
+@JkDefClasspath("../dev.jeka.plugins.spring-boot/jeka/output/dev.jeka.springboot-plugin.jar")
 class ApplicationBuild extends JkCommandSet {
 
     private final JkPluginJava javaPlugin = getPlugin(JkPluginJava.class);
@@ -21,6 +21,7 @@ class ApplicationBuild extends JkCommandSet {
                 .and(Boot.STARTER_DATA_JPA)
                 .and(Boot.STARTER_DATA_REST)
                 .and(Boot.STARTER_TEST, TEST)
+                .and("com.google.guava:guava:23.0")
         );
     }
 
