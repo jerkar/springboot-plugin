@@ -21,12 +21,17 @@ class ApplicationBuild extends JkCommandSet {
                 .and(Boot.STARTER_DATA_JPA)
                 .and(Boot.STARTER_DATA_REST)
                 .and(Boot.STARTER_TEST, TEST)
+                .and("com.h2database:h2:1.4.200")
                 .and("com.google.guava:guava:23.0")
         );
     }
 
     public void cleanPack() {
         clean(); javaPlugin.pack();
+    }
+
+    public void run() {
+        springbootPlugin.run();
     }
 
     // Clean, compile, test and generate springboot application jar

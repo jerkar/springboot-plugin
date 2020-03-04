@@ -2,6 +2,8 @@ package dev.jeka.plugins.springboot;
 
 import dev.jeka.core.api.depmanagement.*;
 import dev.jeka.core.api.file.JkPathSequence;
+import dev.jeka.core.api.java.JkClassLoader;
+import dev.jeka.core.api.java.JkJavaProcess;
 import dev.jeka.core.api.java.JkUrlClassLoader;
 import dev.jeka.core.api.java.project.JkJavaProject;
 import dev.jeka.core.api.java.project.JkJavaProjectMaker;
@@ -9,6 +11,8 @@ import dev.jeka.core.api.system.JkException;
 import dev.jeka.core.api.system.JkLog;
 import dev.jeka.core.api.tooling.JkPom;
 import dev.jeka.core.api.utils.JkUtilsIO;
+import dev.jeka.core.api.utils.JkUtilsReflect;
+import dev.jeka.core.api.utils.JkUtilsString;
 import dev.jeka.core.tool.JkCommandSet;
 import dev.jeka.core.tool.JkDoc;
 import dev.jeka.core.tool.JkDocPluginDeps;
@@ -16,6 +20,7 @@ import dev.jeka.core.tool.JkPlugin;
 import dev.jeka.core.tool.builtins.java.JkPluginJava;
 import dev.jeka.core.tool.builtins.scaffold.JkPluginScaffold;
 
+import java.lang.annotation.Annotation;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -26,6 +31,9 @@ import java.util.List;
 @JkDocPluginDeps(JkPluginJava.class)
 public final class JkPluginSpringboot extends JkPlugin {
 
+    private static final String SPRINGBOOT_APPLICATION_ANNOTATION_NAME =
+            "org.springframework.boot.autoconfigure.SpringBootApplication";
+
     @JkDoc("Version of Spring Boot version used to resolve dependency versions.")
     private String springbootVersion = "2.0.3.RELEASE";
 
@@ -34,6 +42,9 @@ public final class JkPluginSpringboot extends JkPlugin {
 
     @JkDoc("If true, Spring Milestone or Snapshot Repository will be used to fetch non release version of spring modules")
     public boolean autoSpringRepo = true;
+
+    @JkDoc("command arg line to pass to springboot for #run method (e.g. '--server.port=8083 -Dspring.profiles.active=prod'")
+    public String runArgs;
 
     private final JkPluginJava java;
 
@@ -61,6 +72,21 @@ public final class JkPluginSpringboot extends JkPlugin {
     protected void activate() {
         activate(java.getProject());
     }
+
+    @JkDoc("Run Springboot application from the generated jar")
+    public void run() {
+        JkJavaProjectMaker maker =  this.javaPlugin().getProject().getMaker();
+        JkArtifactId mainArtifactId = maker.getMainArtifactId();
+        maker.makeMissingArtifacts(mainArtifactId);
+        Path mainArtifactFile = maker.getMainArtifactPath();
+        JkJavaProcess process = JkJavaProcess.of();
+        String[] args = new String[0];
+        if (!JkUtilsString.isBlank(this.runArgs)) {
+            args = JkUtilsString.translateCommandline(this.runArgs);
+        }
+        JkJavaProcess.of().runJarSync(mainArtifactFile, args);
+    }
+
 
     public void activate(JkJavaProject project) {
         JkJavaProjectMaker maker = project.getMaker();
@@ -93,8 +119,8 @@ public final class JkPluginSpringboot extends JkPlugin {
             if (!Files.exists(originalPath)) {
                 maker.makeArtifact(original);
             }
-            final JkPathSequence nestedLibs = maker.fetchRuntimeDependencies(mainArtifactId);
-            createBootJar(originalPath, nestedLibs, bootloader, maker.getMainArtifactPath(),
+            final JkPathSequence embeddedJars = maker.fetchRuntimeDependencies(mainArtifactId);
+            createBootJar(originalPath, embeddedJars, bootloader, maker.getMainArtifactPath(),
                     springbootVersion, mainClassName);
         });
 
@@ -125,12 +151,27 @@ public final class JkPluginSpringboot extends JkPlugin {
 
     public static void createBootJar(Path original, JkPathSequence libsToInclude, Path bootLoaderJar, Path targetJar,
                                      String springbootVersion, String mainClassName) {
-        List<String> mainClasses = JkUrlClassLoader.of(original).toJkClassLoader().findClassesHavingMainMethod();
-        if (mainClasses.isEmpty()) {
-            throw new JkException("No classes with main method found");
+        JkClassLoader classLoader = JkUrlClassLoader.of(original, ClassLoader.getSystemClassLoader().getParent())
+                .toJkClassLoader();
+        List<String> mainClasses = classLoader.findClassesHavingMainMethod();
+        /*
+        for (String name : mainClasses) {
+            Class<?> candidate = classLoader.load(name);
+            for (Annotation annotation : candidate.getAnnotations()) {
+                if (annotation.annotationType().getName().equals(SPRINGBOOT_APPLICATION_ANNOTATION_NAME)) {
+                    SpringbootPacker.of(libsToInclude, bootLoaderJar, name,
+                            springbootVersion).makeExecJar(original, targetJar);
+                    return;
+                }
+            }
         }
-        String className = mainClassName != null ? mainClassName : mainClasses.get(0);
-        SpringbootPacker.of(libsToInclude, bootLoaderJar, className, springbootVersion).makeExecJar(original, targetJar);
+        */
+        for (String name : mainClasses) {
+            SpringbootPacker.of(libsToInclude, bootLoaderJar, name,
+                    springbootVersion).makeExecJar(original, targetJar);
+            return;
+        }
+        throw new JkException("No @SpringBootApplication class found");
     }
 
 }

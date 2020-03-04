@@ -56,7 +56,7 @@ class SpringbootPacker {
         jarWriter.writeManifest(createManifest(manifest, mainClassName).getManifest());
 
         // Add nested jars
-        for (Path nestedJar : this.nestedLibs) {
+        for (Path nestedJar : this.nestedLibs.withoutDuplicates()) {
             jarWriter.writeNestedLibrary("BOOT-INF/lib/", nestedJar);
         }
 
