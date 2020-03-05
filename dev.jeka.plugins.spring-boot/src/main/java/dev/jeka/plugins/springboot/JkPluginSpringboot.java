@@ -60,7 +60,7 @@ public final class JkPluginSpringboot extends JkPlugin {
 
     @Override
     protected String getLowestJekaCompatibleVersion() {
-        return "0.8.18.RELEASE";
+        return "0.8.20.RELEASE";
     }
 
     public void setSpringbootVersion(String springbootVersion) {
