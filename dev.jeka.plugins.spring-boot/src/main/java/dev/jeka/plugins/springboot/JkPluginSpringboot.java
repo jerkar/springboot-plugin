@@ -154,24 +154,16 @@ public final class JkPluginSpringboot extends JkPlugin {
         JkClassLoader classLoader = JkUrlClassLoader.of(original, ClassLoader.getSystemClassLoader().getParent())
                 .toJkClassLoader();
         List<String> mainClasses = classLoader.findClassesHavingMainMethod();
-        /*
+        List<String> classWithSpringbootAppAnnotation = classLoader.findClassesMatchingAnnotations(
+                annotationNames -> annotationNames.contains(SPRINGBOOT_APPLICATION_ANNOTATION_NAME));
         for (String name : mainClasses) {
-            Class<?> candidate = classLoader.load(name);
-            for (Annotation annotation : candidate.getAnnotations()) {
-                if (annotation.annotationType().getName().equals(SPRINGBOOT_APPLICATION_ANNOTATION_NAME)) {
-                    SpringbootPacker.of(libsToInclude, bootLoaderJar, name,
-                            springbootVersion).makeExecJar(original, targetJar);
-                    return;
-                }
+            if (classWithSpringbootAppAnnotation.contains(name)) {
+                SpringbootPacker.of(libsToInclude, bootLoaderJar, name,
+                        springbootVersion).makeExecJar(original, targetJar);
+                return;
             }
         }
-        */
-        for (String name : mainClasses) {
-            SpringbootPacker.of(libsToInclude, bootLoaderJar, name,
-                    springbootVersion).makeExecJar(original, targetJar);
-            return;
-        }
-        throw new JkException("No @SpringBootApplication class found");
+        throw new JkException("No @SpringBootApplication class with main method found.");
     }
 
 }
