@@ -17,7 +17,7 @@ class ApplicationBuild extends JkCommandSet {
     protected void setup() {
         springbootPlugin.setSpringbootVersion("2.2.4.RELEASE");
         javaPlugin.getProject().addDependencies(JkDependencySet.of()
-                .and(Boot.STARTER_WEB)
+                .and(Boot.STARTER_WEB)  // Same as .and("org.springframework.boot:spring-boot-starter-web")
                 .and(Boot.STARTER_DATA_JPA)
                 .and(Boot.STARTER_DATA_REST)
                 .and(Boot.STARTER_TEST, TEST)
