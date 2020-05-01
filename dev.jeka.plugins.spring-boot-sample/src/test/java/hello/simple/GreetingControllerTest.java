@@ -25,8 +25,6 @@ public class GreetingControllerTest {
     public void returnHello() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/greeting"))
                 .andExpect(MockMvcResultMatchers.status().is(200));
-
     }
-
 
 }

@@ -943,6 +943,19 @@
     <orderEntry type="module-library" scope="COMPILE" exported="">
       <library>
         <CLASSES>
+          <root url="jar://$JEKA_USER_HOME$/cache/repo/com.h2database/h2/jars/h2-1.4.200.jar!/"/>
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar://$JEKA_USER_HOME$/cache/repo/com.h2database/h2/jars/h2-1.4.200-javadoc.jar!/"/>
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar://$JEKA_USER_HOME$/cache/repo/com.h2database/h2/jars/h2-1.4.200-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="COMPILE" exported="">
+      <library>
+        <CLASSES>
           <root url="jar://$JEKA_USER_HOME$/cache/repo/com.google.guava/guava/bundles/guava-23.0.jar!/"/>
         </CLASSES>
         <JAVADOC>
@@ -1303,24 +1316,14 @@
         <CLASSES>
           <root url="jar://$MODULE_DIR$/../dev.jeka.plugins.spring-boot/jeka/output/dev.jeka.springboot-plugin.jar!/"/>
         </CLASSES>
-        <JAVADOC/>
+        <JAVADOC>
+          <root url="jar://$MODULE_DIR$/../dev.jeka.plugins.spring-boot/jeka/output/dev.jeka.springboot-plugin-javadoc.jar!/"/>
+        </JAVADOC>
         <SOURCES>
           <root url="jar://$MODULE_DIR$/../dev.jeka.plugins.spring-boot/jeka/output/dev.jeka.springboot-plugin-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library" scope="TEST" exported="">
-      <library>
-        <CLASSES>
-          <root url="jar://$JEKA_USER_HOME$/cache/wrapper/0.8.18.RELEASE/dev.jeka.jeka-core.jar!/"/>
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$JEKA_USER_HOME$/cache/wrapper/0.8.18.RELEASE/dev.jeka.jeka-core-javadoc.jar!/"/>
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$JEKA_USER_HOME$/cache/wrapper/0.8.18.RELEASE/dev.jeka.jeka-core-sources.jar!/"/>
-        </SOURCES>
-      </library>
-    </orderEntry>
+    <orderEntry type="module" scope="TEST" module-name="dev.jeka.plugins.spring-boot" exported=""/>
   </component>
 </module>

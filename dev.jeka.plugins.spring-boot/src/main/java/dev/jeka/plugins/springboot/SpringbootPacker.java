@@ -52,7 +52,7 @@ class SpringbootPacker {
 
         // Manifest
         Path path = JkPathTree.ofZip(original).goTo("META-INF").get("MANIFEST.MF");
-        final JkManifest manifest = Files.exists(path) ? JkManifest.of(path) : JkManifest.ofEmpty();
+        final JkManifest manifest = Files.exists(path) ? JkManifest.of().setManifestFromFile(path) : JkManifest.of();
         jarWriter.writeManifest(createManifest(manifest, mainClassName).getManifest());
 
         // Add nested jars
@@ -86,16 +86,15 @@ class SpringbootPacker {
     }
 
     private JkManifest createManifest(JkManifest original, String startClassName) {
-        JkManifest result = JkUtilsObject.firstNonNull(original, JkManifest.ofEmpty());
-        result.addMainAttribute("Spring-Boot_Version", springbootVersion);
-        result.addMainClass("org.springframework.boot.loader.JarLauncher");
-        result.addMainAttribute("Start-Class", startClassName);
-        result.addMainAttribute("Spring-Boot-Classes", "BOOT-INF/classes/");
-        result.addMainAttribute("Spring-Boot-Lib", "BOOT-INF/lib/");
-
+        JkManifest result = JkUtilsObject.firstNonNull(original, JkManifest.of()
+            .addMainAttribute("Spring-Boot_Version", springbootVersion)
+            .addMainClass("org.springframework.boot.loader.JarLauncher")
+            .addMainAttribute("Start-Class", startClassName)
+            .addMainAttribute("Spring-Boot-Classes", "BOOT-INF/classes/")
+            .addMainAttribute("Spring-Boot-Lib", "BOOT-INF/lib/"));
         result.addContextualInfo();
         if (this.manifestToMerge != null) {
-            result.merge(manifestToMerge);
+            result.merge(manifestToMerge.getManifest());
         }
         return result;
     }

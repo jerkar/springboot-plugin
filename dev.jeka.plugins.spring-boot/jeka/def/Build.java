@@ -1,15 +1,14 @@
-import dev.jeka.core.api.depmanagement.*;
+import dev.jeka.core.api.depmanagement.JkDependencySet;
+import dev.jeka.core.api.depmanagement.JkRepoSet;
 import dev.jeka.core.api.java.JkJavaVersion;
-import dev.jeka.core.api.java.project.JkJavaProject;
 import dev.jeka.core.api.system.JkLocator;
 import dev.jeka.core.api.tooling.JkGitWrapper;
-import dev.jeka.core.api.utils.JkUtilsIterable;
 import dev.jeka.core.tool.JkCommandSet;
 import dev.jeka.core.tool.JkEnv;
 import dev.jeka.core.tool.JkInit;
 import dev.jeka.core.tool.builtins.java.JkPluginJava;
 
-import static dev.jeka.core.api.depmanagement.JkJavaDepScopes.PROVIDED;
+import static dev.jeka.core.api.depmanagement.JkScope.PROVIDED;
 
 class Build extends JkCommandSet {
 
@@ -23,39 +22,34 @@ class Build extends JkCommandSet {
 
     @Override
     protected void setup() {
-        JkJavaProject project = javaPlugin.getProject();
         JkGitWrapper git = JkGitWrapper.of(getBaseDir());
-
-        // Let Git drive project version numbering
-        String projectVersion = git.getVersionFromTags();
-        project.setVersionedModule("dev.jeka:springboot-plugin", projectVersion);
-        project.getCompileSpec().setSourceAndTargetVersion(JkJavaVersion.V8);
-
-        // Make javadoc only for releases
-        if (!JkVersion.of(projectVersion).isSnapshot()) {
-            javaPlugin.pack.javadoc = true;
-        }
-
-        // Use same Jeka version both for building and compiling
-        project.addDependencies(JkDependencySet.of().andFile(JkLocator.getJekaJarPath(), PROVIDED));
-
-        // Setup to publish on Maven Central
-        project.getMaker().getTasksForPublishing()
-                .setMavenPublicationInfo(mavenPublicationInfo())
-                .setPublishRepos(JkRepoSet.ofOssrhSnapshotAndRelease(ossrhUser, ossrhPwd));
-
-        project.addResourceInterpolator("**/Build.java.snippet", JkUtilsIterable.mapOf("${version}",
-                project.getVersionedModule().getVersion().getValue()));
+        String version = git.getVersionFromTags();
+        javaPlugin.getProject()
+            .getDependencyManagement().addDependencies(JkDependencySet.of()
+                .andFile(JkLocator.getJekaJarPath(), PROVIDED)).__
+            .getProduction()
+                .getCompilation()
+                    .getLayout()
+                        .includeSourceDirsInResources().__
+                    .setJavaVersion(JkJavaVersion.V8)
+                .getResourceProcessor()
+                    .addInterpolator("**/Build.java.snippet", "${version}", version).__.__.__
+            .getPublication()
+                .setModuleId("dev.jeka:springboot-plugin")
+                .setVersion(version)
+                .setRepos(JkRepoSet.ofOssrhSnapshotAndRelease(ossrhUser, ossrhPwd))
+                .getMavenPublication()
+                    .getPomMetadata()
+                        .addApache2License()
+                        .getProjectInfo()
+                            .setName("Jeka plugin for Spring Boot")
+                            .setDescription("A Jeka plugin for Spring boot application")
+                            .setUrl("https://github.com/jerkar/spring-boot-plugin").__
+                        .getScm()
+                            .setUrl("https://github.com/jerkar/spring-boot-addin.git").__
+                        .addGithubDeveloper("djeang", "djeangdev@yahoo.fr");
     }
 
-    private JkMavenPublicationInfo mavenPublicationInfo() {
-        return JkMavenPublicationInfo
-                .of("Jeka plugin for Spring Boot", "A Jeka plugin for Spring boot application",
-                        "https://github.com/jerkar/spring-boot-plugin")
-                .withScm("https://github.com/jerkar/spring-boot-addin.git")
-                .andApache2License()
-                .andGitHubDeveloper("djeang", "djeangdev@yahoo.fr");
-    }
 
     public void cleanPack() {
         clean(); javaPlugin.pack();
