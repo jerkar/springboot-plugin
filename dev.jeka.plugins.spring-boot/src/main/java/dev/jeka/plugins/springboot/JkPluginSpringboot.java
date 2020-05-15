@@ -201,14 +201,14 @@ public final class JkPluginSpringboot extends JkPlugin {
         Path sourceDir = java.getProject().getProduction().getCompilation().getLayout()
                 .getSources().getRootDirsOrZipFiles().get(0);
         Path pack = sourceDir.resolve("org.example");
-        URL url = JkClassLoader.ofCurrent().get().getResource("snippet/Application.java");
+        URL url = JkPluginSpringboot.class.getClassLoader().getResource("snippet/Application.java");
         JkPathFile.of(pack.resolve("Application.java")).createIfNotExist().replaceContentBy(url);
-        url = JkClassLoader.ofCurrent().get().getResource("snippet/Controller.java");
+        url = JkPluginSpringboot.class.getClassLoader().getResource("snippet/Controller.java");
         JkPathFile.of(pack.resolve("Controller.java")).createIfNotExist().replaceContentBy(url);
         Path testSourceDir = java.getProject().getTesting().getCompilation().getLayout()
                 .getSources().getRootDirsOrZipFiles().get(0);
         pack = testSourceDir.resolve("org.example");
-        url = JkClassLoader.ofCurrent().get().getResource("snippet/ControllerIT.java");
+        url = JkPluginSpringboot.class.getClassLoader().getResource("snippet/ControllerIT.java");
         JkPathFile.of(pack.resolve("ControllerIT.java")).createIfNotExist().replaceContentBy(url);
     }
 
