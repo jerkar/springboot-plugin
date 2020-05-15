@@ -13,12 +13,8 @@ import dev.jeka.core.api.tooling.JkPom;
 import dev.jeka.core.api.utils.JkUtilsAssert;
 import dev.jeka.core.api.utils.JkUtilsIO;
 import dev.jeka.core.api.utils.JkUtilsString;
-import dev.jeka.core.tool.JkCommandSet;
-import dev.jeka.core.tool.JkDoc;
-import dev.jeka.core.tool.JkDocPluginDeps;
-import dev.jeka.core.tool.JkPlugin;
+import dev.jeka.core.tool.*;
 import dev.jeka.core.tool.builtins.java.JkPluginJava;
-import dev.jeka.core.tool.builtins.java.JkPluginWar;
 import dev.jeka.core.tool.builtins.scaffold.JkPluginScaffold;
 
 import java.net.URL;
@@ -126,7 +122,7 @@ public final class JkPluginSpringboot extends JkPlugin {
             }
             scaffold.getScaffolder().setCommandClassCode(code);
             scaffold.getScaffolder().getExtraActions()
-                .append(this::createJavaFiles);
+                .append(this::scaffoldSample);
         }
 
     }
@@ -197,7 +193,8 @@ public final class JkPluginSpringboot extends JkPlugin {
         throw new IllegalStateException("No @SpringBootApplication class with main method found.");
     }
 
-    private void createJavaFiles() {
+    @JkDoc("Scaffold a basic example application in package org.example")
+    public void scaffoldSample() {
         Path sourceDir = java.getProject().getProduction().getCompilation().getLayout()
                 .getSources().getRootDirsOrZipFiles().get(0);
         Path pack = sourceDir.resolve("org.example");
