@@ -33,7 +33,7 @@ class Build extends JkCommandSet {
                         .includeSourceDirsInResources().__
                     .setJavaVersion(JkJavaVersion.V8)
                 .getResourceProcessor()
-                    .addInterpolator("**/Build.java.snippet", "${version}", version).__.__.__
+                    .addInterpolator("**/Build.java", "${version}", version).__.__.__
             .getPublication()
                 .setModuleId("dev.jeka:springboot-plugin")
                 .setVersion(version)

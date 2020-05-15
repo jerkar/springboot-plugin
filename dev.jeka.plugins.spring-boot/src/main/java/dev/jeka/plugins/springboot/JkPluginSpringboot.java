@@ -1,13 +1,16 @@
 package dev.jeka.plugins.springboot;
 
 import dev.jeka.core.api.depmanagement.*;
+import dev.jeka.core.api.file.JkPathFile;
 import dev.jeka.core.api.file.JkPathSequence;
 import dev.jeka.core.api.java.JkClassLoader;
 import dev.jeka.core.api.java.JkJavaProcess;
+import dev.jeka.core.api.java.JkManifest;
 import dev.jeka.core.api.java.JkUrlClassLoader;
 import dev.jeka.core.api.java.project.JkJavaProject;
 import dev.jeka.core.api.system.JkLog;
 import dev.jeka.core.api.tooling.JkPom;
+import dev.jeka.core.api.utils.JkUtilsAssert;
 import dev.jeka.core.api.utils.JkUtilsIO;
 import dev.jeka.core.api.utils.JkUtilsString;
 import dev.jeka.core.tool.JkCommandSet;
@@ -15,8 +18,10 @@ import dev.jeka.core.tool.JkDoc;
 import dev.jeka.core.tool.JkDocPluginDeps;
 import dev.jeka.core.tool.JkPlugin;
 import dev.jeka.core.tool.builtins.java.JkPluginJava;
+import dev.jeka.core.tool.builtins.java.JkPluginWar;
 import dev.jeka.core.tool.builtins.scaffold.JkPluginScaffold;
 
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -27,6 +32,8 @@ import java.util.function.Consumer;
         "Dependency versions are resolved against BOM provided by Spring Boot team according Spring Boot version you use.")
 @JkDocPluginDeps(JkPluginJava.class)
 public final class JkPluginSpringboot extends JkPlugin {
+
+    public static final JkArtifactId ORIGINAL_ARTIFACT = JkArtifactId.of("original", "jar");
 
     private static final String SPRINGBOOT_APPLICATION_ANNOTATION_NAME =
             "org.springframework.boot.autoconfigure.SpringBootApplication";
@@ -45,6 +52,8 @@ public final class JkPluginSpringboot extends JkPlugin {
 
     private final JkPluginJava java;
 
+    private JkPom cachedSpringbootBom;
+
     /**
      * Right after to be instantiated, plugin instances are likely to configured by the owning build.
      * Therefore, every plugin members that are likely to be configured by the owning build must be
@@ -57,7 +66,7 @@ public final class JkPluginSpringboot extends JkPlugin {
 
     @Override
     protected String getLowestJekaCompatibleVersion() {
-        return "0.9.0.M2";
+        return "0.9.0.M4";
     }
 
     public void setSpringbootVersion(String springbootVersion) {
@@ -95,40 +104,69 @@ public final class JkPluginSpringboot extends JkPlugin {
 
         // resolve dependency versions upon springboot provided ones
         JkRepoSet repos = java.getProject().getDependencyManagement().getResolver().getRepos();
-        JkVersionProvider versionProvider = resolveVersions(repos, springbootVersion);
+        JkVersionProvider versionProvider = getSpringbootPom(repos, springbootVersion).getVersionProvider();
         project.getDependencyManagement().addDependencies(JkDependencySet.of().andVersionProvider(versionProvider));
 
         // add original jar artifact
-        JkArtifactId original = JkArtifactId.of("original", "jar");
         JkStandardFileArtifactProducer artifactProducer = project.getPublication().getArtifactProducer();
         Consumer<Path> makeBinJar = project.getProduction()::createBinJar;
-        artifactProducer.putArtifact(original, makeBinJar);
+        artifactProducer.putArtifact(ORIGINAL_ARTIFACT, makeBinJar);
 
         // define bootable jar as main artifact
-        JkVersion loaderVersion = versionProvider.getVersionOf(JkSpringModules.Boot.LOADER);
-        Path bootloader = repos.get(JkSpringModules.Boot.LOADER, loaderVersion.getValue());
-        Consumer<Path> bootJar = path -> {
-            artifactProducer.makeMissingArtifacts(original);
-            final JkPathSequence embeddedJars = project.getDependencyManagement().fetchDependencies(JkScope.RUNTIME)
-                    .getFiles();
-            createBootJar(artifactProducer.getArtifactPath(original), embeddedJars, bootloader,
-                    artifactProducer.getMainArtifactPath(), springbootVersion, mainClassName);
-        };
+        Consumer<Path> bootJar = this::createBootJar;
         artifactProducer.putMainArtifact(bootJar);
 
         // Add template build class to scaffold
         if (this.getCommandSet().getPlugins().hasLoaded(JkPluginScaffold.class)) {
             JkPluginScaffold scaffold = this.getCommandSet().getPlugins().get(JkPluginScaffold.class);
-            String code = JkUtilsIO.read(JkPluginSpringboot.class.getResource("Build.java.snippet"));
+            String code = JkUtilsIO.read(JkPluginSpringboot.class.getClassLoader().getResource("snippet/Build.java"));
+            String pluginVersion = pluginVersion();
+            if (pluginVersion != null) {
+                code = code.replace("${version}", pluginVersion());
+            }
             scaffold.getScaffolder().setCommandClassCode(code);
+            scaffold.getScaffolder().getExtraActions()
+                .append(this::createJavaFiles);
         }
+
+    }
+
+    /**
+     * Creates the bootable jar at the standard location.
+     */
+    public void createBootJar() {
+        JkStandardFileArtifactProducer artifactProducer = java.getProject().getPublication().getArtifactProducer();
+        createBootJar(artifactProducer.getMainArtifactPath());
+    }
+
+    /**
+     * Creates the bootable jar at the specified location.
+     */
+    public void createBootJar(Path target) {
+        JkStandardFileArtifactProducer artifactProducer = java.getProject().getPublication().getArtifactProducer();
+        artifactProducer.makeMissingArtifacts(ORIGINAL_ARTIFACT);
+        JkRepoSet repos = java.getProject().getDependencyManagement().getResolver().getRepos();
+        JkVersionProvider versionProvider = getSpringbootPom(repos, springbootVersion).getVersionProvider();
+        JkVersion loaderVersion = versionProvider.getVersionOf(JkSpringModules.Boot.LOADER);
+        Path bootloader = repos.get(JkSpringModules.Boot.LOADER, loaderVersion.getValue());
+        final JkPathSequence embeddedJars = java.getProject().getDependencyManagement().fetchDependencies(JkScope.RUNTIME)
+                .getFiles();
+        createBootJar(artifactProducer.getArtifactPath(ORIGINAL_ARTIFACT), embeddedJars, bootloader,
+                artifactProducer.getMainArtifactPath(), springbootVersion);
     }
 
     public JkPluginJava javaPlugin() {
         return java;
     }
 
-    public static JkVersionProvider resolveVersions(JkRepoSet repos, String springbootVersion) {
+    private JkPom getSpringbootPom(JkRepoSet repos, String springbootVersion) {
+        if (cachedSpringbootBom == null) {
+            cachedSpringbootBom = getSpringbootBom(repos, springbootVersion);
+        }
+        return cachedSpringbootBom;
+    }
+
+    public static JkPom getSpringbootBom(JkRepoSet repos, String springbootVersion) {
         JkModuleDependency moduleDependency = JkModuleDependency.of(
                 "org.springframework.boot", "spring-boot-dependencies", springbootVersion).withExt("pom");
         JkLog.info("Fetch Springboot dependency versions from " + moduleDependency);
@@ -136,13 +174,14 @@ public final class JkPluginSpringboot extends JkPlugin {
         if (pomFile == null || !Files.exists(pomFile)) {
             throw new IllegalStateException(moduleDependency + " not found");
         }
-        JkPom pom = JkPom.of(pomFile);
         JkLog.info("Springboot dependency versions will be resolved from " + pomFile);
-        return pom.getVersionProvider();
+        return JkPom.of(pomFile);
     }
 
+
     public static void createBootJar(Path original, JkPathSequence libsToInclude, Path bootLoaderJar, Path targetJar,
-                                     String springbootVersion, String mainClassName) {
+                                     String springbootVersion) {
+        JkUtilsAssert.argument(Files.exists(original), "Original jar not found at " + original);
         JkClassLoader classLoader = JkUrlClassLoader.of(original, ClassLoader.getSystemClassLoader().getParent())
                 .toJkClassLoader();
         List<String> mainClasses = classLoader.findClassesHavingMainMethod();
@@ -156,6 +195,26 @@ public final class JkPluginSpringboot extends JkPlugin {
             }
         }
         throw new IllegalStateException("No @SpringBootApplication class with main method found.");
+    }
+
+    private void createJavaFiles() {
+        Path sourceDir = java.getProject().getProduction().getCompilation().getLayout()
+                .getSources().getRootDirsOrZipFiles().get(0);
+        Path pack = sourceDir.resolve("org.example");
+        URL url = JkClassLoader.ofCurrent().get().getResource("snippet/Application.java");
+        JkPathFile.of(pack.resolve("Application.java")).createIfNotExist().replaceContentBy(url);
+        url = JkClassLoader.ofCurrent().get().getResource("snippet/Controller.java");
+        JkPathFile.of(pack.resolve("Controller.java")).createIfNotExist().replaceContentBy(url);
+        Path testSourceDir = java.getProject().getTesting().getCompilation().getLayout()
+                .getSources().getRootDirsOrZipFiles().get(0);
+        pack = testSourceDir.resolve("org.example");
+        url = JkClassLoader.ofCurrent().get().getResource("snippet/ControllerIT.java");
+        JkPathFile.of(pack.resolve("ControllerIT.java")).createIfNotExist().replaceContentBy(url);
+    }
+
+    private String pluginVersion() {
+        return JkManifest.of().setManifestFromClass(JkPluginSpringboot.class)
+                .getMainAttribute(JkManifest.IMPLEMENTATION_VERSION);
     }
 
 }
