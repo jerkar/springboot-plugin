@@ -4,17 +4,15 @@ import dev.jeka.core.tool.JkCommandSet;
 import dev.jeka.core.tool.JkDefClasspath;
 import dev.jeka.core.tool.JkDoc;
 import dev.jeka.core.tool.JkInit;
-import dev.jeka.core.tool.builtins.intellij.JkPluginIntellij;
 import dev.jeka.core.tool.builtins.java.JkPluginJava;
 import dev.jeka.plugins.springboot.JkPluginSpringboot;
-import dev.jeka.plugins.springboot.JkSpringModules.Boot;
 
 import java.nio.file.Path;
 
 
 @JkDefClasspath("dev.jeka:springboot-plugin:2.4.0.RC6")  // Add Springboot plugin to build classpath
 @JkDefClasspath("com.jcraft:jsch:0.1.55")  // SSH library to deploy on remote hosts
-class ApplicationBuild2 extends JkCommandSet {
+class ApplicationBuildSample extends JkCommandSet {
 
     private final JkPluginJava java = getPlugin(JkPluginJava.class);
 
@@ -51,7 +49,7 @@ class ApplicationBuild2 extends JkCommandSet {
 
     // Clean, compile, test and generate springboot application jar
     public static void main(String[] args) {
-        JkInit.instanceOf(ApplicationBuild2.class, args).cleanPack();
+        JkInit.instanceOf(ApplicationBuildSample.class, args).cleanPack();
     }
 
 
