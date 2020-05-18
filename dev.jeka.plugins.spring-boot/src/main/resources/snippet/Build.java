@@ -25,7 +25,7 @@ class Build extends JkCommandSet {
                 .addDependencies(JkDependencySet.of()
                     .and("org.springframework.boot:spring-boot-starter-web")
                     .and("org.springframework.boot:spring-boot-starter-test", TEST)
-                        .withLocalExclusions("org.junit.vintage:junit-vintage-engine")).__
+                        .withLocalExclusions("org.junit.vintage:junit-vintage-engine")).__to
                 .getTesting()
                     .getTestSelection()
                         .addIncludeStandardPatterns()
