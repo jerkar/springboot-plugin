@@ -33,7 +33,7 @@ class Build extends JkCommandSet {
     }
 
     public void cleanPack() {
-        clean(); java.pack();
+        clean(); java.test(); springboot.createBootJar();
     }
 
     // Clean, compile, test and generate springboot application jar

@@ -197,7 +197,7 @@ public final class JkPluginSpringboot extends JkPlugin {
     public void scaffoldSample() {
         Path sourceDir = java.getProject().getProduction().getCompilation().getLayout()
                 .getSources().getRootDirsOrZipFiles().get(0);
-        Path pack = sourceDir.resolve("org.example");
+        Path pack = sourceDir.resolve("your/basepackage");
         URL url = JkPluginSpringboot.class.getClassLoader().getResource("snippet/Application.java");
         JkPathFile.of(pack.resolve("Application.java")).createIfNotExist().replaceContentBy(url);
         url = JkPluginSpringboot.class.getClassLoader().getResource("snippet/Controller.java");
