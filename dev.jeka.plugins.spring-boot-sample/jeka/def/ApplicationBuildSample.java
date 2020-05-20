@@ -25,16 +25,13 @@ class ApplicationBuildSample extends JkCommandSet {
     protected void setup() {
         springboot.setSpringbootVersion("2.2.6.RELEASE");
         java.getProject()
-            .getDependencyManagement()
-                .addDependencies(JkDependencySet.of()
-                    .and("org.springframework.boot:spring-boot-starter-web")
-                    .and("org.springframework.boot:spring-boot-starter-data-jpa")
-                    .and("org.springframework.boot:spring-boot-starter-data-rest")
-                    .and("com.h2database:h2:1.4.200")
-                    .and("com.google.guava:guava:23.0")
-                    .and("org.springframework.boot:spring-boot-starter-test", JkScope.TEST)
-                        .withLocalExclusions("org.junit.vintage:junit-vintage-engine")
-                );
+            .getProduction()
+                .getDependencyManagement()
+                    .addDependencies(JkDependencySet.of()
+                        .and("org.springframework.boot:spring-boot-starter-web")
+                        .and("com.google.guava:guava:23.0")
+                        .and("org.springframework.boot:spring-boot-starter-test", JkScope.TEST)
+                            .withLocalExclusions("org.junit.vintage:junit-vintage-engine"));
     }
 
     public void cleanPack() {

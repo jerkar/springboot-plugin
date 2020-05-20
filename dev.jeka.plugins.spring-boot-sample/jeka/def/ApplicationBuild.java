@@ -17,20 +17,18 @@ class ApplicationBuild extends JkCommandSet {
     @Override
     protected void setup() {
         springboot.setSpringbootVersion("2.2.4.RELEASE");
-        java.getProject()
-            .getDependencyManagement()
-                .addDependencies(JkDependencySet.of()
-                    .and(Boot.STARTER_WEB)  // Same as .and("org.springframework.boot:spring-boot-starter-web")
-                    .and(Boot.STARTER_DATA_JPA)
-                    .and(Boot.STARTER_DATA_REST)
-                    .and("com.h2database:h2:1.4.200")
-                    .and("com.google.guava:guava:23.0")
-                    .and(Boot.STARTER_TEST, JkScope.TEST)
+        java.getProject().getProduction().getDependencyManagement().addDependencies(JkDependencySet.of()
+            .and(Boot.STARTER_WEB)  // Same as .and("org.springframework.boot:spring-boot-starter-web")
+            .and(Boot.STARTER_DATA_JPA)
+            .and(Boot.STARTER_DATA_REST)
+            .and("com.h2database:h2:1.4.200")
+            .and("com.google.guava:guava:23.0")
+            .and(Boot.STARTER_TEST, JkScope.TEST)
         );
     }
 
     public void cleanPack() {
-        clean(); java.test(); springboot.createBootJar();
+        clean(); springboot.createBootJar();
     }
 
     public void run() {

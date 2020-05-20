@@ -20,20 +20,20 @@ class Build extends JkCommandSet {
     @Override
     protected void setup() {
         springboot.setSpringbootVersion("2.2.6.RELEASE");
-        java.getProject()
+        java.getProject().getProduction()
             .getDependencyManagement()
                 .addDependencies(JkDependencySet.of()
                     .and("org.springframework.boot:spring-boot-starter-web")
                     .and("org.springframework.boot:spring-boot-starter-test", TEST)
-                        .withLocalExclusions("org.junit.vintage:junit-vintage-engine")).__to
-                .getTesting()
-                    .getTestSelection()
-                        .addIncludeStandardPatterns()
-                        .addIncludePatternsIf(runIT, JkTestSelection.IT_INCLUDE_PATTERN);
+                        .withLocalExclusions("org.junit.vintage:junit-vintage-engine")).__
+            .getTesting()
+                .getTestSelection()
+                    .addIncludeStandardPatterns()
+                    .addIncludePatternsIf(runIT, JkTestSelection.IT_INCLUDE_PATTERN);
     }
 
     public void cleanPack() {
-        clean(); java.test(); springboot.createBootJar();
+        clean(); springboot.createBootJar();
     }
 
     // Clean, compile, test and generate springboot application jar
