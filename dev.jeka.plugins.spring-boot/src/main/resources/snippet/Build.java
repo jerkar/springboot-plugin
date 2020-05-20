@@ -2,6 +2,7 @@ import dev.jeka.core.api.depmanagement.JkDependencySet;
 import dev.jeka.core.api.java.testing.JkTestSelection;
 import dev.jeka.core.tool.JkCommandSet;
 import dev.jeka.core.tool.JkDefClasspath;
+import dev.jeka.core.tool.JkDoc;
 import dev.jeka.core.tool.JkInit;
 import dev.jeka.core.tool.builtins.java.JkPluginJava;
 import dev.jeka.plugins.springboot.JkPluginSpringboot;
@@ -32,8 +33,14 @@ class Build extends JkCommandSet {
                     .addIncludePatternsIf(runIT, JkTestSelection.IT_INCLUDE_PATTERN);
     }
 
+    @JkDoc("Cleans, tests and creates bootable jar.")
     public void cleanPack() {
         clean(); springboot.createBootJar();
+    }
+
+    @JkDoc("Runs bootable Jar (assuming it is created).")
+    public void run() {
+        springboot.run();
     }
 
     // Clean, compile, test and generate springboot application jar
