@@ -62,7 +62,7 @@ public final class JkPluginSpringboot extends JkPlugin {
 
     @Override
     protected String getLowestJekaCompatibleVersion() {
-        return "0.9.0.M9";
+        return "0.9.0.M10";
     }
 
     public void setSpringbootVersion(String springbootVersion) {
@@ -92,7 +92,7 @@ public final class JkPluginSpringboot extends JkPlugin {
     private void activate(JkJavaProject project) {
 
         // Add spring snapshot or milestone repos if necessary
-        JkDependencyManagement dependencyManagement = project.getProduction().getDependencyManagement();
+        JkDependencyManagement dependencyManagement = project.getJarProduction().getDependencyManagement();
         JkVersion version = JkVersion.of(springbootVersion);
         if (autoSpringRepo && version.hasBlockAt(3)) {
             JkRepoSet repos = JkSpringRepos.getRepoForVersion(version.getBlock(3));
@@ -106,7 +106,7 @@ public final class JkPluginSpringboot extends JkPlugin {
 
         // add original jar artifact
         JkStandardFileArtifactProducer artifactProducer = project.getPublication().getArtifactProducer();
-        Consumer<Path> makeBinJar = project.getProduction()::createBinJar;
+        Consumer<Path> makeBinJar = project.getJarProduction()::createBinJar;
         artifactProducer.putArtifact(ORIGINAL_ARTIFACT, makeBinJar);
 
         // define bootable jar as main artifact
@@ -142,11 +142,11 @@ public final class JkPluginSpringboot extends JkPlugin {
     public void createBootJar(Path target) {
         JkStandardFileArtifactProducer artifactProducer = java.getProject().getPublication().getArtifactProducer();
         artifactProducer.makeMissingArtifacts(ORIGINAL_ARTIFACT);
-        JkRepoSet repos = java.getProject().getProduction().getDependencyManagement().getResolver().getRepos();
+        JkRepoSet repos = java.getProject().getJarProduction().getDependencyManagement().getResolver().getRepos();
         JkVersionProvider versionProvider = getSpringbootPom(repos, springbootVersion).getVersionProvider();
         JkVersion loaderVersion = versionProvider.getVersionOf(JkSpringModules.Boot.LOADER);
         Path bootloader = repos.get(JkSpringModules.Boot.LOADER, loaderVersion.getValue());
-        final JkPathSequence embeddedJars = java.getProject().getProduction()
+        final JkPathSequence embeddedJars = java.getProject().getJarProduction()
                 .getDependencyManagement().fetchDependencies(JkScope.RUNTIME).getFiles();
         createBootJar(artifactProducer.getArtifactPath(ORIGINAL_ARTIFACT), embeddedJars, bootloader,
                 artifactProducer.getMainArtifactPath(), springbootVersion);
@@ -196,14 +196,14 @@ public final class JkPluginSpringboot extends JkPlugin {
 
     @JkDoc("Scaffold a basic example application in package org.example")
     public void scaffoldSample() {
-        Path sourceDir = java.getProject().getProduction().getCompilation().getLayout()
+        Path sourceDir = java.getProject().getJarProduction().getCompilation().getLayout()
                 .getSources().getRootDirsOrZipFiles().get(0);
         Path pack = sourceDir.resolve("your/basepackage");
         URL url = JkPluginSpringboot.class.getClassLoader().getResource("snippet/Application.java");
         JkPathFile.of(pack.resolve("Application.java")).createIfNotExist().replaceContentBy(url);
         url = JkPluginSpringboot.class.getClassLoader().getResource("snippet/Controller.java");
         JkPathFile.of(pack.resolve("Controller.java")).createIfNotExist().replaceContentBy(url);
-        Path testSourceDir = java.getProject().getProduction().getTesting().getCompilation().getLayout()
+        Path testSourceDir = java.getProject().getJarProduction().getTesting().getCompilation().getLayout()
                 .getSources().getRootDirsOrZipFiles().get(0);
         pack = testSourceDir.resolve("org.example");
         url = JkPluginSpringboot.class.getClassLoader().getResource("snippet/ControllerIT.java");
