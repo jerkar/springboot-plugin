@@ -34,8 +34,10 @@ public final class JkPluginSpringboot extends JkPlugin {
     private static final String SPRINGBOOT_APPLICATION_ANNOTATION_NAME =
             "org.springframework.boot.autoconfigure.SpringBootApplication";
 
+    public static final String SPRING_BOOT_VERSION_MANIFEST_ENTRY = "Spring-Boot-Version";
+
     @JkDoc("Version of Spring Boot version used to resolve dependency versions.")
-    private String springbootVersion = "2.2.6.RELEASE";
+    private String springbootVersion = "2.3.1.RELEASE";
 
     @JkDoc("Class name holding main method to start Spring Boot. If null, Jeka will try to guess it at build time.")
     public String mainClassName;
@@ -98,6 +100,10 @@ public final class JkPluginSpringboot extends JkPlugin {
             JkRepoSet repos = JkSpringRepos.getRepoForVersion(version.getBlock(3));
             dependencyManagement.getResolver().addRepos(repos);
         }
+
+        // Add springboot version version to Manifest
+        project.getJarProduction().getManifest().addMainAttribute(SPRING_BOOT_VERSION_MANIFEST_ENTRY,
+                this.springbootVersion);
 
         // resolve dependency versions upon springboot provided ones
         JkRepoSet repos = dependencyManagement.getResolver().getRepos();
