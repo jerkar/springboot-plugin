@@ -1,3 +1,5 @@
+package sample;
+
 import dev.jeka.core.api.depmanagement.JkDependencySet;
 import dev.jeka.core.api.depmanagement.JkScope;
 import dev.jeka.core.api.java.testing.JkTestSelection;
