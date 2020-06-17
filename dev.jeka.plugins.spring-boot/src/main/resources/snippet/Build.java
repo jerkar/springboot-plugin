@@ -20,7 +20,7 @@ class Build extends JkCommandSet {
 
     @Override
     protected void setup() {
-        springboot.setSpringbootVersion("2.2.6.RELEASE");
+        springboot.setSpringbootVersion("2.3.1.RELEASE");
         java.getProject().getJarProduction()
             .getDependencyManagement()
                 .addDependencies(JkDependencySet.of()
