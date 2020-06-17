@@ -21,7 +21,7 @@ class Build extends JkCommandSet {
     @Override
     protected void setup() {
         springboot.setSpringbootVersion("2.2.6.RELEASE");
-        java.getProject().getProduction()
+        java.getProject().getJarProduction()
             .getDependencyManagement()
                 .addDependencies(JkDependencySet.of()
                     .and("org.springframework.boot:spring-boot-starter-web")
