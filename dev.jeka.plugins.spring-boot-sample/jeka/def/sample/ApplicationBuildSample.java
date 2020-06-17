@@ -12,7 +12,7 @@ import dev.jeka.plugins.springboot.JkPluginSpringboot;
 
 import java.nio.file.Path;
 
-@JkDefClasspath("dev.jeka:springboot-plugin:2.4.0.RC6")  // Add Springboot plugin to build classpath
+@JkDefClasspath("dev.jeka:springboot-plugin:2.4.0.RC10")  // Add Springboot plugin to build classpath
 @JkDefClasspath("com.jcraft:jsch:0.1.55")  // SSH library to deploy on remote hosts
 class ApplicationBuildSample extends JkCommandSet {
 
