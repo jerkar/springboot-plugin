@@ -202,16 +202,17 @@ public final class JkPluginSpringboot extends JkPlugin {
 
     @JkDoc("Scaffold a basic example application in package org.example")
     public void scaffoldSample() {
+        String basePackage = "your/basepackage";
         Path sourceDir = java.getProject().getJarProduction().getCompilation().getLayout()
                 .getSources().getRootDirsOrZipFiles().get(0);
-        Path pack = sourceDir.resolve("your/basepackage");
+        Path pack = sourceDir.resolve(basePackage);
         URL url = JkPluginSpringboot.class.getClassLoader().getResource("snippet/Application.java");
         JkPathFile.of(pack.resolve("Application.java")).createIfNotExist().replaceContentBy(url);
         url = JkPluginSpringboot.class.getClassLoader().getResource("snippet/Controller.java");
         JkPathFile.of(pack.resolve("Controller.java")).createIfNotExist().replaceContentBy(url);
         Path testSourceDir = java.getProject().getJarProduction().getTesting().getCompilation().getLayout()
                 .getSources().getRootDirsOrZipFiles().get(0);
-        pack = testSourceDir.resolve("org.example");
+        pack = testSourceDir.resolve(basePackage);
         url = JkPluginSpringboot.class.getClassLoader().getResource("snippet/ControllerIT.java");
         JkPathFile.of(pack.resolve("ControllerIT.java")).createIfNotExist().replaceContentBy(url);
     }

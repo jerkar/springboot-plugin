@@ -15,8 +15,7 @@ public final class JkSpringRepos {
 
     public static final JkRepo RELEASE = JkRepo.of("https://repo.spring.io/release/");
 
-    public static JkRepoSet
-    getRepoForVersion(String releaseType) {
+    public static JkRepoSet getRepoForVersion(String releaseType) {
         if ("BUILD-SNAPSHOT".equals(releaseType)) {
             return SNAPSHOT.toSet();
         }
