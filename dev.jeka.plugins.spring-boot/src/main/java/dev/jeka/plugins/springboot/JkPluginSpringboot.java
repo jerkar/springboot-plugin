@@ -64,11 +64,11 @@ public final class JkPluginSpringboot extends JkPlugin {
 
     @Override
     protected String getLowestJekaCompatibleVersion() {
-        return "0.9.0.RELEASE";
+        return "0.9.1.RELEASE";
     }
 
     @Override
-    protected String getBreakingVersionRegisterUrl() {
+    protected String getBreakingVersionRegistryUrl() {
         return "https://raw.githubusercontent.com/jerkar/springboot-plugin/master/breaking_versions.txt";
     }
 
