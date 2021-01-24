@@ -25,7 +25,7 @@ class Build extends JkCommandSet {
         JkGitWrapper git = JkGitWrapper.of(getBaseDir());
         String version = git.getVersionFromTags();
         javaPlugin.getProject()
-            .getJarProduction()
+            .getConstruction()
                 .getDependencyManagement().addDependencies(JkDependencySet.of()
                     .andFile(JkLocator.getJekaJarPath(), PROVIDED)).__
                 .getCompilation()
@@ -54,6 +54,8 @@ class Build extends JkCommandSet {
     public void cleanPack() {
         clean(); javaPlugin.pack();
     }
+
+
 
     public static void main(String[] args) {
         JkInit.instanceOf(Build.class, args).cleanPack();

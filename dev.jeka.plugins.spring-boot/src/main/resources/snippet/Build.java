@@ -21,16 +21,12 @@ class Build extends JkCommandSet {
     @Override
     protected void setup() {
         springboot.setSpringbootVersion("2.3.1.RELEASE");
-        java.getProject().getJarProduction()
-            .getDependencyManagement()
-                .addDependencies(JkDependencySet.of()
-                    .and("org.springframework.boot:spring-boot-starter-web")
-                    .and("org.springframework.boot:spring-boot-starter-test", TEST)
-                        .withLocalExclusions("org.junit.vintage:junit-vintage-engine")).__
-            .getTesting()
-                .getTestSelection()
-                    .addIncludeStandardPatterns()
-                    .addIncludePatternsIf(runIT, JkTestSelection.IT_INCLUDE_PATTERN);
+        java.getProject().simpleFacade()
+            .addDependencies(JkDependencySet.of()
+                .and("org.springframework.boot:spring-boot-starter-web")
+                .and("org.springframework.boot:spring-boot-starter-test", TEST)
+                    .withLocalExclusions("org.junit.vintage:junit-vintage-engine"))
+            .includeTestSuffixedByIT(runIT);
     }
 
     @JkDoc("Cleans, tests and creates bootable jar.")
