@@ -28,17 +28,13 @@ class ApplicationBuildSample extends JkCommandSet {
     @Override
     protected void setup() {
         springboot.setSpringbootVersion("2.2.6.RELEASE");
-        java.getProject().getJarProduction()
-            .getDependencyManagement()
-                .addDependencies(JkDependencySet.of()
-                    .and("org.springframework.boot:spring-boot-starter-web")
-                    .and("com.google.guava:guava:23.0")
-                    .and("org.springframework.boot:spring-boot-starter-test", JkScope.TEST)
-                        .withLocalExclusions("org.junit.vintage:junit-vintage-engine")).__
-            .getTesting()
-                .getTestSelection()
-                    .addIncludeStandardPatterns()
-                    .addIncludePatternsIf(runIT, JkTestSelection.IT_INCLUDE_PATTERN);
+        java.getProject().simpleFacade()
+            .addDependencies(JkDependencySet.of()
+                .and("org.springframework.boot:spring-boot-starter-web")
+                .and("com.google.guava:guava:23.0")
+                .and("org.springframework.boot:spring-boot-starter-test", JkScope.TEST)
+                    .withLocalExclusions("org.junit.vintage:junit-vintage-engine"))
+            .includeTestSuffixedByIT(runIT);
     }
 
     public void cleanPack() {
