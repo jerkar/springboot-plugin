@@ -64,7 +64,7 @@ public final class JkPluginSpringboot extends JkPlugin {
 
     @Override
     protected String getLowestJekaCompatibleVersion() {
-        return "0.9.1.RELEASE";
+        return "0.9.3.RELEASE";
     }
 
     @Override
