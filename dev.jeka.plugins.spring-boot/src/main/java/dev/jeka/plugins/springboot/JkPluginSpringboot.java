@@ -78,8 +78,8 @@ public final class JkPluginSpringboot extends JkPlugin {
 
     @Override
     @JkDoc("Modifies the Java project from Java plugin in such this project produces a SpringBoot jar as the main artifact.")
-    protected void activate() {
-        activate(java.getProject());
+    protected void afterSetup() {
+        configure(java.getProject());
     }
 
     @JkDoc("Run Springboot application from the generated jar")
@@ -96,7 +96,7 @@ public final class JkPluginSpringboot extends JkPlugin {
     }
 
 
-    private void activate(JkJavaProject project) {
+    private void configure(JkJavaProject project) {
 
         // Add spring snapshot or milestone repos if necessary
         JkDependencyManagement dependencyManagement = project.getConstruction().getDependencyManagement();
