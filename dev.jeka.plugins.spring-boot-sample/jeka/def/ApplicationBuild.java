@@ -31,13 +31,10 @@ class ApplicationBuild extends JkCommandSet {
         clean(); springboot.createBootJar();
     }
 
-    public void run() {
-        springboot.run();
+    public void testRun() {
+        cleanPack(); springboot.run();
     }
 
-    public void iml() {
-        getPlugin(JkPluginIntellij.class).iml();
-    }
 
     // Clean, compile, test and generate springboot application jar
     public static void main(String[] args) {
