@@ -32,9 +32,9 @@ class ApplicationBuild extends JkCommandSet {
     }
 
     public void testRun() {
-        cleanPack(); springboot.run();
+        cleanPack();
+        springboot.run();
     }
-
 
     // Clean, compile, test and generate springboot application jar
     public static void main(String[] args) {

@@ -228,7 +228,7 @@ class JarWriter {
         @Override
         public void write(OutputStream outputStream) throws IOException {
             byte[] buffer = new byte[BUFFER_SIZE];
-            int bytesRead;
+            int bytesRead = -1;
             while ((bytesRead = this.inputStream.read(buffer)) != -1) {
                 outputStream.write(buffer, 0, bytesRead);
             }

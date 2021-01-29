@@ -86,12 +86,12 @@ class SpringbootPacker {
     }
 
     private JkManifest createManifest(JkManifest original, String startClassName) {
-        JkManifest result = JkUtilsObject.firstNonNull(original, JkManifest.of()
+        JkManifest result = JkUtilsObject.firstNonNull(original, JkManifest.of())
             .addMainAttribute("Spring-Boot_Version", springbootVersion)
             .addMainClass("org.springframework.boot.loader.JarLauncher")
             .addMainAttribute("Start-Class", startClassName)
             .addMainAttribute("Spring-Boot-Classes", "BOOT-INF/classes/")
-            .addMainAttribute("Spring-Boot-Lib", "BOOT-INF/lib/"));
+            .addMainAttribute("Spring-Boot-Lib", "BOOT-INF/lib/");
         result.addContextualInfo();
         if (this.manifestToMerge != null) {
             result.merge(manifestToMerge.getManifest());

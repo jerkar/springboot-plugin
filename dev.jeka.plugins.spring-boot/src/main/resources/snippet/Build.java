@@ -16,8 +16,6 @@ class Build extends JkCommandSet {
 
     private final JkPluginSpringboot springboot = getPlugin(JkPluginSpringboot.class);
 
-    public boolean runIT = true;
-
     @Override
     protected void setup() {
         springboot.setSpringbootVersion("2.3.1.RELEASE");
@@ -25,8 +23,7 @@ class Build extends JkCommandSet {
             .addDependencies(JkDependencySet.of()
                 .and("org.springframework.boot:spring-boot-starter-web")
                 .and("org.springframework.boot:spring-boot-starter-test", TEST)
-                    .withLocalExclusions("org.junit.vintage:junit-vintage-engine"))
-            .includeTestSuffixedByIT(runIT);
+                    .withLocalExclusions("org.junit.vintage:junit-vintage-engine"));
     }
 
     @JkDoc("Cleans, tests and creates bootable jar.")

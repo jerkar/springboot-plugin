@@ -95,6 +95,19 @@ public final class JkPluginSpringboot extends JkPlugin {
         JkJavaProcess.of().runJarSync(mainArtifactFile, args);
     }
 
+    @JkDoc("Run Springboot application from the generated jar")
+    public void runAsync() {
+        JkArtifactProducer artifactProducer = java.getProject().getPublication().getArtifactProducer();
+        JkArtifactId mainArtifactId = artifactProducer.getMainArtifactId();
+        artifactProducer.makeMissingArtifacts(mainArtifactId);
+        Path mainArtifactFile = artifactProducer.getMainArtifactPath();
+        String[] args = new String[0];
+        if (!JkUtilsString.isBlank(this.runArgs)) {
+            args = JkUtilsString.translateCommandline(this.runArgs);
+        }
+        JkJavaProcess.of().runJarSync(mainArtifactFile, args);
+    }
+
 
     private void configure(JkJavaProject project) {
 
