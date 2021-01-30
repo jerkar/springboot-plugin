@@ -57,9 +57,9 @@ public final class JkPluginSpringboot extends JkPlugin {
      * Therefore, every plugin members that are likely to be configured by the owning build must be
      * initialized in the constructor.
      */
-    protected JkPluginSpringboot(JkCommandSet commandSet) {
-        super(commandSet);
-        java = commandSet.getPlugins().get(JkPluginJava.class);
+    protected JkPluginSpringboot(JkClass jkClass) {
+        super(jkClass);
+        java = jkClass.getPlugins().get(JkPluginJava.class);
     }
 
     @Override
@@ -138,14 +138,14 @@ public final class JkPluginSpringboot extends JkPlugin {
         artifactProducer.putMainArtifact(bootJar);
 
         // Add template build class to scaffold
-        if (this.getCommandSet().getPlugins().hasLoaded(JkPluginScaffold.class)) {
-            JkPluginScaffold scaffold = this.getCommandSet().getPlugins().get(JkPluginScaffold.class);
+        if (this.getJkClass().getPlugins().hasLoaded(JkPluginScaffold.class)) {
+            JkPluginScaffold scaffold = this.getJkClass().getPlugins().get(JkPluginScaffold.class);
             String code = JkUtilsIO.read(JkPluginSpringboot.class.getClassLoader().getResource("snippet/Build.java"));
             String pluginVersion = pluginVersion();
             if (pluginVersion != null) {
                 code = code.replace("${version}", pluginVersion());
             }
-            scaffold.getScaffolder().setCommandClassCode(code);
+            scaffold.getScaffolder().setJekaClassCode(code);
             scaffold.getScaffolder().getExtraActions()
                 .append(this::scaffoldSample);
         }

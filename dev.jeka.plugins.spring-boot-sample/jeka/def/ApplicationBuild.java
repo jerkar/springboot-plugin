@@ -1,23 +1,19 @@
 import dev.jeka.core.api.depmanagement.JkDependencySet;
 import dev.jeka.core.api.depmanagement.JkScope;
 import dev.jeka.core.tool.*;
-import dev.jeka.core.tool.builtins.intellij.JkPluginIntellij;
-import dev.jeka.core.tool.builtins.java.JkPluginJava;
 import dev.jeka.plugins.springboot.JkPluginSpringboot;
 import dev.jeka.plugins.springboot.JkSpringModules.Boot;
 
 
 @JkDefClasspath("../dev.jeka.plugins.spring-boot/jeka/output/dev.jeka.springboot-plugin.jar")
-class ApplicationBuild extends JkCommandSet {
-
-    private final JkPluginJava java = getPlugin(JkPluginJava.class);
+class ApplicationBuild extends JkClass {
 
     private final JkPluginSpringboot springboot = getPlugin(JkPluginSpringboot.class);
 
     @Override
     protected void setup() {
         springboot.setSpringbootVersion("2.3.1.RELEASE");
-        java.getProject().simpleFacade().addDependencies(JkDependencySet.of()
+        springboot.javaPlugin().getProject().simpleFacade().addDependencies(JkDependencySet.of()
             .and(Boot.STARTER_WEB)  // Same as .and("org.springframework.boot:spring-boot-starter-web")
             .and(Boot.STARTER_DATA_JPA)
             .and(Boot.STARTER_DATA_REST)

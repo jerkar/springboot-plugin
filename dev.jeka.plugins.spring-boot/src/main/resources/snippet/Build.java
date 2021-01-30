@@ -10,16 +10,14 @@ import dev.jeka.plugins.springboot.JkPluginSpringboot;
 import static dev.jeka.core.api.depmanagement.JkScope.TEST;
 
 @JkDefClasspath("dev.jeka:springboot-plugin:${version}")
-class Build extends JkCommandSet {
-
-    private final JkPluginJava java = getPlugin(JkPluginJava.class);
+class Build extends JkClass {
 
     private final JkPluginSpringboot springboot = getPlugin(JkPluginSpringboot.class);
 
     @Override
     protected void setup() {
         springboot.setSpringbootVersion("2.3.1.RELEASE");
-        java.getProject().simpleFacade()
+        springboot.javaPlugin().getProject().simpleFacade()
             .addDependencies(JkDependencySet.of()
                 .and("org.springframework.boot:spring-boot-starter-web")
                 .and("org.springframework.boot:spring-boot-starter-test", TEST)
@@ -28,12 +26,7 @@ class Build extends JkCommandSet {
 
     @JkDoc("Cleans, tests and creates bootable jar.")
     public void cleanPack() {
-        clean(); springboot.createBootJar();
-    }
-
-    @JkDoc("Runs bootable Jar (assuming it is created).")
-    public void run() {
-        springboot.run();
+        clean(); springboot.javaPlugin().pack();
     }
 
     // Clean, compile, test and generate springboot application jar

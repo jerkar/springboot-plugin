@@ -3,14 +3,14 @@ import dev.jeka.core.api.depmanagement.JkRepoSet;
 import dev.jeka.core.api.java.JkJavaVersion;
 import dev.jeka.core.api.system.JkLocator;
 import dev.jeka.core.api.tooling.JkGitWrapper;
-import dev.jeka.core.tool.JkCommandSet;
+import dev.jeka.core.tool.JkClass;
 import dev.jeka.core.tool.JkEnv;
 import dev.jeka.core.tool.JkInit;
 import dev.jeka.core.tool.builtins.java.JkPluginJava;
 
 import static dev.jeka.core.api.depmanagement.JkScope.PROVIDED;
 
-class Build extends JkCommandSet {
+class Build extends JkClass {
 
     final JkPluginJava javaPlugin = getPlugin(JkPluginJava.class);
 
@@ -54,8 +54,6 @@ class Build extends JkCommandSet {
     public void cleanPack() {
         clean(); javaPlugin.pack();
     }
-
-
 
     public static void main(String[] args) {
         JkInit.instanceOf(Build.class, args).cleanPack();
