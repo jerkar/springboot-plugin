@@ -8,6 +8,4 @@ before_install: cd ./dev.jeka.plugins.spring-boot
 jobs:
   include:
     - script:
-      - ./jekaw java#pack java#publish -LML=120
-      - cd ../dev.jeka.plugins.spring-boot-sample
-      - ./jekaw testRun
+      - ./jekaw java#pack java#publish
