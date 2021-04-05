@@ -68,6 +68,7 @@ class Build extends JkClass {
 
     private String version() {
         String currentTagVersion = gitPlugin.getWrapper().getVersionFromTags();
+        currentTagVersion = currentTagVersion.equals("HEAD_SNAPSHOT") ? "master-SNAPSHOT" : currentTagVersion;
         String releaseVersion = gitPlugin.getWrapper().extractSuffixFromLastCommitTittle("Release:");
         return Optional.ofNullable(releaseVersion).orElse(currentTagVersion);
     }
