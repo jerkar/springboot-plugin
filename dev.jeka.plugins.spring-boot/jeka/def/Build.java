@@ -1,18 +1,24 @@
-import dev.jeka.core.api.depmanagement.JkDependencySet;
+import dev.jeka.core.api.depmanagement.JkFileSystemDependency;
 import dev.jeka.core.api.depmanagement.JkRepoSet;
 import dev.jeka.core.api.java.JkJavaVersion;
 import dev.jeka.core.api.system.JkLocator;
-import dev.jeka.core.api.tooling.JkGitWrapper;
 import dev.jeka.core.tool.JkClass;
 import dev.jeka.core.tool.JkEnv;
 import dev.jeka.core.tool.JkInit;
+import dev.jeka.core.tool.JkPlugin;
+import dev.jeka.core.tool.builtins.git.JkPluginGit;
 import dev.jeka.core.tool.builtins.java.JkPluginJava;
+import dev.jeka.core.tool.builtins.repos.JkPluginGpg;
 
-import static dev.jeka.core.api.depmanagement.JkScope.PROVIDED;
+import java.util.Optional;
 
 class Build extends JkClass {
 
     final JkPluginJava javaPlugin = getPlugin(JkPluginJava.class);
+
+    final JkPluginGpg gpgPlugin = getPlugin((JkPluginGpg.class));
+
+    final JkPluginGit gitPlugin = getPlugin(JkPluginGit.class);
 
     @JkEnv("OSSRH_USER")
     public String ossrhUser;
@@ -22,23 +28,31 @@ class Build extends JkClass {
 
     @Override
     protected void setup() {
-        JkGitWrapper git = JkGitWrapper.of(getBaseDir());
-        String version = git.getVersionFromTags();
+        String version = version();
         javaPlugin.getProject()
             .getConstruction()
-                .getDependencyManagement().addDependencies(JkDependencySet.of()
-                    .andFile(JkLocator.getJekaJarPath(), PROVIDED)).__
+                .getManifest()
+                    .addMainAttribute(JkPlugin.MANIFEST_LOWEST_JEKA_COMPATIBLE_VERSION_ENTRY, "0.9.5.RC1")
+                    .addMainAttribute(JkPlugin.MANIFEST_BREAKING_CHANGE_URL_ENTRY,
+                            "https://raw.githubusercontent.com/jerkar/springboot-plugin/master/breaking_versions.txt").__
                 .getCompilation()
+                    .setDependencies(deps -> deps
+                            .andFiles(JkLocator.getJekaJarPath())
+                    )
                     .getLayout()
                         .includeSourceDirsInResources().__
                     .setJavaVersion(JkJavaVersion.V8)
-                .getResourceProcessor()
-                    .addInterpolator("**/Build.java", "${version}", version).__.__.__
+                    .getResourceProcessor()
+                        .addInterpolator("**/Build.java", "${version}", version).__.__
+                .setRuntimeDependencies(deps -> deps
+                        .minus(JkFileSystemDependency.of(JkLocator.getJekaJarPath()))
+                ) .__
             .getPublication()
-                .setModuleId("dev.jeka:springboot-plugin")
-                .setVersion(version)
-                .setRepos(JkRepoSet.ofOssrhSnapshotAndRelease(ossrhUser, ossrhPwd))
-                .getMavenPublication()
+                .getMaven()
+                    .setModuleId("dev.jeka:springboot-plugin")
+                    .setVersion(version)
+                    .setRepos(JkRepoSet.ofOssrhSnapshotAndRelease(ossrhUser, ossrhPwd,
+                            gpgPlugin.get().getSigner("")))
                     .getPomMetadata()
                         .addApache2License()
                         .getProjectInfo()
@@ -47,10 +61,21 @@ class Build extends JkClass {
                             .setUrl("https://github.com/jerkar/spring-boot-plugin").__
                         .getScm()
                             .setUrl("https://github.com/jerkar/spring-boot-addin.git").__
-                        .addGithubDeveloper("djeang", "djeangdev@yahoo.fr");
+                        .addGithubDeveloper("djeang", "djeangdev@yahoo.fr").__.__
+                .getPostActions()
+                    .append(this::tagIfNeeded);
     }
 
+    private String version() {
+        String currentTagVersion = gitPlugin.getWrapper().getVersionFromTags();
+        String releaseVersion = gitPlugin.getWrapper().extractSuffixFromLastCommitTittle("Release:");
+        return Optional.ofNullable(releaseVersion).orElse(currentTagVersion);
+    }
 
+    private void tagIfNeeded() {
+        Optional.ofNullable(gitPlugin.getWrapper().extractSuffixFromLastCommitTittle("Release:"))
+                .ifPresent(version -> gitPlugin.getWrapper().tag(version));
+    }
     public void cleanPack() {
         clean(); javaPlugin.pack();
     }

@@ -1,6 +1,10 @@
 package dev.jeka.plugins.springboot;
 
 import dev.jeka.core.api.depmanagement.*;
+import dev.jeka.core.api.depmanagement.artifact.JkArtifactId;
+import dev.jeka.core.api.depmanagement.artifact.JkArtifactProducer;
+import dev.jeka.core.api.depmanagement.artifact.JkStandardFileArtifactProducer;
+import dev.jeka.core.api.depmanagement.resolution.JkDependencyResolver;
 import dev.jeka.core.api.file.JkPathFile;
 import dev.jeka.core.api.file.JkPathSequence;
 import dev.jeka.core.api.java.JkClassLoader;
@@ -8,6 +12,7 @@ import dev.jeka.core.api.java.JkJavaProcess;
 import dev.jeka.core.api.java.JkManifest;
 import dev.jeka.core.api.java.JkUrlClassLoader;
 import dev.jeka.core.api.java.project.JkJavaProject;
+import dev.jeka.core.api.java.project.JkJavaProjectConstruction;
 import dev.jeka.core.api.system.JkLog;
 import dev.jeka.core.api.tooling.JkPom;
 import dev.jeka.core.api.utils.JkUtilsAssert;
@@ -62,16 +67,6 @@ public final class JkPluginSpringboot extends JkPlugin {
         java = jkClass.getPlugins().get(JkPluginJava.class);
     }
 
-    @Override
-    protected String getLowestJekaCompatibleVersion() {
-        return "0.9.3.RELEASE";
-    }
-
-    @Override
-    protected String getBreakingVersionRegistryUrl() {
-        return "https://raw.githubusercontent.com/jerkar/springboot-plugin/master/breaking_versions.txt";
-    }
-
     public void setSpringbootVersion(String springbootVersion) {
         this.springbootVersion = springbootVersion;
     }
@@ -112,11 +107,11 @@ public final class JkPluginSpringboot extends JkPlugin {
     private void configure(JkJavaProject project) {
 
         // Add spring snapshot or milestone repos if necessary
-        JkDependencyManagement dependencyManagement = project.getConstruction().getDependencyManagement();
+        JkDependencyResolver dependencyResolver = project.getConstruction().getDependencyResolver();
         JkVersion version = JkVersion.of(springbootVersion);
         if (autoSpringRepo && version.hasBlockAt(3)) {
             JkRepoSet repos = JkSpringRepos.getRepoForVersion(version.getBlock(3));
-            dependencyManagement.getResolver().addRepos(repos);
+            dependencyResolver.addRepos(repos);
         }
 
         // Add springboot version version to Manifest
@@ -124,9 +119,10 @@ public final class JkPluginSpringboot extends JkPlugin {
                 this.springbootVersion);
 
         // resolve dependency versions upon springboot provided ones
-        JkRepoSet repos = dependencyManagement.getResolver().getRepos();
+        JkRepoSet repos = dependencyResolver.getRepos();
         JkVersionProvider versionProvider = getSpringbootPom(repos, springbootVersion).getVersionProvider();
-        dependencyManagement.addDependencies(JkDependencySet.of().andVersionProvider(versionProvider));
+        project.getConstruction().getCompilation().setDependencies(deps -> deps
+            .andVersionProvider(versionProvider));
 
         // add original jar artifact
         JkStandardFileArtifactProducer artifactProducer = project.getPublication().getArtifactProducer();
@@ -164,14 +160,16 @@ public final class JkPluginSpringboot extends JkPlugin {
      * Creates the bootable jar at the specified location.
      */
     public void createBootJar(Path target) {
+        JkJavaProjectConstruction construction = java.getProject().getConstruction();
         JkStandardFileArtifactProducer artifactProducer = java.getProject().getPublication().getArtifactProducer();
         artifactProducer.makeMissingArtifacts(ORIGINAL_ARTIFACT);
-        JkRepoSet repos = java.getProject().getConstruction().getDependencyManagement().getResolver().getRepos();
+        JkRepoSet repos = construction.getDependencyResolver().getRepos();
         JkVersionProvider versionProvider = getSpringbootPom(repos, springbootVersion).getVersionProvider();
         JkVersion loaderVersion = versionProvider.getVersionOf(JkSpringModules.Boot.LOADER);
         Path bootloader = repos.get(JkSpringModules.Boot.LOADER, loaderVersion.getValue());
-        final JkPathSequence embeddedJars = java.getProject().getConstruction()
-                .getDependencyManagement().fetchDependencies(JkScope.RUNTIME).getFiles();
+        final JkPathSequence embeddedJars = construction.getDependencyResolver().resolve(
+                construction.getRuntimeDependencies().normalised(java.getProject().getDuplicateConflictStrategy()))
+                .getFiles();
         createBootJar(artifactProducer.getArtifactPath(ORIGINAL_ARTIFACT), embeddedJars, bootloader,
                 artifactProducer.getMainArtifactPath(), springbootVersion);
     }
@@ -189,7 +187,7 @@ public final class JkPluginSpringboot extends JkPlugin {
 
     public static JkPom getSpringbootBom(JkRepoSet repos, String springbootVersion) {
         JkModuleDependency moduleDependency = JkModuleDependency.of(
-                "org.springframework.boot", "spring-boot-dependencies", springbootVersion).withExt("pom");
+                "org.springframework.boot:spring-boot-dependencies::pom:" + springbootVersion);
         JkLog.info("Fetch Springboot dependency versions from " + moduleDependency);
         Path pomFile = repos.get(moduleDependency);
         if (pomFile == null || !Files.exists(pomFile)) {
@@ -236,7 +234,7 @@ public final class JkPluginSpringboot extends JkPlugin {
     }
 
     private String pluginVersion() {
-        return JkManifest.of().setManifestFromClass(JkPluginSpringboot.class)
+        return JkManifest.of().loadFromClass(JkPluginSpringboot.class)
                 .getMainAttribute(JkManifest.IMPLEMENTATION_VERSION);
     }
 }

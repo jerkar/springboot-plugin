@@ -1,5 +1,3 @@
-import dev.jeka.core.api.depmanagement.JkDependencySet;
-import dev.jeka.core.api.depmanagement.JkScope;
 import dev.jeka.core.tool.*;
 import dev.jeka.plugins.springboot.JkPluginSpringboot;
 import dev.jeka.plugins.springboot.JkSpringModules.Boot;
@@ -13,14 +11,19 @@ class ApplicationBuild extends JkClass {
     @Override
     protected void setup() {
         springboot.setSpringbootVersion("2.3.1.RELEASE");
-        springboot.javaPlugin().getProject().simpleFacade().addDependencies(JkDependencySet.of()
-            .and(Boot.STARTER_WEB)  // Same as .and("org.springframework.boot:spring-boot-starter-web")
-            .and(Boot.STARTER_DATA_JPA)
-            .and(Boot.STARTER_DATA_REST)
-            .and("com.h2database:h2:1.4.200")
-            .and("com.google.guava:guava:23.0")
-            .and(Boot.STARTER_TEST, JkScope.TEST)
-        );
+        springboot.javaPlugin().getProject().simpleFacade()
+                .setCompileDependencies(deps -> deps
+                    .and(Boot.STARTER_WEB)  // Same as .and("org.springframework.boot:spring-boot-starter-web")
+                    .and(Boot.STARTER_DATA_JPA)
+                    .and(Boot.STARTER_DATA_REST)
+                    .and("com.google.guava:guava:23.0")
+                )
+                .setRuntimeDependencies(deps -> deps
+                    .and("com.h2database:h2:1.4.200")
+                )
+                .setTestDependencies(deps -> deps
+                    .and(Boot.STARTER_TEST)
+                );
     }
 
     public void cleanPack() {

@@ -693,7 +693,7 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library" scope="RUNTIME" exported="">
+    <orderEntry type="module-library" scope="COMPILE" exported="">
       <library>
         <CLASSES>
           <root url="jar://$JEKA_USER_HOME$/cache/repo/com.sun.activation/jakarta.activation/jars/jakarta.activation-1.2.2.jar!/"/>
@@ -891,19 +891,6 @@
     <orderEntry type="module-library" scope="COMPILE" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$JEKA_USER_HOME$/cache/repo/com.h2database/h2/jars/h2-1.4.200.jar!/"/>
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$JEKA_USER_HOME$/cache/repo/com.h2database/h2/jars/h2-1.4.200-javadoc.jar!/"/>
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$JEKA_USER_HOME$/cache/repo/com.h2database/h2/jars/h2-1.4.200-sources.jar!/"/>
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="COMPILE" exported="">
-      <library>
-        <CLASSES>
           <root url="jar://$JEKA_USER_HOME$/cache/repo/com.google.guava/guava/bundles/guava-23.0.jar!/"/>
         </CLASSES>
         <JAVADOC>
@@ -962,7 +949,20 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library" scope="TEST" exported="">
+    <orderEntry type="module-library" scope="COMPILE" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$JEKA_USER_HOME$/cache/repo/com.h2database/h2/jars/h2-1.4.200.jar!/"/>
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar://$JEKA_USER_HOME$/cache/repo/com.h2database/h2/jars/h2-1.4.200-javadoc.jar!/"/>
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar://$JEKA_USER_HOME$/cache/repo/com.h2database/h2/jars/h2-1.4.200-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="COMPILE" exported="">
       <library>
         <CLASSES>
           <root url="jar://$JEKA_USER_HOME$/cache/repo/org.springframework.boot/spring-boot-starter-test/jars/spring-boot-starter-test-2.3.1.RELEASE.jar!/"/>
@@ -975,7 +975,7 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library" scope="TEST" exported="">
+    <orderEntry type="module-library" scope="COMPILE" exported="">
       <library>
         <CLASSES>
           <root url="jar://$JEKA_USER_HOME$/cache/repo/org.springframework.boot/spring-boot-test/jars/spring-boot-test-2.3.1.RELEASE.jar!/"/>
@@ -988,7 +988,7 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library" scope="TEST" exported="">
+    <orderEntry type="module-library" scope="COMPILE" exported="">
       <library>
         <CLASSES>
           <root url="jar://$JEKA_USER_HOME$/cache/repo/org.springframework.boot/spring-boot-test-autoconfigure/jars/spring-boot-test-autoconfigure-2.3.1.RELEASE.jar!/"/>
@@ -1001,7 +1001,7 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library" scope="TEST" exported="">
+    <orderEntry type="module-library" scope="COMPILE" exported="">
       <library>
         <CLASSES>
           <root url="jar://$JEKA_USER_HOME$/cache/repo/org.assertj/assertj-core/jars/assertj-core-3.16.1.jar!/"/>
@@ -1014,7 +1014,7 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library" scope="TEST" exported="">
+    <orderEntry type="module-library" scope="COMPILE" exported="">
       <library>
         <CLASSES>
           <root url="jar://$JEKA_USER_HOME$/cache/repo/org.hamcrest/hamcrest/jars/hamcrest-2.2.jar!/"/>
@@ -1027,7 +1027,7 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library" scope="TEST" exported="">
+    <orderEntry type="module-library" scope="COMPILE" exported="">
       <library>
         <CLASSES>
           <root url="jar://$JEKA_USER_HOME$/cache/repo/org.junit.jupiter/junit-jupiter/jars/junit-jupiter-5.6.2.jar!/"/>
@@ -1040,7 +1040,7 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library" scope="TEST" exported="">
+    <orderEntry type="module-library" scope="COMPILE" exported="">
       <library>
         <CLASSES>
           <root url="jar://$JEKA_USER_HOME$/cache/repo/org.junit.jupiter/junit-jupiter-api/jars/junit-jupiter-api-5.6.2.jar!/"/>
@@ -1053,7 +1053,7 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library" scope="TEST" exported="">
+    <orderEntry type="module-library" scope="COMPILE" exported="">
       <library>
         <CLASSES>
           <root url="jar://$JEKA_USER_HOME$/cache/repo/org.apiguardian/apiguardian-api/jars/apiguardian-api-1.1.0.jar!/"/>
@@ -1066,7 +1066,7 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library" scope="TEST" exported="">
+    <orderEntry type="module-library" scope="COMPILE" exported="">
       <library>
         <CLASSES>
           <root url="jar://$JEKA_USER_HOME$/cache/repo/org.opentest4j/opentest4j/jars/opentest4j-1.2.0.jar!/"/>
@@ -1079,7 +1079,7 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library" scope="TEST" exported="">
+    <orderEntry type="module-library" scope="COMPILE" exported="">
       <library>
         <CLASSES>
           <root url="jar://$JEKA_USER_HOME$/cache/repo/org.junit.platform/junit-platform-commons/jars/junit-platform-commons-1.6.2.jar!/"/>
@@ -1092,7 +1092,7 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library" scope="TEST" exported="">
+    <orderEntry type="module-library" scope="COMPILE" exported="">
       <library>
         <CLASSES>
           <root url="jar://$JEKA_USER_HOME$/cache/repo/org.junit.jupiter/junit-jupiter-params/jars/junit-jupiter-params-5.6.2.jar!/"/>
@@ -1105,7 +1105,7 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library" scope="TEST" exported="">
+    <orderEntry type="module-library" scope="COMPILE" exported="">
       <library>
         <CLASSES>
           <root url="jar://$JEKA_USER_HOME$/cache/repo/org.junit.jupiter/junit-jupiter-engine/jars/junit-jupiter-engine-5.6.2.jar!/"/>
@@ -1118,7 +1118,7 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library" scope="TEST" exported="">
+    <orderEntry type="module-library" scope="COMPILE" exported="">
       <library>
         <CLASSES>
           <root url="jar://$JEKA_USER_HOME$/cache/repo/org.junit.platform/junit-platform-engine/jars/junit-platform-engine-1.6.2.jar!/"/>
@@ -1131,7 +1131,7 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library" scope="TEST" exported="">
+    <orderEntry type="module-library" scope="COMPILE" exported="">
       <library>
         <CLASSES>
           <root url="jar://$JEKA_USER_HOME$/cache/repo/org.junit.vintage/junit-vintage-engine/jars/junit-vintage-engine-5.6.2.jar!/"/>
@@ -1144,20 +1144,20 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library" scope="TEST" exported="">
+    <orderEntry type="module-library" scope="COMPILE" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$JEKA_USER_HOME$/cache/repo/junit/junit/jars/junit-4.13.jar!/"/>
+          <root url="jar://$JEKA_USER_HOME$/cache/repo/junit/junit/jars/junit-4.12.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar://$JEKA_USER_HOME$/cache/repo/junit/junit/jars/junit-4.13-javadoc.jar!/"/>
+          <root url="jar://$JEKA_USER_HOME$/cache/repo/junit/junit/jars/junit-4.12-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar://$JEKA_USER_HOME$/cache/repo/junit/junit/jars/junit-4.13-sources.jar!/"/>
+          <root url="jar://$JEKA_USER_HOME$/cache/repo/junit/junit/jars/junit-4.12-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library" scope="TEST" exported="">
+    <orderEntry type="module-library" scope="COMPILE" exported="">
       <library>
         <CLASSES>
           <root url="jar://$JEKA_USER_HOME$/cache/repo/org.mockito/mockito-core/jars/mockito-core-3.3.3.jar!/"/>
@@ -1170,7 +1170,7 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library" scope="TEST" exported="">
+    <orderEntry type="module-library" scope="COMPILE" exported="">
       <library>
         <CLASSES>
           <root url="jar://$JEKA_USER_HOME$/cache/repo/net.bytebuddy/byte-buddy-agent/jars/byte-buddy-agent-1.10.11.jar!/"/>
@@ -1183,7 +1183,7 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library" scope="TEST" exported="">
+    <orderEntry type="module-library" scope="COMPILE" exported="">
       <library>
         <CLASSES>
           <root url="jar://$JEKA_USER_HOME$/cache/repo/org.objenesis/objenesis/jars/objenesis-2.6.jar!/"/>
@@ -1196,7 +1196,7 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library" scope="TEST" exported="">
+    <orderEntry type="module-library" scope="COMPILE" exported="">
       <library>
         <CLASSES>
           <root url="jar://$JEKA_USER_HOME$/cache/repo/org.mockito/mockito-junit-jupiter/jars/mockito-junit-jupiter-3.3.3.jar!/"/>
@@ -1209,7 +1209,7 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library" scope="TEST" exported="">
+    <orderEntry type="module-library" scope="COMPILE" exported="">
       <library>
         <CLASSES>
           <root url="jar://$JEKA_USER_HOME$/cache/repo/org.skyscreamer/jsonassert/jars/jsonassert-1.5.0.jar!/"/>
@@ -1222,7 +1222,7 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library" scope="TEST" exported="">
+    <orderEntry type="module-library" scope="COMPILE" exported="">
       <library>
         <CLASSES>
           <root url="jar://$JEKA_USER_HOME$/cache/repo/com.vaadin.external.google/android-json/jars/android-json-0.0.20131108.vaadin1.jar!/"/>
@@ -1235,7 +1235,7 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library" scope="TEST" exported="">
+    <orderEntry type="module-library" scope="COMPILE" exported="">
       <library>
         <CLASSES>
           <root url="jar://$JEKA_USER_HOME$/cache/repo/org.springframework/spring-test/jars/spring-test-5.2.7.RELEASE.jar!/"/>
@@ -1248,7 +1248,7 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library" scope="TEST" exported="">
+    <orderEntry type="module-library" scope="COMPILE" exported="">
       <library>
         <CLASSES>
           <root url="jar://$JEKA_USER_HOME$/cache/repo/org.xmlunit/xmlunit-core/jars/xmlunit-core-2.7.0.jar!/"/>
@@ -1261,7 +1261,7 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library" scope="TEST" exported="">
+    <orderEntry type="module-library" scope="TEST" exported="" forJeka="">
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/../dev.jeka.plugins.spring-boot/jeka/output/dev.jeka.springboot-plugin.jar!/"/>
@@ -1274,32 +1274,28 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library" scope="TEST" exported="">
+    <orderEntry type="module-library" scope="TEST" exported="" forJeka="">
       <library>
         <CLASSES>
-          <root url="jar://$JEKA_USER_HOME$/cache/repo/dev.jeka/springboot-plugin/jars/springboot-plugin-2.4.0.RC6.jar!/"/>
+          <root url="jar:///Users/jerome/IdeaProjects/springboot-plugin/dev.jeka.plugins.spring-boot/jeka/wrapper/dev.jeka.jeka-core-wrapper.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES/>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST" exported="" forJeka="">
+      <library>
+        <CLASSES>
+          <root url="jar://$JEKA_USER_HOME$/cache/wrapper/0.9.5.RC1/dev.jeka.jeka-core.jar!/"/>
         </CLASSES>
         <JAVADOC>
-          <root url="jar://$JEKA_USER_HOME$/cache/repo/dev.jeka/springboot-plugin/jars/springboot-plugin-2.4.0.RC6-javadoc.jar!/"/>
+          <root url="jar://$JEKA_USER_HOME$/cache/wrapper/0.9.5.RC1/dev.jeka.jeka-core-javadoc.jar!/"/>
         </JAVADOC>
         <SOURCES>
-          <root url="jar://$JEKA_USER_HOME$/cache/repo/dev.jeka/springboot-plugin/jars/springboot-plugin-2.4.0.RC6-sources.jar!/"/>
+          <root url="jar://$JEKA_USER_HOME$/cache/wrapper/0.9.5.RC1/libs-sources/dev.jeka.jeka-core-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library" scope="TEST" exported="">
-      <library>
-        <CLASSES>
-          <root url="jar://$JEKA_USER_HOME$/cache/repo/com.jcraft/jsch/jars/jsch-0.1.55.jar!/"/>
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$JEKA_USER_HOME$/cache/repo/com.jcraft/jsch/jars/jsch-0.1.55-javadoc.jar!/"/>
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$JEKA_USER_HOME$/cache/repo/com.jcraft/jsch/jars/jsch-0.1.55-sources.jar!/"/>
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module" scope="TEST" module-name="dev.jeka.plugins.spring-boot" exported=""/>
+    <orderEntry type="module" scope="TEST" module-name="dev.jeka.plugins.spring-boot" exported="" forJeka=""/>
   </component>
 </module>
