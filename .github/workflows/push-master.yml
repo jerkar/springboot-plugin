@@ -29,8 +29,4 @@ jobs:
         GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
       run: |
         cd ./dev.jeka.plugins.spring-boot
-        ./jekaw java#pack
-        cd ../dev.jeka.plugins.spring-boot-sample
-        ./jekaw testRun
-        cd ../dev.jeka.plugins.spring-boot
-        ./jekaw java#publish
+        ./jekaw java#pack java#publish
