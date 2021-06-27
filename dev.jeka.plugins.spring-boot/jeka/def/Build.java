@@ -29,24 +29,23 @@ class Build extends JkClass {
     @Override
     protected void setup() {
         String version = version();
+        javaPlugin.getProject().simpleFacade()
+                .setJavaVersion(JkJavaVersion.V8)
+                .setCompileDependencies(deps -> deps
+                        .andFiles(JkLocator.getJekaJarPath())
+                )
+                .setRuntimeDependencies(deps -> deps
+                        .minus(JkFileSystemDependency.of(JkLocator.getJekaJarPath()))
+                );
         javaPlugin.getProject()
             .getConstruction()
                 .getManifest()
-                    .addMainAttribute(JkPlugin.MANIFEST_LOWEST_JEKA_COMPATIBLE_VERSION_ENTRY, "0.9.5.RC1")
+                    .addMainAttribute(JkPlugin.MANIFEST_LOWEST_JEKA_COMPATIBLE_VERSION_ENTRY, "0.9.10.RELEASE")
                     .addMainAttribute(JkPlugin.MANIFEST_BREAKING_CHANGE_URL_ENTRY,
                             "https://raw.githubusercontent.com/jerkar/springboot-plugin/master/breaking_versions.txt").__
                 .getCompilation()
-                    .setDependencies(deps -> deps
-                            .andFiles(JkLocator.getJekaJarPath())
-                    )
-                    .getLayout()
-                        .includeSourceDirsInResources().__
-                    .setJavaVersion(JkJavaVersion.V8)
                     .getResourceProcessor()
-                        .addInterpolator("**/Build.java", "${version}", version).__.__
-                .setRuntimeDependencies(deps -> deps
-                        .minus(JkFileSystemDependency.of(JkLocator.getJekaJarPath()))
-                ) .__
+                        .addInterpolator("**/Build.java", "${version}", version).__.__.__
             .getPublication()
                 .getMaven()
                     .setModuleId("dev.jeka:springboot-plugin")
@@ -67,16 +66,17 @@ class Build extends JkClass {
     }
 
     private String version() {
-        String currentTagVersion = gitPlugin.getWrapper().getVersionFromTags();
+        String currentTagVersion = gitPlugin.getWrapper().getVersionFromTag();
         currentTagVersion = currentTagVersion.equals("HEAD-SNAPSHOT") ? "master-SNAPSHOT" : currentTagVersion;
-        String releaseVersion = gitPlugin.getWrapper().extractSuffixFromLastCommitTittle("Release:");
+        String releaseVersion = gitPlugin.getWrapper().extractSuffixFromLastCommitMessage("Release:");
         return Optional.ofNullable(releaseVersion).orElse(currentTagVersion);
     }
 
     private void tagIfNeeded() {
-        Optional.ofNullable(gitPlugin.getWrapper().extractSuffixFromLastCommitTittle("Release:"))
+        Optional.ofNullable(gitPlugin.getWrapper().extractSuffixFromLastCommitMessage("Release:"))
                 .ifPresent(version -> gitPlugin.getWrapper().tag(version));
     }
+
     public void cleanPack() {
         clean(); javaPlugin.pack();
     }
