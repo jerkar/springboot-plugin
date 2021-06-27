@@ -2,6 +2,7 @@ import dev.jeka.core.api.depmanagement.JkFileSystemDependency;
 import dev.jeka.core.api.depmanagement.JkRepoSet;
 import dev.jeka.core.api.java.JkJavaVersion;
 import dev.jeka.core.api.system.JkLocator;
+import dev.jeka.core.api.tooling.JkGitWrapper;
 import dev.jeka.core.tool.JkClass;
 import dev.jeka.core.tool.JkEnv;
 import dev.jeka.core.tool.JkInit;
@@ -73,8 +74,9 @@ class Build extends JkClass {
     }
 
     private void tagIfNeeded() {
-        Optional.ofNullable(gitPlugin.getWrapper().extractSuffixFromLastCommitMessage("Release:"))
-                .ifPresent(version -> gitPlugin.getWrapper().tag(version));
+        JkGitWrapper git = gitPlugin.getWrapper();
+        Optional.ofNullable(git.extractSuffixFromLastCommitMessage("Release:"))
+                .ifPresent(version -> git.tagAndPush(version));
     }
 
     public void cleanPack() {

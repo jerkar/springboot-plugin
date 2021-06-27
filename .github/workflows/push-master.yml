@@ -31,6 +31,6 @@ jobs:
         cd ./dev.jeka.plugins.spring-boot
         ./jekaw java#pack
         cd ../dev.jeka.plugins.spring-boot-sample
-        ./jekaw java#testRun
+        ./jekaw testRun
         cd ../dev.jeka.plugins.spring-boot
         ./jekaw java#publish
