@@ -27,10 +27,10 @@ jobs:
         OSSRH_USER: ${{ secrets.OSSRH_USER }}
         OSSRH_PWD: ${{ secrets.OSSRH_PWD }}
         GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-      run:
-        - cd ./dev.jeka.plugins.spring-boot
-        - ./jekaw java#pack
-        - cd ../dev.jeka.plugins.spring-boot-sample
-        - ./jekaw java#testRun
-        - cd ../dev.jeka.plugins.spring-boot
-        - ./jekaw java#publish
+      run: |
+        cd ./dev.jeka.plugins.spring-boot
+        ./jekaw java#pack
+        cd ../dev.jeka.plugins.spring-boot-sample
+        ./jekaw java#testRun
+        cd ../dev.jeka.plugins.spring-boot
+        ./jekaw java#publish
