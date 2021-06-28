@@ -13,13 +13,13 @@ class Build extends JkClass {
     protected void setup() {
         springboot.setSpringbootVersion("2.3.1.RELEASE");
         springboot.javaPlugin().getProject().simpleFacade()
-                .setCompileDependencies(deps -> deps
-                        .and("org.springframework.boot:spring-boot-starter-web")
-                )
-                .setTestDependencies(deps -> deps
-                        .and("org.springframework.boot:spring-boot-starter-test")
-                        .withLocalExclusions("org.junit.vintage:junit-vintage-engine")
-                );
+            .setCompileDependencies(deps -> deps
+                .and("org.springframework.boot:spring-boot-starter-web")
+            )
+            .setTestDependencies(deps -> deps
+                .and("org.springframework.boot:spring-boot-starter-test")
+                    .withLocalExclusions("org.junit.vintage:junit-vintage-engine")
+            );
     }
 
     @JkDoc("Cleans, tests and creates bootable jar.")
