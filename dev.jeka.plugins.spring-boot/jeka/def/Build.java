@@ -1,4 +1,5 @@
 import dev.jeka.core.api.depmanagement.JkFileSystemDependency;
+import dev.jeka.core.api.depmanagement.JkModuleId;
 import dev.jeka.core.api.depmanagement.JkRepoSet;
 import dev.jeka.core.api.java.JkJavaVersion;
 import dev.jeka.core.api.system.JkLocator;
@@ -14,6 +15,8 @@ import dev.jeka.core.tool.builtins.repos.JkPluginGpg;
 import java.util.Optional;
 
 class Build extends JkClass {
+
+    final JkModuleId SPRINGBOOT_PARENT = JkModuleId.of("org.springframework.boot","spring-boot-starter-parent");
 
     final JkPluginJava javaPlugin = getPlugin(JkPluginJava.class);
 
@@ -43,10 +46,8 @@ class Build extends JkClass {
                 .getManifest()
                     .addMainAttribute(JkPlugin.MANIFEST_LOWEST_JEKA_COMPATIBLE_VERSION_ENTRY, "0.9.10.RELEASE")
                     .addMainAttribute(JkPlugin.MANIFEST_BREAKING_CHANGE_URL_ENTRY,
-                            "https://raw.githubusercontent.com/jerkar/springboot-plugin/master/breaking_versions.txt").__
-                .getCompilation()
-                    .getResourceProcessor()
-                        .addInterpolator("**/Build.java", "${version}", version).__.__.__
+                            "https://raw.githubusercontent.com/jerkar/springboot-plugin/master/breaking_versions.txt")
+                    .__.__
             .getPublication()
                 .getMaven()
                     .setModuleId("dev.jeka:springboot-plugin")
@@ -72,6 +73,8 @@ class Build extends JkClass {
         String releaseVersion = gitPlugin.getWrapper().extractSuffixFromLastCommitMessage("Release:");
         return Optional.ofNullable(releaseVersion).orElse(currentTagVersion);
     }
+
+
 
     private void tagIfNeeded() {
         JkGitWrapper git = gitPlugin.getWrapper();

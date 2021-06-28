@@ -34,6 +34,8 @@ import java.util.function.Consumer;
 @JkDocPluginDeps(JkPluginJava.class)
 public final class JkPluginSpringboot extends JkPlugin {
 
+    private static String DEFAULT_SPTRINGBOOT_VERSION = "2.5.2";
+
     public static final JkArtifactId ORIGINAL_ARTIFACT = JkArtifactId.of("original", "jar");
 
     private static final String SPRINGBOOT_APPLICATION_ANNOTATION_NAME =
@@ -140,6 +142,7 @@ public final class JkPluginSpringboot extends JkPlugin {
             String pluginVersion = pluginVersion();
             if (pluginVersion != null) {
                 code = code.replace("${version}", pluginVersion());
+                code = code.replace("${springbootVersion}", latestSpringbootVersion());
             }
             scaffold.getScaffolder().setJekaClassCode(code);
             scaffold.getScaffolder().getExtraActions()
@@ -236,5 +239,19 @@ public final class JkPluginSpringboot extends JkPlugin {
     private String pluginVersion() {
         return JkManifest.of().loadFromClass(JkPluginSpringboot.class)
                 .getMainAttribute(JkManifest.IMPLEMENTATION_VERSION);
+    }
+
+    private String latestSpringbootVersion() {
+        try {
+            List<String> springbootVersions = java.getProject().getConstruction().getDependencyResolver()
+                    .searchVersions(JkSpringModules.Boot.STARTER_PARENT);
+            return springbootVersions.stream()
+                    .sorted(JkVersion.VERSION_COMPARATOR.reversed())
+                    .findFirst().get();
+        } catch (Exception e) {
+            JkLog.warn(e.getMessage());
+            JkLog.warn("Cannot find latest springoot version, chosoe default : " + DEFAULT_SPTRINGBOOT_VERSION);
+            return DEFAULT_SPTRINGBOOT_VERSION;
+        }
     }
 }
