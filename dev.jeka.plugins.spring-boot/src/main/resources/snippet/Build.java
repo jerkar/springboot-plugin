@@ -11,7 +11,7 @@ class Build extends JkClass {
 
     @Override
     protected void setup() {
-        springboot.setSpringbootVersion("2.3.1.RELEASE");
+        springboot.setSpringbootVersion("2.5.2");
         springboot.javaPlugin().getProject().simpleFacade()
             .setCompileDependencies(deps -> deps
                 .and("org.springframework.boot:spring-boot-starter-web")
