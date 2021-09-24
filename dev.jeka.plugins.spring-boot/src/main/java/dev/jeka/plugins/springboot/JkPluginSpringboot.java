@@ -144,7 +144,8 @@ public final class JkPluginSpringboot extends JkPlugin {
                 code = code.replace("${version}", pluginVersion());
                 code = code.replace("${springbootVersion}", latestSpringbootVersion());
             }
-            scaffold.getScaffolder().setJekaClassCode(code);
+            final String jkClassCode = code;
+            scaffold.getScaffolder().setJekaClassCodeProvider(() -> jkClassCode);
             scaffold.getScaffolder().getExtraActions()
                 .append(this::scaffoldSample);
         }

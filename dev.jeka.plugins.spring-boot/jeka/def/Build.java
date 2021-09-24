@@ -44,7 +44,7 @@ class Build extends JkClass {
         javaPlugin.getProject()
             .getConstruction()
                 .getManifest()
-                    .addMainAttribute(JkPlugin.MANIFEST_LOWEST_JEKA_COMPATIBLE_VERSION_ENTRY, "0.9.10.RELEASE")
+                    .addMainAttribute(JkPlugin.MANIFEST_LOWEST_JEKA_COMPATIBLE_VERSION_ENTRY, "0.9.14.RELEASE")
                     .addMainAttribute(JkPlugin.MANIFEST_BREAKING_CHANGE_URL_ENTRY,
                             "https://raw.githubusercontent.com/jerkar/springboot-plugin/master/breaking_versions.txt")
                     .__.__
