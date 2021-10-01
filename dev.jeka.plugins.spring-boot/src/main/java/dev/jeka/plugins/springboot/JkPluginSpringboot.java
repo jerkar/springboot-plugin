@@ -89,7 +89,7 @@ public final class JkPluginSpringboot extends JkPlugin {
         if (!JkUtilsString.isBlank(this.runArgs)) {
             args = JkUtilsString.translateCommandline(this.runArgs);
         }
-        JkJavaProcess.of().runJarSync(mainArtifactFile, args);
+        JkJavaProcess.ofJavaJar(mainArtifactFile, null).exec(args);
     }
 
     @JkDoc("Run Springboot application from the generated jar")
@@ -102,7 +102,7 @@ public final class JkPluginSpringboot extends JkPlugin {
         if (!JkUtilsString.isBlank(this.runArgs)) {
             args = JkUtilsString.translateCommandline(this.runArgs);
         }
-        JkJavaProcess.of().runJarSync(mainArtifactFile, args);
+        JkJavaProcess.ofJavaJar(mainArtifactFile, null).exec(args);
     }
 
 

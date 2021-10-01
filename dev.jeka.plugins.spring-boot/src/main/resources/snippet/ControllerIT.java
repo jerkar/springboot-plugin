@@ -10,13 +10,13 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-public class ControllerIT {
+class ControllerIT {
 
    @Autowired
    private MockMvc mvc;
 
     @Test
-    public void helloWorld() throws Exception {
+    void helloWorld() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/"))
                 .andExpect(MockMvcResultMatchers.status().is(200));
     }

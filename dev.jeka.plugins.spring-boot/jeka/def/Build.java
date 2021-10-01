@@ -1,9 +1,8 @@
 import dev.jeka.core.api.depmanagement.JkFileSystemDependency;
-import dev.jeka.core.api.depmanagement.JkModuleId;
 import dev.jeka.core.api.depmanagement.JkRepoSet;
 import dev.jeka.core.api.java.JkJavaVersion;
 import dev.jeka.core.api.system.JkLocator;
-import dev.jeka.core.api.tooling.JkGitWrapper;
+import dev.jeka.core.api.tooling.JkGitProcess;
 import dev.jeka.core.tool.JkClass;
 import dev.jeka.core.tool.JkEnv;
 import dev.jeka.core.tool.JkInit;
@@ -15,8 +14,6 @@ import dev.jeka.core.tool.builtins.repos.JkPluginGpg;
 import java.util.Optional;
 
 class Build extends JkClass {
-
-    final JkModuleId SPRINGBOOT_PARENT = JkModuleId.of("org.springframework.boot","spring-boot-starter-parent");
 
     final JkPluginJava javaPlugin = getPlugin(JkPluginJava.class);
 
@@ -41,30 +38,30 @@ class Build extends JkClass {
                 .setRuntimeDependencies(deps -> deps
                         .minus(JkFileSystemDependency.of(JkLocator.getJekaJarPath()))
                 );
-        javaPlugin.getProject()
-            .getConstruction()
-                .getManifest()
-                    .addMainAttribute(JkPlugin.MANIFEST_LOWEST_JEKA_COMPATIBLE_VERSION_ENTRY, "0.9.14.RELEASE")
-                    .addMainAttribute(JkPlugin.MANIFEST_BREAKING_CHANGE_URL_ENTRY,
-                            "https://raw.githubusercontent.com/jerkar/springboot-plugin/master/breaking_versions.txt")
-                    .__.__
-            .getPublication()
-                .getMaven()
-                    .setModuleId("dev.jeka:springboot-plugin")
-                    .setVersion(version)
-                    .setRepos(JkRepoSet.ofOssrhSnapshotAndRelease(ossrhUser, ossrhPwd,
-                            gpgPlugin.get().getSigner("")))
-                    .getPomMetadata()
-                        .addApache2License()
-                        .getProjectInfo()
-                            .setName("Jeka plugin for Spring Boot")
-                            .setDescription("A Jeka plugin for Spring boot application")
-                            .setUrl("https://github.com/jerkar/spring-boot-plugin").__
-                        .getScm()
-                            .setUrl("https://github.com/jerkar/spring-boot-addin.git").__
-                        .addGithubDeveloper("djeang", "djeangdev@yahoo.fr").__.__
-                .getPostActions()
-                    .append(this::tagIfNeeded);
+        JkPlugin.setJekaPluginCompatibilityRange(javaPlugin.getProject().getConstruction().getManifest(),
+                "0.9.15.M1",
+                "https://raw.githubusercontent.com/jerkar/springboot-plugin/master/breaking_versions.txt");
+        javaPlugin.getProject().getPublication()
+            .getMaven()
+                .setModuleId("dev.jeka:springboot-plugin")
+                .setVersion(version)
+                .setRepos(JkRepoSet.ofOssrhSnapshotAndRelease(ossrhUser, ossrhPwd,
+                        gpgPlugin.get().getSigner("")))
+                .getPomMetadata()
+                    .addApache2License()
+                    .getProjectInfo()
+                        .setName("Jeka plugin for Spring Boot")
+                        .setDescription("A Jeka plugin for Spring boot application")
+                        .setUrl("https://github.com/jerkar/spring-boot-plugin")
+                    .__
+                    .getScm()
+                        .setUrl("https://github.com/jerkar/spring-boot-addin.git")
+                    .__
+                    .addGithubDeveloper("djeang", "djeangdev@yahoo.fr")
+                .__
+            .__
+            .getPostActions()
+                .append(this::tagIfNeeded);
     }
 
     private String version() {
@@ -74,10 +71,8 @@ class Build extends JkClass {
         return Optional.ofNullable(releaseVersion).orElse(currentTagVersion);
     }
 
-
-
     private void tagIfNeeded() {
-        JkGitWrapper git = gitPlugin.getWrapper();
+        JkGitProcess git = gitPlugin.getWrapper();
         Optional.ofNullable(git.extractSuffixFromLastCommitMessage("Release:"))
                 .ifPresent(version -> git.tagAndPush(version));
     }
