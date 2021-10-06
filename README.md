@@ -11,7 +11,7 @@ Caution : use it with Jeka 0.8.14 or later !
 
 ### Writing the build class
 
-Just declare the plugin in your Jeka command class (in _[project Dir]/jeka/def_ ) as above :
+Just declare the plugin in your Jeka class (in _[project Dir]/jeka/def_ ) as above :
 
 ```java
 import dev.jeka.core.api.depmanagement.JkDependencySet;
@@ -19,13 +19,13 @@ import dev.jeka.core.api.depmanagement.JkJavaDepScopes;
 import dev.jeka.core.plugins.springboot.JkPluginSpringboot;
 import dev.jeka.core.tool.JkImport;
 import dev.jeka.core.tool.JkInit;
-import dev.jeka.core.tool.JkCommands;
+import dev.jeka.core.tool.JkClass;
 import dev.jeka.core.tool.builtins.java.JkPluginJava;
 
 import static dev.jeka.core.plugins.springboot.JkSpringModules.Boot;
 
 @JkImport("dev.jeka:springboot-plugin:2.0.1.RELEASE")
-class Build extends JkCommandSet {
+class Build extends JkClass {
 
     private final JkPluginJava javaPlugin = getPlugin(JkPluginJava.class);
 
